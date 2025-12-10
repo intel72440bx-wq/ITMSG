@@ -110,34 +110,56 @@ public class AuthService {
      */
     @Transactional
     public UserResponse register(UserCreateRequest request) {
+        log.info("회원가입 시작: email={}, name={}", request.getEmail(), request.getName());
+
         // 이메일 중복 체크
         if (userRepository.existsByEmail(request.getEmail())) {
+            log.warn("이미 존재하는 이메일: {}", request.getEmail());
             throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
 
         // Company 조회 (companyId가 없으면 첫 번째 회사 사용)
         Company company;
         if (request.getCompanyId() != null) {
+            log.info("특정 회사 선택: companyId={}", request.getCompanyId());
             company = companyRepository.findById(request.getCompanyId())
-                    .orElseThrow(() -> new BusinessException(ErrorCode.COMPANY_NOT_FOUND));
+                    .orElseThrow(() -> {
+                        log.error("존재하지 않는 회사: {}", request.getCompanyId());
+                        return new BusinessException(ErrorCode.COMPANY_NOT_FOUND);
+                    });
         } else {
+            log.info("기본 회사 사용할 예정");
             company = companyRepository.findAll().stream()
                     .findFirst()
-                    .orElseThrow(() -> new BusinessException(ErrorCode.COMPANY_NOT_FOUND));
+                    .orElseThrow(() -> {
+                        log.error("등록된 회사가 없음");
+                        return new BusinessException(ErrorCode.COMPANY_NOT_FOUND);
+                    });
+            log.info("기본 회사 선택: companyId={}, companyName={}", company.getId(), company.getName());
         }
 
         // Department 조회 (선택사항)
         Department department = null;
         if (request.getDepartmentId() != null) {
+            log.info("부서 선택: departmentId={}", request.getDepartmentId());
             department = departmentRepository.findById(request.getDepartmentId())
-                    .orElseThrow(() -> new BusinessException(ErrorCode.DEPARTMENT_NOT_FOUND));
+                    .orElseThrow(() -> {
+                        log.error("존재하지 않는 부서: {}", request.getDepartmentId());
+                        return new BusinessException(ErrorCode.DEPARTMENT_NOT_FOUND);
+                    });
         }
 
         // 기본 역할(ROLE_USER) 조회
+        log.info("기본 역할 조회 시작: ROLE_USER");
         Role userRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new BusinessException(ErrorCode.ROLE_NOT_FOUND));
+                .orElseThrow(() -> {
+                    log.error("ROLE_USER 역할이 존재하지 않음");
+                    return new BusinessException(ErrorCode.ROLE_NOT_FOUND);
+                });
+        log.info("기본 역할 조회 성공: roleId={}", userRole.getId());
 
         // 사용자 생성 (회원가입 시 자동 승인)
+        log.info("사용자 생성 시작");
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -153,10 +175,12 @@ public class AuthService {
                 .build();
 
         // 기본 역할 할당
+        log.info("기본 역할 할당: {}", userRole.getName());
         user.assignRole(userRole);
 
+        log.info("사용자 저장 시도");
         User savedUser = userRepository.save(user);
-        log.info("신규 사용자 등록 (자동 승인, 기본 역할 할당): {}", savedUser.getEmail());
+        log.info("신규 사용자 등록 성공: email={}, userId={}", savedUser.getEmail(), savedUser.getId());
 
         return UserResponse.from(savedUser);
     }
