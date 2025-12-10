@@ -112,7 +112,7 @@ const RegisterPage: React.FC = () => {
           회원가입
         </Typography>
         <Typography variant="subtitle1" gutterBottom align="center" color="text.secondary">
-          ARIS 시스템 가입
+          ITMSG 시스템 가입
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
@@ -308,4 +308,3 @@ const RegisterPage: React.FC = () => {
 };
 
 export default RegisterPage;
-

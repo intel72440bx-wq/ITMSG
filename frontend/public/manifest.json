@@ -1,6 +1,6 @@
 {
-  "name": "ARIS - IT 프로젝트 관리 시스템",
-  "short_name": "ARIS",
+  "name": "ITMSG - IT 프로젝트 관리 시스템",
+  "short_name": "ITMSG",
   "description": "Advanced Request & Issue Management System",
   "start_url": "/",
   "display": "standalone",

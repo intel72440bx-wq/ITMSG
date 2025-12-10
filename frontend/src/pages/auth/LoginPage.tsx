@@ -69,7 +69,7 @@ const LoginPage: React.FC = () => {
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom align="center">
-          ARIS
+          ITMSG
         </Typography>
         <Typography variant="subtitle1" gutterBottom align="center" color="text.secondary">
           Advanced Request & Issue Management System
@@ -138,4 +138,3 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
-

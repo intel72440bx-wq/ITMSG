@@ -90,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             display: { xs: 'block', sm: 'block' },
           }}
         >
-          ARIS
+          ITMSG
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
@@ -176,6 +176,3 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 };
 
 export default Header;
-
-
-

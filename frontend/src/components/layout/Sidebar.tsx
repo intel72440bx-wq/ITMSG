@@ -62,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold' }}>
-            ARIS
+            ITMSG
           </Typography>
         </Box>
       </Toolbar>
@@ -153,6 +153,3 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
 };
 
 export default Sidebar;
-
-
-
