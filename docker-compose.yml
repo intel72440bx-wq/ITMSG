@@ -11,7 +11,7 @@ services:
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
       TZ: Asia/Seoul
     ports:
-      - "5432:5432"
+      - "5439:5439"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
     container_name: itmsg-backend
     ports:
-      - "8080:8080"
+      - "8089:8089"
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/itmsg_db
@@ -53,7 +53,7 @@ services:
       dockerfile: Dockerfile
     container_name: itmsg-frontend
     ports:
-      - "3000:80"
+      - "3009:89"
     environment:
       TZ: Asia/Seoul
     depends_on:
