@@ -1,6 +1,6 @@
-package com.aris.domain.asset.dto;
+package com.itmsg.domain.asset.dto;
 
-import com.aris.domain.asset.entity.AssetType;
+import com.itmsg.domain.asset.entity.AssetType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;

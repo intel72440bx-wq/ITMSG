@@ -1,7 +1,7 @@
-package com.aris.global.security;
+package com.itmsg.global.security;
 
-import com.aris.domain.user.entity.User;
-import com.aris.domain.user.repository.UserRepository;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,12 +1,12 @@
-package com.aris.domain.user.controller;
+package com.itmsg.domain.user.controller;
 
-import com.aris.domain.user.dto.UserResponse;
-import com.aris.domain.user.dto.UserUpdateRequest;
-import com.aris.domain.user.entity.User;
-import com.aris.domain.user.repository.UserRepository;
-import com.aris.domain.user.service.UserService;
-import com.aris.global.exception.BusinessException;
-import com.aris.global.exception.ErrorCode;
+import com.itmsg.domain.user.dto.UserResponse;
+import com.itmsg.domain.user.dto.UserUpdateRequest;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.domain.user.repository.UserRepository;
+import com.itmsg.domain.user.service.UserService;
+import com.itmsg.global.exception.BusinessException;
+import com.itmsg.global.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

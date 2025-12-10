@@ -1,6 +1,6 @@
-package com.aris.domain.partner.repository;
+package com.itmsg.domain.partner.repository;
 
-import com.aris.domain.partner.entity.Partner;
+import com.itmsg.domain.partner.entity.Partner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

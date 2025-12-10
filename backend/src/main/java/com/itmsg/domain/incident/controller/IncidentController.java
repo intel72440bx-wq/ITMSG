@@ -1,10 +1,10 @@
-package com.aris.domain.incident.controller;
+package com.itmsg.domain.incident.controller;
 
-import com.aris.domain.incident.dto.IncidentRequest;
-import com.aris.domain.incident.dto.IncidentResponse;
-import com.aris.domain.incident.entity.IncidentStatus;
-import com.aris.domain.incident.entity.Severity;
-import com.aris.domain.incident.service.IncidentService;
+import com.itmsg.domain.incident.dto.IncidentRequest;
+import com.itmsg.domain.incident.dto.IncidentResponse;
+import com.itmsg.domain.incident.entity.IncidentStatus;
+import com.itmsg.domain.incident.entity.Severity;
+import com.itmsg.domain.incident.service.IncidentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

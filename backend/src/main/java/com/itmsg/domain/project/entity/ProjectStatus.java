@@ -1,4 +1,4 @@
-package com.aris.domain.project.entity;
+package com.itmsg.domain.project.entity;
 
 import lombok.Getter;
 

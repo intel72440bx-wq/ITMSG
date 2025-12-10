@@ -1,4 +1,4 @@
-package com.aris.domain.release.entity;
+package com.itmsg.domain.release.entity;
 
 /**
  * 릴리즈 상태

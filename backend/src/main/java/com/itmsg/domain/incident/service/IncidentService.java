@@ -1,15 +1,15 @@
-package com.aris.domain.incident.service;
+package com.itmsg.domain.incident.service;
 
-import com.aris.domain.incident.dto.IncidentRequest;
-import com.aris.domain.incident.dto.IncidentResponse;
-import com.aris.domain.incident.entity.Incident;
-import com.aris.domain.incident.entity.IncidentStatus;
-import com.aris.domain.incident.entity.Severity;
-import com.aris.domain.incident.repository.IncidentRepository;
-import com.aris.domain.user.repository.UserRepository;
-import com.aris.global.common.service.NumberingService;
-import com.aris.global.exception.BusinessException;
-import com.aris.global.exception.ErrorCode;
+import com.itmsg.domain.incident.dto.IncidentRequest;
+import com.itmsg.domain.incident.dto.IncidentResponse;
+import com.itmsg.domain.incident.entity.Incident;
+import com.itmsg.domain.incident.entity.IncidentStatus;
+import com.itmsg.domain.incident.entity.Severity;
+import com.itmsg.domain.incident.repository.IncidentRepository;
+import com.itmsg.domain.user.repository.UserRepository;
+import com.itmsg.global.common.service.NumberingService;
+import com.itmsg.global.exception.BusinessException;
+import com.itmsg.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

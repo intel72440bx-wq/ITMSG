@@ -1,9 +1,9 @@
-package com.aris.domain.spec.dto;
+package com.itmsg.domain.spec.dto;
 
-import com.aris.domain.spec.entity.Specification;
-import com.aris.domain.spec.entity.SpecCategory;
-import com.aris.domain.spec.entity.SpecStatus;
-import com.aris.domain.spec.entity.SpecType;
+import com.itmsg.domain.spec.entity.Specification;
+import com.itmsg.domain.spec.entity.SpecCategory;
+import com.itmsg.domain.spec.entity.SpecStatus;
+import com.itmsg.domain.spec.entity.SpecType;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,10 +1,10 @@
-package com.aris.domain.spec.controller;
+package com.itmsg.domain.spec.controller;
 
-import com.aris.domain.spec.dto.SpecRequest;
-import com.aris.domain.spec.dto.SpecResponse;
-import com.aris.domain.spec.entity.SpecStatus;
-import com.aris.domain.spec.entity.SpecType;
-import com.aris.domain.spec.service.SpecificationService;
+import com.itmsg.domain.spec.dto.SpecRequest;
+import com.itmsg.domain.spec.dto.SpecResponse;
+import com.itmsg.domain.spec.entity.SpecStatus;
+import com.itmsg.domain.spec.entity.SpecType;
+import com.itmsg.domain.spec.service.SpecificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

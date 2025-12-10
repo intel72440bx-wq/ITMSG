@@ -1,8 +1,8 @@
-package com.aris.domain.release.entity;
+package com.itmsg.domain.release.entity;
 
-import com.aris.domain.company.entity.Department;
-import com.aris.domain.user.entity.User;
-import com.aris.global.entity.BaseEntity;
+import com.itmsg.domain.company.entity.Department;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

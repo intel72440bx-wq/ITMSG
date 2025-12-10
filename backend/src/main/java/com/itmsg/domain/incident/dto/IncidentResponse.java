@@ -1,10 +1,10 @@
-package com.aris.domain.incident.dto;
+package com.itmsg.domain.incident.dto;
 
-import com.aris.domain.incident.entity.Incident;
-import com.aris.domain.incident.entity.IncidentStatus;
-import com.aris.domain.incident.entity.IncidentType;
-import com.aris.domain.incident.entity.Severity;
-import com.aris.domain.incident.entity.SystemType;
+import com.itmsg.domain.incident.entity.Incident;
+import com.itmsg.domain.incident.entity.IncidentStatus;
+import com.itmsg.domain.incident.entity.IncidentType;
+import com.itmsg.domain.incident.entity.Severity;
+import com.itmsg.domain.incident.entity.SystemType;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

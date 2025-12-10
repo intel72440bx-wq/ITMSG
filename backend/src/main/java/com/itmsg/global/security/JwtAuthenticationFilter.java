@@ -1,4 +1,4 @@
-package com.aris.global.security;
+package com.itmsg.global.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

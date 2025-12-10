@@ -1,7 +1,7 @@
-package com.aris.domain.issue.dto;
+package com.itmsg.domain.issue.dto;
 
-import com.aris.domain.issue.entity.Issue;
-import com.aris.domain.issue.entity.IssueStatus;
+import com.itmsg.domain.issue.entity.Issue;
+import com.itmsg.domain.issue.entity.IssueStatus;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

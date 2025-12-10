@@ -2,7 +2,7 @@
 
 -- 기본 회사 데이터
 INSERT INTO companies (code, name, business_number, ceo_name, created_by, updated_by) VALUES
-('COMP001', 'ARIS 본사', '123-45-67890', '홍길동', 'system', 'system');
+('COMP001', 'ITMSG 본사', '123-45-67890', '홍길동', 'system', 'system');
 
 -- 기본 부서 데이터
 INSERT INTO departments (company_id, name, depth, sort_order, created_by, updated_by) VALUES
@@ -50,4 +50,3 @@ INSERT INTO menu_permissions (menu_id, role_id, can_read, can_create, can_update
 SELECT m.id, r.id, true, true, true, true, 'system'
 FROM menus m, roles r
 WHERE r.name = 'ROLE_ADMIN';
-

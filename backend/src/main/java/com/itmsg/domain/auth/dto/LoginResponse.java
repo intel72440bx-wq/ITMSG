@@ -1,6 +1,6 @@
-package com.aris.domain.auth.dto;
+package com.itmsg.domain.auth.dto;
 
-import com.aris.domain.user.dto.UserResponse;
+import com.itmsg.domain.user.dto.UserResponse;
 import lombok.Builder;
 import lombok.Getter;
 

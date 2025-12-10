@@ -1,4 +1,4 @@
-package com.aris.domain.asset.entity;
+package com.itmsg.domain.asset.entity;
 
 /**
  * 자산 유형

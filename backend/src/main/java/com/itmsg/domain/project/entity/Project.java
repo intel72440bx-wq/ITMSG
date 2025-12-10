@@ -1,8 +1,8 @@
-package com.aris.domain.project.entity;
+package com.itmsg.domain.project.entity;
 
-import com.aris.domain.company.entity.Company;
-import com.aris.domain.user.entity.User;
-import com.aris.global.entity.BaseEntity;
+import com.itmsg.domain.company.entity.Company;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,13 +1,13 @@
-package com.aris.domain.partner.service;
+package com.itmsg.domain.partner.service;
 
-import com.aris.domain.partner.dto.PartnerRequest;
-import com.aris.domain.partner.dto.PartnerResponse;
-import com.aris.domain.partner.entity.Partner;
-import com.aris.domain.partner.repository.PartnerRepository;
-import com.aris.domain.user.repository.UserRepository;
-import com.aris.global.common.service.NumberingService;
-import com.aris.global.exception.BusinessException;
-import com.aris.global.exception.ErrorCode;
+import com.itmsg.domain.partner.dto.PartnerRequest;
+import com.itmsg.domain.partner.dto.PartnerResponse;
+import com.itmsg.domain.partner.entity.Partner;
+import com.itmsg.domain.partner.repository.PartnerRepository;
+import com.itmsg.domain.user.repository.UserRepository;
+import com.itmsg.global.common.service.NumberingService;
+import com.itmsg.global.exception.BusinessException;
+import com.itmsg.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

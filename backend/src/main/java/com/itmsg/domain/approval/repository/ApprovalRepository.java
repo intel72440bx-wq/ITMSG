@@ -1,8 +1,8 @@
-package com.aris.domain.approval.repository;
+package com.itmsg.domain.approval.repository;
 
-import com.aris.domain.approval.entity.Approval;
-import com.aris.domain.approval.entity.ApprovalStatus;
-import com.aris.domain.approval.entity.ApprovalType;
+import com.itmsg.domain.approval.entity.Approval;
+import com.itmsg.domain.approval.entity.ApprovalStatus;
+import com.itmsg.domain.approval.entity.ApprovalType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

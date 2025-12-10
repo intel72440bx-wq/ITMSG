@@ -1,6 +1,6 @@
-package com.aris.domain.approval.dto;
+package com.itmsg.domain.approval.dto;
 
-import com.aris.domain.approval.entity.ApprovalType;
+import com.itmsg.domain.approval.entity.ApprovalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

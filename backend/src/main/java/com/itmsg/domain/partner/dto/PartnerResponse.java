@@ -1,6 +1,6 @@
-package com.aris.domain.partner.dto;
+package com.itmsg.domain.partner.dto;
 
-import com.aris.domain.partner.entity.Partner;
+import com.itmsg.domain.partner.entity.Partner;
 import lombok.Builder;
 
 import java.time.LocalDate;

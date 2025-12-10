@@ -1,11 +1,11 @@
-package com.aris.domain.sr.controller;
+package com.itmsg.domain.sr.controller;
 
-import com.aris.domain.sr.dto.SrCreateRequest;
-import com.aris.domain.sr.dto.SrResponse;
-import com.aris.domain.sr.dto.SrUpdateRequest;
-import com.aris.domain.sr.entity.SrStatus;
-import com.aris.domain.sr.entity.SrType;
-import com.aris.domain.sr.service.ServiceRequestService;
+import com.itmsg.domain.sr.dto.SrCreateRequest;
+import com.itmsg.domain.sr.dto.SrResponse;
+import com.itmsg.domain.sr.dto.SrUpdateRequest;
+import com.itmsg.domain.sr.entity.SrStatus;
+import com.itmsg.domain.sr.entity.SrType;
+import com.itmsg.domain.sr.service.ServiceRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

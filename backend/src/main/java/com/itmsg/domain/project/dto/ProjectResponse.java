@@ -1,8 +1,8 @@
-package com.aris.domain.project.dto;
+package com.itmsg.domain.project.dto;
 
-import com.aris.domain.project.entity.Project;
-import com.aris.domain.project.entity.ProjectStatus;
-import com.aris.domain.project.entity.ProjectType;
+import com.itmsg.domain.project.entity.Project;
+import com.itmsg.domain.project.entity.ProjectStatus;
+import com.itmsg.domain.project.entity.ProjectType;
 import lombok.Builder;
 import lombok.Getter;
 

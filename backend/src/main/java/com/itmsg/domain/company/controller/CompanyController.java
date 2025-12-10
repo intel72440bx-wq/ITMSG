@@ -1,7 +1,7 @@
-package com.aris.domain.company.controller;
+package com.itmsg.domain.company.controller;
 
-import com.aris.domain.company.entity.Company;
-import com.aris.domain.company.repository.CompanyRepository;
+import com.itmsg.domain.company.entity.Company;
+import com.itmsg.domain.company.repository.CompanyRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.aris.domain.release.dto;
+package com.itmsg.domain.release.dto;
 
-import com.aris.domain.release.entity.ReleaseType;
+import com.itmsg.domain.release.entity.ReleaseType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

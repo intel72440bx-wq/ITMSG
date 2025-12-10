@@ -1,6 +1,6 @@
-package com.aris.domain.role.entity;
+package com.itmsg.domain.role.entity;
 
-import com.aris.global.entity.BaseEntity;
+import com.itmsg.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

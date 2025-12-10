@@ -1,4 +1,4 @@
-package com.aris.domain.issue.entity;
+package com.itmsg.domain.issue.entity;
 
 /**
  * 이슈 상태

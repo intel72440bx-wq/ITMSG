@@ -1,6 +1,6 @@
-package com.aris.domain.user.repository;
+package com.itmsg.domain.user.repository;
 
-import com.aris.domain.user.entity.User;
+import com.itmsg.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

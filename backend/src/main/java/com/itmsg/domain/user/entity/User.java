@@ -1,9 +1,9 @@
-package com.aris.domain.user.entity;
+package com.itmsg.domain.user.entity;
 
-import com.aris.domain.company.entity.Company;
-import com.aris.domain.company.entity.Department;
-import com.aris.domain.role.entity.Role;
-import com.aris.global.entity.BaseEntity;
+import com.itmsg.domain.company.entity.Company;
+import com.itmsg.domain.company.entity.Department;
+import com.itmsg.domain.role.entity.Role;
+import com.itmsg.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

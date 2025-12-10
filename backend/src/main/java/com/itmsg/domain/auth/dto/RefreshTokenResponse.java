@@ -1,4 +1,4 @@
-package com.aris.domain.auth.dto;
+package com.itmsg.domain.auth.dto;
 
 import lombok.Builder;
 import lombok.Getter;

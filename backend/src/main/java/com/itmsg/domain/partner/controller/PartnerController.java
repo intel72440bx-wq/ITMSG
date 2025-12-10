@@ -1,8 +1,8 @@
-package com.aris.domain.partner.controller;
+package com.itmsg.domain.partner.controller;
 
-import com.aris.domain.partner.dto.PartnerRequest;
-import com.aris.domain.partner.dto.PartnerResponse;
-import com.aris.domain.partner.service.PartnerService;
+import com.itmsg.domain.partner.dto.PartnerRequest;
+import com.itmsg.domain.partner.dto.PartnerResponse;
+import com.itmsg.domain.partner.service.PartnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

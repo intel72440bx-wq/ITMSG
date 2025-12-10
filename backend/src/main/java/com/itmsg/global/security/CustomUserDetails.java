@@ -1,6 +1,6 @@
-package com.aris.global.security;
+package com.itmsg.global.security;
 
-import com.aris.domain.user.entity.User;
+import com.itmsg.domain.user.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

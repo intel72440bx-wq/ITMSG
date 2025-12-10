@@ -1,10 +1,10 @@
-package com.aris.domain.project.controller;
+package com.itmsg.domain.project.controller;
 
-import com.aris.domain.project.dto.ProjectRequest;
-import com.aris.domain.project.dto.ProjectResponse;
-import com.aris.domain.project.entity.ProjectStatus;
-import com.aris.domain.project.entity.ProjectType;
-import com.aris.domain.project.service.ProjectService;
+import com.itmsg.domain.project.dto.ProjectRequest;
+import com.itmsg.domain.project.dto.ProjectResponse;
+import com.itmsg.domain.project.entity.ProjectStatus;
+import com.itmsg.domain.project.entity.ProjectType;
+import com.itmsg.domain.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

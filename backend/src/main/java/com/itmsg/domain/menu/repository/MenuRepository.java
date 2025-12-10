@@ -1,6 +1,6 @@
-package com.aris.domain.menu.repository;
+package com.itmsg.domain.menu.repository;
 
-import com.aris.domain.menu.entity.Menu;
+import com.itmsg.domain.menu.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

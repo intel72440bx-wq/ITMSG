@@ -1,7 +1,7 @@
-package com.aris.domain.issue.repository;
+package com.itmsg.domain.issue.repository;
 
-import com.aris.domain.issue.entity.Issue;
-import com.aris.domain.issue.entity.IssueStatus;
+import com.itmsg.domain.issue.entity.Issue;
+import com.itmsg.domain.issue.entity.IssueStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
-package com.aris.domain.asset.repository;
+package com.itmsg.domain.asset.repository;
 
-import com.aris.domain.asset.entity.Asset;
-import com.aris.domain.asset.entity.AssetType;
+import com.itmsg.domain.asset.entity.Asset;
+import com.itmsg.domain.asset.entity.AssetType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,8 @@
-package com.aris.domain.spec.repository;
+package com.itmsg.domain.spec.repository;
 
-import com.aris.domain.spec.entity.Specification;
-import com.aris.domain.spec.entity.SpecStatus;
-import com.aris.domain.spec.entity.SpecType;
+import com.itmsg.domain.spec.entity.Specification;
+import com.itmsg.domain.spec.entity.SpecStatus;
+import com.itmsg.domain.spec.entity.SpecType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,9 +1,9 @@
-package com.aris.domain.asset.controller;
+package com.itmsg.domain.asset.controller;
 
-import com.aris.domain.asset.dto.AssetRequest;
-import com.aris.domain.asset.dto.AssetResponse;
-import com.aris.domain.asset.entity.AssetType;
-import com.aris.domain.asset.service.AssetService;
+import com.itmsg.domain.asset.dto.AssetRequest;
+import com.itmsg.domain.asset.dto.AssetResponse;
+import com.itmsg.domain.asset.entity.AssetType;
+import com.itmsg.domain.asset.service.AssetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

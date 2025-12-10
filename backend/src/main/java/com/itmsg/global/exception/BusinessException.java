@@ -1,4 +1,4 @@
-package com.aris.global.exception;
+package com.itmsg.global.exception;
 
 import lombok.Getter;
 

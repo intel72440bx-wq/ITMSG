@@ -1,24 +1,24 @@
-package com.aris.domain.auth.service;
+package com.itmsg.domain.auth.service;
 
-import com.aris.domain.auth.dto.LoginRequest;
-import com.aris.domain.auth.dto.LoginResponse;
-import com.aris.domain.auth.dto.RefreshTokenResponse;
-import com.aris.domain.auth.dto.ForgotPasswordRequest;
-import com.aris.domain.auth.dto.ResetPasswordRequest;
-import com.aris.domain.user.dto.UserCreateRequest;
-import com.aris.domain.user.dto.UserResponse;
-import com.aris.domain.user.entity.User;
-import com.aris.domain.user.repository.UserRepository;
-import com.aris.domain.company.entity.Company;
-import com.aris.domain.company.entity.Department;
-import com.aris.domain.company.repository.CompanyRepository;
-import com.aris.domain.company.repository.DepartmentRepository;
-import com.aris.domain.role.entity.Role;
-import com.aris.domain.role.repository.RoleRepository;
-import com.aris.global.exception.BusinessException;
-import com.aris.global.exception.ErrorCode;
-import com.aris.global.security.CustomUserDetails;
-import com.aris.global.security.JwtTokenProvider;
+import com.itmsg.domain.auth.dto.LoginRequest;
+import com.itmsg.domain.auth.dto.LoginResponse;
+import com.itmsg.domain.auth.dto.RefreshTokenResponse;
+import com.itmsg.domain.auth.dto.ForgotPasswordRequest;
+import com.itmsg.domain.auth.dto.ResetPasswordRequest;
+import com.itmsg.domain.user.dto.UserCreateRequest;
+import com.itmsg.domain.user.dto.UserResponse;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.domain.user.repository.UserRepository;
+import com.itmsg.domain.company.entity.Company;
+import com.itmsg.domain.company.entity.Department;
+import com.itmsg.domain.company.repository.CompanyRepository;
+import com.itmsg.domain.company.repository.DepartmentRepository;
+import com.itmsg.domain.role.entity.Role;
+import com.itmsg.domain.role.repository.RoleRepository;
+import com.itmsg.global.exception.BusinessException;
+import com.itmsg.global.exception.ErrorCode;
+import com.itmsg.global.security.CustomUserDetails;
+import com.itmsg.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -248,10 +248,3 @@ public class AuthService {
         log.info("비밀번호 재설정 완료");
     }
 }
-
-
-
-
-
-
-

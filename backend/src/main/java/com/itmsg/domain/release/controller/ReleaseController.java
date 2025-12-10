@@ -1,10 +1,10 @@
-package com.aris.domain.release.controller;
+package com.itmsg.domain.release.controller;
 
-import com.aris.domain.release.dto.ReleaseRequest;
-import com.aris.domain.release.dto.ReleaseResponse;
-import com.aris.domain.release.entity.ReleaseStatus;
-import com.aris.domain.release.entity.ReleaseType;
-import com.aris.domain.release.service.ReleaseService;
+import com.itmsg.domain.release.dto.ReleaseRequest;
+import com.itmsg.domain.release.dto.ReleaseResponse;
+import com.itmsg.domain.release.entity.ReleaseStatus;
+import com.itmsg.domain.release.entity.ReleaseType;
+import com.itmsg.domain.release.service.ReleaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

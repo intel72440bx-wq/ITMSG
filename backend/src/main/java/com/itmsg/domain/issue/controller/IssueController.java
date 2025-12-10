@@ -1,9 +1,9 @@
-package com.aris.domain.issue.controller;
+package com.itmsg.domain.issue.controller;
 
-import com.aris.domain.issue.dto.IssueRequest;
-import com.aris.domain.issue.dto.IssueResponse;
-import com.aris.domain.issue.entity.IssueStatus;
-import com.aris.domain.issue.service.IssueService;
+import com.itmsg.domain.issue.dto.IssueRequest;
+import com.itmsg.domain.issue.dto.IssueResponse;
+import com.itmsg.domain.issue.entity.IssueStatus;
+import com.itmsg.domain.issue.service.IssueService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

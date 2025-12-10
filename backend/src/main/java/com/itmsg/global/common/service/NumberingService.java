@@ -1,13 +1,13 @@
-package com.aris.global.common.service;
+package com.itmsg.global.common.service;
 
-import com.aris.domain.approval.repository.ApprovalRepository;
-import com.aris.domain.asset.repository.AssetRepository;
-import com.aris.domain.incident.repository.IncidentRepository;
-import com.aris.domain.issue.repository.IssueRepository;
-import com.aris.domain.partner.repository.PartnerRepository;
-import com.aris.domain.release.repository.ReleaseRepository;
-import com.aris.domain.sr.repository.ServiceRequestRepository;
-import com.aris.domain.spec.repository.SpecificationRepository;
+import com.itmsg.domain.approval.repository.ApprovalRepository;
+import com.itmsg.domain.asset.repository.AssetRepository;
+import com.itmsg.domain.incident.repository.IncidentRepository;
+import com.itmsg.domain.issue.repository.IssueRepository;
+import com.itmsg.domain.partner.repository.PartnerRepository;
+import com.itmsg.domain.release.repository.ReleaseRepository;
+import com.itmsg.domain.sr.repository.ServiceRequestRepository;
+import com.itmsg.domain.spec.repository.SpecificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

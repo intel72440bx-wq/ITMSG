@@ -1,13 +1,13 @@
-package com.aris.domain.auth.controller;
+package com.itmsg.domain.auth.controller;
 
-import com.aris.domain.auth.dto.LoginRequest;
-import com.aris.domain.auth.dto.LoginResponse;
-import com.aris.domain.auth.dto.RefreshTokenRequest;
-import com.aris.domain.auth.dto.RefreshTokenResponse;
-import com.aris.domain.auth.dto.ForgotPasswordRequest;
-import com.aris.domain.auth.service.AuthService;
-import com.aris.domain.user.dto.UserCreateRequest;
-import com.aris.domain.user.dto.UserResponse;
+import com.itmsg.domain.auth.dto.LoginRequest;
+import com.itmsg.domain.auth.dto.LoginResponse;
+import com.itmsg.domain.auth.dto.RefreshTokenRequest;
+import com.itmsg.domain.auth.dto.RefreshTokenResponse;
+import com.itmsg.domain.auth.dto.ForgotPasswordRequest;
+import com.itmsg.domain.auth.service.AuthService;
+import com.itmsg.domain.user.dto.UserCreateRequest;
+import com.itmsg.domain.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

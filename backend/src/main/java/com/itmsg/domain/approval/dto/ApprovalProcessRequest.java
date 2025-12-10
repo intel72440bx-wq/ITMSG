@@ -1,4 +1,4 @@
-package com.aris.domain.approval.dto;
+package com.itmsg.domain.approval.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

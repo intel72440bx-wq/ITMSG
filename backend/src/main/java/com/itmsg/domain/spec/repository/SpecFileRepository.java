@@ -1,6 +1,6 @@
-package com.aris.domain.spec.repository;
+package com.itmsg.domain.spec.repository;
 
-import com.aris.domain.spec.entity.SpecFile;
+import com.itmsg.domain.spec.entity.SpecFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

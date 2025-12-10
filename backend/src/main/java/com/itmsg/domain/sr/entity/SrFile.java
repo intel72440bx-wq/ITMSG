@@ -1,4 +1,4 @@
-package com.aris.domain.sr.entity;
+package com.itmsg.domain.sr.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

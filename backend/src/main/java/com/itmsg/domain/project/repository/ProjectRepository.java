@@ -1,8 +1,8 @@
-package com.aris.domain.project.repository;
+package com.itmsg.domain.project.repository;
 
-import com.aris.domain.project.entity.Project;
-import com.aris.domain.project.entity.ProjectStatus;
-import com.aris.domain.project.entity.ProjectType;
+import com.itmsg.domain.project.entity.Project;
+import com.itmsg.domain.project.entity.ProjectStatus;
+import com.itmsg.domain.project.entity.ProjectType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

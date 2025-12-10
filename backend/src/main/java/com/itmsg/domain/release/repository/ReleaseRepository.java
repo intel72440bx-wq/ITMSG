@@ -1,8 +1,8 @@
-package com.aris.domain.release.repository;
+package com.itmsg.domain.release.repository;
 
-import com.aris.domain.release.entity.Release;
-import com.aris.domain.release.entity.ReleaseStatus;
-import com.aris.domain.release.entity.ReleaseType;
+import com.itmsg.domain.release.entity.Release;
+import com.itmsg.domain.release.entity.ReleaseStatus;
+import com.itmsg.domain.release.entity.ReleaseType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

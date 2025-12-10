@@ -1,9 +1,9 @@
-package com.aris.domain.issue.entity;
+package com.itmsg.domain.issue.entity;
 
-import com.aris.domain.sr.entity.ServiceRequest;
-import com.aris.domain.spec.entity.Specification;
-import com.aris.domain.user.entity.User;
-import com.aris.global.entity.BaseEntity;
+import com.itmsg.domain.sr.entity.ServiceRequest;
+import com.itmsg.domain.spec.entity.Specification;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

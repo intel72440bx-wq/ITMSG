@@ -1,6 +1,6 @@
-package com.aris.domain.approval.entity;
+package com.itmsg.domain.approval.entity;
 
-import com.aris.domain.user.entity.User;
+import com.itmsg.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

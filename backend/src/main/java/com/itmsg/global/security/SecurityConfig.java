@@ -1,4 +1,4 @@
-package com.aris.global.security;
+package com.itmsg.global.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

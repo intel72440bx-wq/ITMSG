@@ -1,7 +1,7 @@
-package com.aris.domain.approval.dto;
+package com.itmsg.domain.approval.dto;
 
-import com.aris.domain.approval.entity.ApprovalLine;
-import com.aris.domain.approval.entity.ApprovalLineStatus;
+import com.itmsg.domain.approval.entity.ApprovalLine;
+import com.itmsg.domain.approval.entity.ApprovalLineStatus;
 import lombok.Builder;
 import lombok.Getter;
 

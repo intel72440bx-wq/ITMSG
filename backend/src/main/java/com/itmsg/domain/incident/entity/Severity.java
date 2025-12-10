@@ -1,4 +1,4 @@
-package com.aris.domain.incident.entity;
+package com.itmsg.domain.incident.entity;
 
 /**
  * 심각도

@@ -1,4 +1,4 @@
-package com.aris.global.security;
+package com.itmsg.global.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

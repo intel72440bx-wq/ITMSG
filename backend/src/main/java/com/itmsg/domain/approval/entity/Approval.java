@@ -1,9 +1,9 @@
-package com.aris.domain.approval.entity;
+package com.itmsg.domain.approval.entity;
 
-import com.aris.domain.user.entity.User;
-import com.aris.global.entity.BaseEntity;
-import com.aris.global.exception.BusinessException;
-import com.aris.global.exception.ErrorCode;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.global.entity.BaseEntity;
+import com.itmsg.global.exception.BusinessException;
+import com.itmsg.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,7 +1,7 @@
-package com.aris.domain.sr.dto;
+package com.itmsg.domain.sr.dto;
 
-import com.aris.domain.sr.entity.SrCategory;
-import com.aris.domain.sr.entity.SrType;
+import com.itmsg.domain.sr.entity.SrCategory;
+import com.itmsg.domain.sr.entity.SrType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

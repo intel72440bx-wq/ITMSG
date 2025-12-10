@@ -1,4 +1,4 @@
-package com.aris.domain.issue.dto;
+package com.itmsg.domain.issue.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

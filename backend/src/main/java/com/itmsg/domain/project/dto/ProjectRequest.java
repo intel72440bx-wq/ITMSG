@@ -1,7 +1,7 @@
-package com.aris.domain.project.dto;
+package com.itmsg.domain.project.dto;
 
-import com.aris.domain.project.entity.ProjectStatus;
-import com.aris.domain.project.entity.ProjectType;
+import com.itmsg.domain.project.entity.ProjectStatus;
+import com.itmsg.domain.project.entity.ProjectType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

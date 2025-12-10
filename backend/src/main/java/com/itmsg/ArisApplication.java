@@ -1,4 +1,4 @@
-package com.aris;
+package com.itmsg;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,4 +10,3 @@ public class ArisApplication {
         SpringApplication.run(ArisApplication.class, args);
     }
 }
-

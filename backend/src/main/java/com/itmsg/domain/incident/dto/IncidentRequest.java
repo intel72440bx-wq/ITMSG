@@ -1,8 +1,8 @@
-package com.aris.domain.incident.dto;
+package com.itmsg.domain.incident.dto;
 
-import com.aris.domain.incident.entity.IncidentType;
-import com.aris.domain.incident.entity.Severity;
-import com.aris.domain.incident.entity.SystemType;
+import com.itmsg.domain.incident.entity.IncidentType;
+import com.itmsg.domain.incident.entity.Severity;
+import com.itmsg.domain.incident.entity.SystemType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

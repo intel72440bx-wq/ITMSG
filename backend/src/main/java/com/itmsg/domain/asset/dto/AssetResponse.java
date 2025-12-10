@@ -1,7 +1,7 @@
-package com.aris.domain.asset.dto;
+package com.itmsg.domain.asset.dto;
 
-import com.aris.domain.asset.entity.Asset;
-import com.aris.domain.asset.entity.AssetType;
+import com.itmsg.domain.asset.entity.Asset;
+import com.itmsg.domain.asset.entity.AssetType;
 import lombok.Builder;
 
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
-package com.aris.domain.company.repository;
+package com.itmsg.domain.company.repository;
 
-import com.aris.domain.company.entity.Company;
+import com.itmsg.domain.company.entity.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

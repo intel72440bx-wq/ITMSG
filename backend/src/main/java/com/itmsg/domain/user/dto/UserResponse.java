@@ -1,6 +1,6 @@
-package com.aris.domain.user.dto;
+package com.itmsg.domain.user.dto;
 
-import com.aris.domain.user.entity.User;
+import com.itmsg.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 

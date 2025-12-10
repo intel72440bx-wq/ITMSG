@@ -1,10 +1,10 @@
-package com.aris.domain.user.controller;
+package com.itmsg.domain.user.controller;
 
-import com.aris.domain.user.dto.PasswordResetRequest;
-import com.aris.domain.user.dto.UserCreateRequest;
-import com.aris.domain.user.dto.UserResponse;
-import com.aris.domain.user.dto.UserUpdateRequest;
-import com.aris.domain.user.service.UserService;
+import com.itmsg.domain.user.dto.PasswordResetRequest;
+import com.itmsg.domain.user.dto.UserCreateRequest;
+import com.itmsg.domain.user.dto.UserResponse;
+import com.itmsg.domain.user.dto.UserUpdateRequest;
+import com.itmsg.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

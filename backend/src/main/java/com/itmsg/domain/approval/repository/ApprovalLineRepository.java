@@ -1,6 +1,6 @@
-package com.aris.domain.approval.repository;
+package com.itmsg.domain.approval.repository;
 
-import com.aris.domain.approval.entity.ApprovalLine;
+import com.itmsg.domain.approval.entity.ApprovalLine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

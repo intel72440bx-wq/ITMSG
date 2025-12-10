@@ -1,4 +1,4 @@
-package com.aris.global.entity;
+package com.itmsg.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

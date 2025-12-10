@@ -1,8 +1,8 @@
-package com.aris.domain.release.dto;
+package com.itmsg.domain.release.dto;
 
-import com.aris.domain.release.entity.Release;
-import com.aris.domain.release.entity.ReleaseStatus;
-import com.aris.domain.release.entity.ReleaseType;
+import com.itmsg.domain.release.entity.Release;
+import com.itmsg.domain.release.entity.ReleaseStatus;
+import com.itmsg.domain.release.entity.ReleaseType;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

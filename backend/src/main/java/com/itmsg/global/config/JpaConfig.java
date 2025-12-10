@@ -1,4 +1,4 @@
-package com.aris.global.config;
+package com.itmsg.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

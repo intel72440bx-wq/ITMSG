@@ -1,4 +1,4 @@
-package com.aris.domain.approval.entity;
+package com.itmsg.domain.approval.entity;
 
 import lombok.Getter;
 

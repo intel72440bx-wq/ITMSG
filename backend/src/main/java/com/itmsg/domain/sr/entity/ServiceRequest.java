@@ -1,12 +1,12 @@
-package com.aris.domain.sr.entity;
+package com.itmsg.domain.sr.entity;
 
-import com.aris.domain.company.entity.Department;
-import com.aris.domain.project.entity.Project;
-import com.aris.domain.spec.entity.Specification;
-import com.aris.domain.user.entity.User;
-import com.aris.global.entity.BaseEntity;
-import com.aris.global.exception.BusinessException;
-import com.aris.global.exception.ErrorCode;
+import com.itmsg.domain.company.entity.Department;
+import com.itmsg.domain.project.entity.Project;
+import com.itmsg.domain.spec.entity.Specification;
+import com.itmsg.domain.user.entity.User;
+import com.itmsg.global.entity.BaseEntity;
+import com.itmsg.global.exception.BusinessException;
+import com.itmsg.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

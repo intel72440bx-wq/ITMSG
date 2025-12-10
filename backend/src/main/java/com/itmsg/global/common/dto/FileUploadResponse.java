@@ -1,4 +1,4 @@
-package com.aris.global.common.dto;
+package com.itmsg.global.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;

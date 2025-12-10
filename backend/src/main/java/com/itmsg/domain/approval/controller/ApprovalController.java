@@ -1,11 +1,11 @@
-package com.aris.domain.approval.controller;
+package com.itmsg.domain.approval.controller;
 
-import com.aris.domain.approval.dto.ApprovalProcessRequest;
-import com.aris.domain.approval.dto.ApprovalRequest;
-import com.aris.domain.approval.dto.ApprovalResponse;
-import com.aris.domain.approval.entity.ApprovalStatus;
-import com.aris.domain.approval.entity.ApprovalType;
-import com.aris.domain.approval.service.ApprovalService;
+import com.itmsg.domain.approval.dto.ApprovalProcessRequest;
+import com.itmsg.domain.approval.dto.ApprovalRequest;
+import com.itmsg.domain.approval.dto.ApprovalResponse;
+import com.itmsg.domain.approval.entity.ApprovalStatus;
+import com.itmsg.domain.approval.entity.ApprovalType;
+import com.itmsg.domain.approval.service.ApprovalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

@@ -1,8 +1,8 @@
-package com.aris.domain.incident.repository;
+package com.itmsg.domain.incident.repository;
 
-import com.aris.domain.incident.entity.Incident;
-import com.aris.domain.incident.entity.IncidentStatus;
-import com.aris.domain.incident.entity.Severity;
+import com.itmsg.domain.incident.entity.Incident;
+import com.itmsg.domain.incident.entity.IncidentStatus;
+import com.itmsg.domain.incident.entity.Severity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
-package com.aris.domain.role.repository;
+package com.itmsg.domain.role.repository;
 
-import com.aris.domain.role.entity.Role;
+import com.itmsg.domain.role.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

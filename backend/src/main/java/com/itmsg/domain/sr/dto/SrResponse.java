@@ -1,9 +1,9 @@
-package com.aris.domain.sr.dto;
+package com.itmsg.domain.sr.dto;
 
-import com.aris.domain.sr.entity.ServiceRequest;
-import com.aris.domain.sr.entity.SrCategory;
-import com.aris.domain.sr.entity.SrStatus;
-import com.aris.domain.sr.entity.SrType;
+import com.itmsg.domain.sr.entity.ServiceRequest;
+import com.itmsg.domain.sr.entity.SrCategory;
+import com.itmsg.domain.sr.entity.SrStatus;
+import com.itmsg.domain.sr.entity.SrType;
 import lombok.Builder;
 import lombok.Getter;
 
