@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: itmsg-postgres
+    environment:
+      POSTGRES_DB: itmsg_db
+      POSTGRES_USER: itmsg_user
+      POSTGRES_PASSWORD: itmsg_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
+      TZ: Asia/Seoul
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U itmsg_user -d itmsg_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - itmsg-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: itmsg-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/itmsg_db
+      SPRING_DATASOURCE_USERNAME: itmsg_user
+      SPRING_DATASOURCE_PASSWORD: itmsg_password
+      JWT_SECRET: itmsg-jwt-secret-key-must-be-at-least-256-bits-for-hs256-algorithm
+      TZ: Asia/Seoul
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend/logs:/app/logs
+      - ./backend/uploads:/app/uploads
+    networks:
+      - itmsg-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: itmsg-frontend
+    ports:
+      - "3000:80"
+    environment:
+      TZ: Asia/Seoul
+    depends_on:
+      - backend
+    networks:
+      - itmsg-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  itmsg-network:
+    driver: bridge
+
+
+
