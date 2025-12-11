@@ -1,4 +1,4 @@
-# 🎉 ARIS Phase 2 기반 구조 완료
+# 🎉 ITMSG Phase 2 기반 구조 완료
 
 **작성일시**: 2025-10-15  
 **상태**: ✅ Phase 2 기반 구조 완료 (Entity, Repository, Enum, Migration)
@@ -101,14 +101,14 @@ Phase 2 관련 오류 코드 추가 완료:
 
 ### 4. ✅ Entity 클래스 생성
 
-#### Project Entity (`com.aris.domain.project.entity.Project`)
+#### Project Entity (`com.itmsg.domain.project.entity.Project`)
 ```java
 - id, code, name, projectType, status
 - startDate, endDate, company, description, budget, pm
 - 비즈니스 메서드: updateInfo(), changeStatus(), assignPm()
 ```
 
-#### ServiceRequest Entity (`com.aris.domain.sr.entity.ServiceRequest`)
+#### ServiceRequest Entity (`com.itmsg.domain.sr.entity.ServiceRequest`)
 ```java
 - id, srNumber, title, srType, srCategory, status
 - businessRequirement, project, requester, requesterDept
@@ -116,13 +116,13 @@ Phase 2 관련 오류 코드 추가 완료:
 - 비즈니스 메서드: updateInfo(), changeStatus(), linkSpecification()
 ```
 
-#### SrFile Entity (`com.aris.domain.sr.entity.SrFile`)
+#### SrFile Entity (`com.itmsg.domain.sr.entity.SrFile`)
 ```java
 - id, serviceRequest, originalFilename, storedFilename
 - filePath, fileSize, contentType, uploadedAt, uploadedBy
 ```
 
-#### Specification Entity (`com.aris.domain.spec.entity.Specification`)
+#### Specification Entity (`com.itmsg.domain.spec.entity.Specification`)
 ```java
 - id, specNumber, serviceRequest, specType, specCategory, status
 - functionPoint, manDay, assignee, reviewer
@@ -130,13 +130,13 @@ Phase 2 관련 오류 코드 추가 완료:
 - 비즈니스 메서드: updateInfo(), assignTo(), startWork(), complete()
 ```
 
-#### SpecFile Entity (`com.aris.domain.spec.entity.SpecFile`)
+#### SpecFile Entity (`com.itmsg.domain.spec.entity.SpecFile`)
 ```java
 - id, specification, originalFilename, storedFilename
 - filePath, fileSize, contentType, uploadedAt, uploadedBy
 ```
 
-#### Approval Entity (`com.aris.domain.approval.entity.Approval`)
+#### Approval Entity (`com.itmsg.domain.approval.entity.Approval`)
 ```java
 - id, approvalNumber, approvalType, targetId, status
 - currentStep, totalSteps, requester, requestedAt, completedAt
@@ -144,7 +144,7 @@ Phase 2 관련 오류 코드 추가 완료:
 - 비즈니스 메서드: approve(), reject(), cancel()
 ```
 
-#### ApprovalLine Entity (`com.aris.domain.approval.entity.ApprovalLine`)
+#### ApprovalLine Entity (`com.itmsg.domain.approval.entity.ApprovalLine`)
 ```java
 - id, approval, stepOrder, approver, status
 - comment, approvedAt, createdAt
@@ -209,7 +209,7 @@ Phase 2 관련 오류 코드 추가 완료:
 ## 🎯 현재 구조
 
 ```
-backend/src/main/java/com/aris/
+backend/src/main/java/com/itmsg/
 ├── domain/
 │   ├── project/
 │   │   ├── entity/
@@ -392,7 +392,7 @@ service_requests/specifications → approvals (1) ←→ (N) approval_lines
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 2 - 기반 구조 완료
 
 

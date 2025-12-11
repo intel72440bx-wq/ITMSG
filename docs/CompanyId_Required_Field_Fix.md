@@ -23,9 +23,9 @@ Failed to create project: {
 ```
 ERROR c.a.g.e.GlobalExceptionHandler - ValidationException: 
 Validation failed for argument [0] in public org.springframework.http.ResponseEntity
-<com.aris.domain.project.dto.ProjectResponse> 
-com.aris.domain.project.controller.ProjectController.createProject
-(com.aris.domain.project.dto.ProjectRequest): 
+<com.itmsg.domain.project.dto.ProjectResponse> 
+com.itmsg.domain.project.controller.ProjectController.createProject
+(com.itmsg.domain.project.dto.ProjectRequest): 
 
 [Field error in object 'projectRequest' on field 'companyId': 
 rejected value [null]; 
@@ -151,11 +151,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 ## 📊 수정 내용 정리
 
 ### 수정된 파일
-1. **`backend/src/main/java/com/aris/domain/project/dto/ProjectRequest.java`**
+1. **`backend/src/main/java/com/itmsg/domain/project/dto/ProjectRequest.java`**
    - `@NotNull` 제거
    - 주석 추가: "companyId는 선택사항"
 
-2. **`backend/src/main/java/com/aris/domain/project/service/ProjectService.java`**
+2. **`backend/src/main/java/com/itmsg/domain/project/service/ProjectService.java`**
    - SecurityContext에서 현재 사용자 조회 로직 추가
    - `companyId` null 체크 및 자동 할당 로직 추가
    - Import 추가 (Authentication, SecurityContextHolder)
@@ -176,7 +176,7 @@ POST /api/projects
 ```
 
 **Backend 처리**:
-1. JWT에서 사용자 이메일 추출 (`admin@aris.com`)
+1. JWT에서 사용자 이메일 추출 (`admin@itmsg.com`)
 2. 해당 사용자의 Company 조회
 3. 자동으로 프로젝트에 Company 할당
 4. ✅ 성공
@@ -204,7 +204,7 @@ POST /api/projects
 
 ### Scenario 1: 일반 사용자 프로젝트 등록
 **사전 조건**:
-- 로그인: `admin@aris.com` (회사: ARIS Corp, ID=1)
+- 로그인: `admin@itmsg.com` (회사: ITMSG Corp, ID=1)
 
 **입력**:
 ```
@@ -222,7 +222,7 @@ POST /api/projects
   "name": "테스트 프로젝트",
   "projectType": "SI",
   "companyId": 1,        // 자동 할당!
-  "companyName": "ARIS Corp"
+  "companyName": "ITMSG Corp"
 }
 ```
 

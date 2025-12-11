@@ -254,13 +254,13 @@ Phase 3 (확장 기능): ✅ 새로 추가
 ```bash
 docker ps
 # CONTAINER ID   STATUS
-# aris-backend   Up (healthy)
-# aris-postgres  Up (healthy)
+# itmsg-backend   Up (healthy)
+# itmsg-postgres  Up (healthy)
 ```
 
 ### 2. 로그 확인
 ```bash
-docker logs aris-backend --tail 20
+docker logs itmsg-backend --tail 20
 
 # 예상 출력:
 # Successfully applied 21 migrations
@@ -269,7 +269,7 @@ docker logs aris-backend --tail 20
 
 ### 3. 데이터베이스 확인
 ```bash
-docker exec -it aris-postgres psql -U aris_user -d aris_db -c "\dt"
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db -c "\dt"
 
 # Phase 3 테이블 확인:
 # - issues
@@ -415,7 +415,7 @@ ErrorCode:         ~30 lines
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 3 - Foundation Complete  
 **문서 버전**: 1.0.0  
 **작성 일시**: 2025-10-15

@@ -1,7 +1,7 @@
-# 🎉 ARIS 프로젝트 완료 보고서
+# 🎉 ITMSG 프로젝트 완료 보고서
 
 ## 📋 프로젝트 정보
-- **프로젝트명**: ARIS (Advanced Request & Issue Management System)
+- **프로젝트명**: ITMSG (Advanced Request & Issue Management System)
 - **시작일**: 2025-10-15
 - **완료일**: 2025-10-15
 - **버전**: 1.0.0
@@ -281,7 +281,7 @@ IT 프로젝트의 SR(Service Request), SPEC, 승인, 이슈, 릴리즈, 장애 
 ```bash
 # 저장소 클론
 git clone <repository-url>
-cd ARIS
+cd ITMSG
 
 # Docker로 전체 실행
 docker-compose up -d
@@ -296,7 +296,7 @@ docker-compose logs -f backend
 
 ### 3. 기본 계정
 ```
-이메일: admin@aris.com
+이메일: admin@itmsg.com
 비밀번호: admin1234
 역할: ROLE_ADMIN
 ```
@@ -307,7 +307,7 @@ docker-compose logs -f backend
 curl -X 'POST' 'http://localhost:8080/api/auth/login' \
   -H 'Content-Type: application/json' \
   -d '{
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }'
 
@@ -334,7 +334,7 @@ curl -X 'GET' 'http://localhost:8080/api/projects' \
 ### 프로젝트 매니저를 위한 문서
 1. **[Analysis_Report.md](docs/Analysis_Report.md)** - 요구사항 분석 보고서
 2. **[Phase3_Complete_Summary.md](docs/Phase3_Complete_Summary.md)** - Phase 3 완료 보고서
-3. **[ARIS_PROJECT_COMPLETE.md](ARIS_PROJECT_COMPLETE.md)** - 프로젝트 완료 보고서 (이 문서)
+3. **[ITMSG_PROJECT_COMPLETE.md](ITMSG_PROJECT_COMPLETE.md)** - 프로젝트 완료 보고서 (이 문서)
 
 ---
 
@@ -382,10 +382,10 @@ docker-compose logs -f postgres
 ### 데이터베이스 백업
 ```bash
 # 백업
-docker exec aris-postgres pg_dump -U aris_user aris_db > backup_$(date +%Y%m%d).sql
+docker exec itmsg-postgres pg_dump -U itmsg_user itmsg_db > backup_$(date +%Y%m%d).sql
 
 # 복원
-docker exec -i aris-postgres psql -U aris_user aris_db < backup_20251015.sql
+docker exec -i itmsg-postgres psql -U itmsg_user itmsg_db < backup_20251015.sql
 ```
 
 ### 모니터링
@@ -447,8 +447,8 @@ curl http://localhost:8080/actuator/metrics
 
 ### 기술 지원
 - **GitHub Issues**: 버그 리포트 및 기능 요청
-- **Email**: support@aris.com
-- **Slack**: #aris-dev
+- **Email**: support@itmsg.com
+- **Slack**: #itmsg-dev
 
 ### 문서 및 리소스
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
@@ -521,7 +521,7 @@ curl http://localhost:8080/actuator/metrics
 
 ## 🏅 결론
 
-ARIS (Advanced Request & Issue Management System) 프로젝트는 IT 프로젝트 관리의 전체 라이프사이클을 지원하는 통합 시스템으로, MVP 3단계 개발을 모두 성공적으로 완료하였습니다.
+ITMSG (Advanced Request & Issue Management System) 프로젝트는 IT 프로젝트 관리의 전체 라이프사이클을 지원하는 통합 시스템으로, MVP 3단계 개발을 모두 성공적으로 완료하였습니다.
 
 ### 주요 성과
 1. **완전한 기능 구현**: 62개 API 엔드포인트, 19개 테이블
@@ -547,7 +547,7 @@ ARIS (Advanced Request & Issue Management System) 프로젝트는 IT 프로젝�
 ---
 
 **감사합니다!**  
-ARIS Development Team
+ITMSG Development Team
 
 ---
 

@@ -247,9 +247,9 @@ docker-compose ps
 **예상 결과**:
 ```
 NAME                STATUS
-aris-backend        Up (healthy)
-aris-frontend       Up
-aris-postgres       Up (healthy)
+itmsg-backend        Up (healthy)
+itmsg-frontend       Up
+itmsg-postgres       Up (healthy)
 ```
 
 ### 2. Frontend 접속
@@ -258,7 +258,7 @@ http://localhost:3000
 ```
 
 ### 3. 로그인
-- **이메일**: `admin@aris.com`
+- **이메일**: `admin@itmsg.com`
 - **비밀번호**: `admin1234`
 
 ### 4. 각 메뉴 테스트
@@ -279,7 +279,7 @@ http://localhost:3000
 # 토큰 발급
 TOKEN=$(curl -s http://localhost:8080/api/auth/login -X POST \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@aris.com","password":"admin1234"}' | \
+  -d '{"email":"admin@itmsg.com","password":"admin1234"}' | \
   python3 -c "import sys, json; print(json.load(sys.stdin)['accessToken'])")
 
 # 프로젝트 목록 조회
@@ -420,7 +420,7 @@ services:
 
 ## 🎉 결론
 
-**ARIS (Advanced Request & Issue Management System)**의 **Frontend-Backend 연동이 완벽하게 완료**되었습니다!
+**ITMSG (Advanced Request & Issue Management System)**의 **Frontend-Backend 연동이 완벽하게 완료**되었습니다!
 
 ### 연동 성공률
 - **API 연동**: 100% (9/9)

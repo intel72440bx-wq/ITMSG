@@ -1,4 +1,4 @@
-# ARIS Phase 3 API 테스트 가이드
+# ITMSG Phase 3 API 테스트 가이드
 
 ## 📋 문서 정보
 - **작성일**: 2025-10-15
@@ -33,7 +33,7 @@ curl -X 'POST' \
   'http://localhost:8080/api/auth/login' \
   -H 'Content-Type: application/json' \
   -d '{
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }'
 ```
@@ -44,7 +44,7 @@ curl -X 'POST' \
   "accessToken": "eyJhbGciOiJIUzI1NiJ9...",
   "refreshToken": "eyJhbGciOiJIUzI1NiJ9...",
   "tokenType": "Bearer",
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "name": "시스템 관리자",
   "roles": ["ROLE_ADMIN"]
 }
@@ -98,9 +98,9 @@ curl -X 'POST' \
   "reporterName": "시스템 관리자",
   "parentIssueId": null,
   "createdAt": "2025-10-15T10:00:00",
-  "createdBy": "admin@aris.com",
+  "createdBy": "admin@itmsg.com",
   "updatedAt": "2025-10-15T10:00:00",
-  "updatedBy": "admin@aris.com"
+  "updatedBy": "admin@itmsg.com"
 }
 ```
 

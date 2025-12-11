@@ -2,7 +2,7 @@
 
 ## 📋 개요
 
-ARIS 시스템에 사용자 관리 기능이 추가되었습니다. 시스템 관리자(SYSTEM_ADMIN) 권한을 가진 사용자만 접근할 수 있으며, 사용자 추가, 수정, 삭제, 비밀번호 재설정 등의 기능을 제공합니다.
+ITMSG 시스템에 사용자 관리 기능이 추가되었습니다. 시스템 관리자(SYSTEM_ADMIN) 권한을 가진 사용자만 접근할 수 있으며, 사용자 추가, 수정, 삭제, 비밀번호 재설정 등의 기능을 제공합니다.
 
 **구현 날짜**: 2025-10-18
 
@@ -90,7 +90,7 @@ private LocalDateTime createdAt;
 
 ### 2. Service Layer
 
-**파일**: `backend/src/main/java/com/aris/domain/user/service/UserService.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/user/service/UserService.java`
 
 주요 메서드:
 - `getUsers(Pageable pageable)`: 사용자 목록 조회
@@ -103,7 +103,7 @@ private LocalDateTime createdAt;
 
 ### 3. Controller Layer
 
-**파일**: `backend/src/main/java/com/aris/domain/user/controller/UserController.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/user/controller/UserController.java`
 
 ```java
 @RestController
@@ -136,7 +136,7 @@ public class UserController {
 
 ### 4. Entity 수정
 
-**파일**: `backend/src/main/java/com/aris/domain/user/entity/User.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/user/entity/User.java`
 
 추가된 메서드:
 ```java
@@ -149,7 +149,7 @@ public void toggleActive()
 
 ### 5. Company Controller 추가
 
-**파일**: `backend/src/main/java/com/aris/domain/company/controller/CompanyController.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/company/controller/CompanyController.java`
 
 ```java
 @GetMapping
@@ -341,7 +341,7 @@ public void delete() {
 ### 1. 시스템 관리자 로그인
 
 ```
-이메일: admin@aris.com
+이메일: admin@itmsg.com
 비밀번호: admin1234
 ```
 
@@ -418,7 +418,7 @@ http://localhost:8080/swagger-ui.html
 ### Backend
 
 ```
-backend/src/main/java/com/aris/domain/user/
+backend/src/main/java/com/itmsg/domain/user/
 ├── controller/
 │   └── UserController.java
 ├── service/
@@ -433,7 +433,7 @@ backend/src/main/java/com/aris/domain/user/
 └── repository/
     └── UserRepository.java
 
-backend/src/main/java/com/aris/domain/company/
+backend/src/main/java/com/itmsg/domain/company/
 └── controller/
     └── CompanyController.java
 ```
@@ -485,7 +485,7 @@ frontend/src/
 ### 1. Docker Compose로 전체 시스템 실행
 
 ```bash
-cd /Users/kevinpark/Desktop/Dev/ARIS
+cd /Users/kevinpark/Desktop/Dev/ITMSG
 docker-compose up -d
 ```
 
@@ -504,7 +504,7 @@ docker-compose ps
 ### 4. 로그인
 
 ```
-이메일: admin@aris.com
+이메일: admin@itmsg.com
 비밀번호: admin1234
 ```
 

@@ -34,7 +34,7 @@ Failed to fetch dashboard data: {
 ```bash
 $ docker-compose ps backend
 NAME         CREATED        STATUS
-aris-backend 11 hours ago   Up 3 minutes (healthy)
+itmsg-backend 11 hours ago   Up 3 minutes (healthy)
 ```
 
 → Backend가 3분 전에 재시작됨

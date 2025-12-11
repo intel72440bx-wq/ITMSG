@@ -1,4 +1,4 @@
-# 🧪 ARIS Phase 2 테스트 가이드
+# 🧪 ITMSG Phase 2 테스트 가이드
 
 **작성일시**: 2025-10-15  
 **Phase**: MVP Phase 2  
@@ -14,13 +14,13 @@
 docker ps
 
 # 기대 결과:
-# - aris-postgres (healthy)
-# - aris-backend (running)
+# - itmsg-postgres (healthy)
+# - itmsg-backend (running)
 ```
 
 ### ✅ 애플리케이션 로그 확인
 ```bash
-docker logs aris-backend --tail 30
+docker logs itmsg-backend --tail 30
 
 # 확인 사항:
 # ✅ "Started ArisApplication"
@@ -31,7 +31,7 @@ docker logs aris-backend --tail 30
 
 ### ✅ 데이터베이스 연결 확인
 ```bash
-docker exec -it aris-postgres psql -U aris_user -d aris_db -c "\dt"
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db -c "\dt"
 
 # 기대 결과: Phase 1 + Phase 2 테이블 목록
 # Phase 1: companies, departments, roles, users, user_roles, menus, menu_permissions
@@ -68,7 +68,7 @@ http://localhost:8080/swagger-ui.html
 **Request Body**:
 ```json
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 ```
@@ -81,7 +81,7 @@ http://localhost:8080/swagger-ui.html
   "expiresIn": 3600000,
   "userInfo": {
     "id": 1,
-    "email": "admin@aris.com",
+    "email": "admin@itmsg.com",
     "name": "시스템 관리자",
     "roles": ["ROLE_ADMIN"]
   }
@@ -134,15 +134,15 @@ Phase 2의 모든 기능은 **프로젝트**를 기반으로 동작합니다.
   "startDate": "2025-01-01",
   "endDate": "2025-12-31",
   "companyId": 1,
-  "companyName": "ARIS 본사",
+  "companyName": "ITMSG 본사",
   "description": "고객사 CRM 시스템 신규 구축 프로젝트",
   "budget": 500000000,
   "pmId": 1,
   "pmName": "시스템 관리자",
   "createdAt": "2025-10-15T14:40:00",
-  "createdBy": "admin@aris.com",
+  "createdBy": "admin@itmsg.com",
   "updatedAt": "2025-10-15T14:40:00",
-  "updatedBy": "admin@aris.com"
+  "updatedBy": "admin@itmsg.com"
 }
 ```
 
@@ -209,13 +209,13 @@ Phase 2의 모든 기능은 **프로젝트**를 기반으로 동작합니다.
   "requester": {
     "id": 1,
     "name": "시스템 관리자",
-    "email": "admin@aris.com"
+    "email": "admin@itmsg.com"
   },
   "requestDate": "2025-01-15",
   "dueDate": "2025-02-15",
   "priority": "HIGH",
   "createdAt": "2025-10-15T14:45:00",
-  "createdBy": "admin@aris.com"
+  "createdBy": "admin@itmsg.com"
 }
 ```
 
@@ -308,7 +308,7 @@ Phase 2의 모든 기능은 **프로젝트**를 기반으로 동작합니다.
   "requester": {
     "id": 1,
     "name": "시스템 관리자",
-    "email": "admin@aris.com"
+    "email": "admin@itmsg.com"
   },
   "requestedAt": "2025-10-15T14:50:00",
   "approvalLines": [
@@ -318,7 +318,7 @@ Phase 2의 모든 기능은 **프로젝트**를 기반으로 동작합니다.
       "approver": {
         "id": 1,
         "name": "시스템 관리자",
-        "email": "admin@aris.com"
+        "email": "admin@itmsg.com"
       },
       "status": "PENDING",
       "comment": null,
@@ -326,7 +326,7 @@ Phase 2의 모든 기능은 **프로젝트**를 기반으로 동작합니다.
     }
   ],
   "createdAt": "2025-10-15T14:50:00",
-  "createdBy": "admin@aris.com"
+  "createdBy": "admin@itmsg.com"
 }
 ```
 
@@ -454,7 +454,7 @@ Phase 2의 모든 기능은 **프로젝트**를 기반으로 동작합니다.
     "name": "시스템 관리자"
   },
   "createdAt": "2025-10-15T15:00:00",
-  "createdBy": "admin@aris.com"
+  "createdBy": "admin@itmsg.com"
 }
 ```
 
@@ -716,7 +716,7 @@ Phase 2의 모든 기능은 **프로젝트**를 기반으로 동작합니다.
 
 ### PostgreSQL 접속
 ```bash
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 ```
 
 ### 테이블 조회 쿼리
@@ -879,7 +879,7 @@ Phase 2의 핵심 프로세스인 **SR → SPEC → 승인**이 모두 정상 �
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 2 - Testing Guide  
 **문서 버전**: 1.0.0
 

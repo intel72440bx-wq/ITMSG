@@ -23,7 +23,7 @@
   "dueDate": "2025-02-15",
   "priority": "HIGH",
   "createdAt": "2025-10-15T15:45:45",
-  "createdBy": "admin@aris.com"
+  "createdBy": "admin@itmsg.com"
 }
 ```
 
@@ -126,7 +126,7 @@ Long countByYearAndMonth(@Param("year") int year, @Param("month") int month);
 
 ### 명령어
 ```bash
-cd /Users/kevinpark/Desktop/Dev/ARIS
+cd /Users/kevinpark/Desktop/Dev/ITMSG
 
 # 컨테이너 중지 및 제거
 docker-compose down
@@ -138,7 +138,7 @@ docker-compose build backend
 docker-compose up -d
 
 # 로그 확인
-docker logs aris-backend --tail 20
+docker logs itmsg-backend --tail 20
 ```
 
 ---
@@ -241,13 +241,13 @@ FUNCTION('DB_SPECIFIC_FUNCTION', field)
 ### 4. 에러 디버깅 방법
 ```bash
 # 1. 백엔드 로그 확인
-docker logs aris-backend --tail 100
+docker logs itmsg-backend --tail 100
 
 # 2. Exception 메시지 검색
-docker logs aris-backend | grep -A 20 "Exception"
+docker logs itmsg-backend | grep -A 20 "Exception"
 
 # 3. PostgreSQL 함수 에러 찾기
-docker logs aris-backend | grep "function.*does not exist"
+docker logs itmsg-backend | grep "function.*does not exist"
 ```
 
 ---
@@ -336,7 +336,7 @@ PostgreSQL에서 `FUNCTION('YEAR', date)` 사용 시 "function year(date) does n
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS  
+**프로젝트**: ITMSG  
 **Phase**: Phase 2 Testing  
 **문서 버전**: 1.0.0
 

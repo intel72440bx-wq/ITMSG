@@ -1,4 +1,4 @@
-# ARIS 프론트엔드 개발 가이드
+# ITMSG 프론트엔드 개발 가이드
 
 ## 📋 문서 정보
 - **작성일**: 2025-10-15
@@ -9,7 +9,7 @@
 
 ## 🎯 개요
 
-ARIS 프론트엔드는 React와 TypeScript 기반의 모던 웹 애플리케이션입니다.
+ITMSG 프론트엔드는 React와 TypeScript 기반의 모던 웹 애플리케이션입니다.
 
 ### 기술 스택
 - **Framework**: React 18
@@ -470,10 +470,10 @@ function App() {
 ### 빌드 및 실행
 ```bash
 # 이미지 빌드
-docker build -t aris-frontend .
+docker build -t itmsg-frontend .
 
 # 컨테이너 실행
-docker run -p 3000:80 aris-frontend
+docker run -p 3000:80 itmsg-frontend
 
 # docker-compose에 추가 (권장)
 ```
@@ -485,13 +485,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: aris-frontend
+    container_name: itmsg-frontend
     ports:
       - "3000:80"
     environment:
       - VITE_API_BASE_URL=http://localhost:8080/api
     networks:
-      - aris-network
+      - itmsg-network
     depends_on:
       - backend
 ```

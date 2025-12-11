@@ -81,7 +81,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 ### 1. 코드 수정
 ```bash
-backend/src/main/java/com/aris/global/security/SecurityConfig.java
+backend/src/main/java/com/itmsg/global/security/SecurityConfig.java
 ```
 
 ### 2. 빌드
@@ -135,7 +135,7 @@ curl http://localhost:8080/v3/api-docs
 # {
 #   "openapi": "3.0.1",
 #   "info": {
-#     "title": "ARIS API Documentation",
+#     "title": "ITMSG API Documentation",
 #     ...
 #   }
 # }
@@ -315,7 +315,7 @@ http://localhost:8080/swagger-ui/index.html
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 1 - 완료
 
 

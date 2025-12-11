@@ -39,7 +39,7 @@ POST /api/auth/register
   "email": "user@example.com",
   "name": "홍길동",
   "phoneNumber": "010-1234-5678",
-  "companyName": "ARIS 본사",
+  "companyName": "ITMSG 본사",
   "departmentName": "개발팀",
   "employeeNumber": "EMP001",
   "position": "대리",
@@ -110,7 +110,7 @@ PUT /api/users/{id}
 ┌─────────────────────────────────────┐
 │  👤 홍길동                           │
 │  user@example.com                   │
-│  ARIS 본사 - 개발팀                 │
+│  ITMSG 본사 - 개발팀                 │
 ├─────────────────────────────────────┤
 │  기본 정보                           │
 │  ┌─────────────────────────────┐   │
@@ -153,9 +153,9 @@ POST /api/auth/forgot-password
 5. 임시 비밀번호 반환 (개발 환경)
 
 **파일**:
-- `backend/src/main/java/com/aris/domain/auth/dto/ForgotPasswordRequest.java`
-- `backend/src/main/java/com/aris/domain/auth/service/AuthService.java`
-- `backend/src/main/java/com/aris/domain/auth/controller/AuthController.java`
+- `backend/src/main/java/com/itmsg/domain/auth/dto/ForgotPasswordRequest.java`
+- `backend/src/main/java/com/itmsg/domain/auth/service/AuthService.java`
+- `backend/src/main/java/com/itmsg/domain/auth/controller/AuthController.java`
 
 ### Frontend
 
@@ -366,7 +366,7 @@ PUT /api/users/{id}/password
 ### Backend
 
 ```
-backend/src/main/java/com/aris/domain/auth/
+backend/src/main/java/com/itmsg/domain/auth/
 ├── dto/
 │   ├── ForgotPasswordRequest.java (NEW)
 │   └── ResetPasswordRequest.java (NEW)
@@ -417,7 +417,7 @@ frontend/src/
 #    - 비밀번호 확인: test1234
 #    - 이름: 테스트 사용자
 #    - 전화번호: 010-1234-5678
-#    - 회사: ARIS 본사
+#    - 회사: ITMSG 본사
 # 4. "가입하기" 클릭
 # 5. 성공 메시지 확인
 # 6. 로그인 페이지로 자동 이동 확인

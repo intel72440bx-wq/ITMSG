@@ -44,9 +44,9 @@ IT 프로젝트의 SR(Service Request), SPEC, 승인, 장애 등을 통합 관�
 ## 🏗️ 프로젝트 구조
 
 ```
-ARIS/
+ITMSG/
 ├── backend/
-│   ├── src/main/java/com/aris/
+│   ├── src/main/java/com/itmsg/
 │   │   ├── domain/              # 도메인별 패키지
 │   │   │   ├── user/            # 사용자 도메인
 │   │   │   │   ├── entity/      # JPA Entity
@@ -583,7 +583,7 @@ public class User extends BaseEntity {
 
 ### 1. 테스트 구조
 ```
-src/test/java/com/aris/
+src/test/java/com/itmsg/
 ├── domain/
 │   └── user/
 │       ├── controller/
@@ -834,7 +834,7 @@ docker-compose up
 ```yaml
 spring:
   application:
-    name: aris
+    name: itmsg
   
   jpa:
     hibernate:
@@ -867,9 +867,9 @@ springdoc:
 ```yaml
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/aris_db
-    username: aris_user
-    password: aris_password
+    url: jdbc:postgresql://localhost:5432/itmsg_db
+    username: itmsg_user
+    password: itmsg_password
   
   jpa:
     show-sql: true
@@ -879,7 +879,7 @@ spring:
 
 logging:
   level:
-    com.aris: DEBUG
+    com.itmsg: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 ```

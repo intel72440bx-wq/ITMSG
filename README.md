@@ -1,10 +1,10 @@
-# ARIS - Advanced Request & Issue Management System
+# ITMSG - Advanced Request & Issue Management System
 
 IT 프로젝트의 SR(Service Request), SPEC, 승인, 장애 등을 통합 관리하는 엔터프라이즈급 관리 시스템
 
 ## 🎯 프로젝트 개요
 
-**ARIS**는 IT 프로젝트 관리의 전체 라이프사이클을 지원하는 통합 시스템입니다.
+**ITMSG**는 IT 프로젝트 관리의 전체 라이프사이클을 지원하는 통합 시스템입니다.
 
 ### 주요 기능
 - ✅ **사용자 인증/인가** (JWT 기반)
@@ -82,7 +82,7 @@ docker-compose down
 
 초기 데이터가 자동으로 삽입됩니다.
 
-- **이메일**: admin@aris.com
+- **이메일**: admin@itmsg.com
 - **비밀번호**: admin1234
 - **역할**: ROLE_ADMIN
 
@@ -108,11 +108,11 @@ http://localhost:8080/swagger-ui.html
 ## 🗂 프로젝트 구조
 
 ```
-ARIS/
+ITMSG/
 ├── backend/
 │   ├── src/
 │   │   ├── main/
-│   │   │   ├── java/com/aris/
+│   │   │   ├── java/com/itmsg/
 │   │   │   │   ├── domain/        # 도메인별 패키지
 │   │   │   │   │   ├── user/      # 사용자 도메인
 │   │   │   │   │   ├── auth/      # 인증/인가
@@ -176,7 +176,7 @@ ARIS/
 - [Phase 3 완료 보고서](docs/Phase3_Complete_Summary.md)
 - [MVP 4.2 통계/리포트 완료](docs/MVP42_Statistics_Reports_Complete.md) 🆕
 - [MVP Phase 4 진행 현황](docs/MVP_Phase4_Progress_Summary.md) 🆕
-- [프로젝트 전체 완료 보고서](ARIS_PROJECT_COMPLETE.md)
+- [프로젝트 전체 완료 보고서](ITMSG_PROJECT_COMPLETE.md)
 
 ## 🔒 보안
 
@@ -356,7 +356,7 @@ docker-compose up -d
 http://localhost:3000/srs
 
 # 로그인 정보
-# 이메일: admin@aris.com
+# 이메일: admin@itmsg.com
 # 비밀번호: admin1234
 ```
 

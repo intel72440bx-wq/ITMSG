@@ -9,7 +9,7 @@
 
 ### ✅ 문제 해결 완료
 ```
-✅ 로그인: 정상 (admin@aris.com / admin1234)
+✅ 로그인: 정상 (admin@itmsg.com / admin1234)
 ✅ JWT 토큰: 정상 발급
 ✅ API 인증: 정상
 ✅ 프로젝트 등록 API: 정상 작동
@@ -30,10 +30,10 @@ Response: 201 Created
   "status": "PREPARING",  ← 자동 설정!
   "startDate": "2025-01-01",
   "endDate": "2025-12-31",
-  "companyName": "ARIS 본사",
+  "companyName": "ITMSG 본사",
   "budget": 500000000,
   "createdAt": "2025-10-15T15:33:47",
-  "createdBy": "admin@aris.com"
+  "createdBy": "admin@itmsg.com"
 }
 ```
 
@@ -133,7 +133,7 @@ name: '시스템 관리자'
 3. Request Body:
    ```json
    {
-     "email": "admin@aris.com",
+     "email": "admin@itmsg.com",
      "password": "admin1234"
    }
    ```
@@ -209,7 +209,7 @@ name: '시스템 관리자'
 
 ### 1. Docker 환경 시작
 ```bash
-cd /Users/kevinpark/Desktop/Dev/ARIS
+cd /Users/kevinpark/Desktop/Dev/ITMSG
 docker-compose up -d
 ```
 
@@ -243,7 +243,7 @@ http://localhost:8080/swagger-ui.html
 - [x] Flyway 마이그레이션 (16개)
 - [x] Spring Boot 시작
 - [x] Swagger UI 접속
-- [x] 로그인 (admin@aris.com / admin1234)
+- [x] 로그인 (admin@itmsg.com / admin1234)
 - [x] JWT 토큰 발급
 - [x] 프로젝트 등록 API (201 Created)
 - [x] 자동 상태 설정 (PREPARING)
@@ -266,7 +266,7 @@ http://localhost:8080/swagger-ui.html
 
 ### 🔐 로그인 정보
 ```
-이메일: admin@aris.com
+이메일: admin@itmsg.com
 비밀번호: admin1234
 ```
 
@@ -278,7 +278,7 @@ http://localhost:8080/swagger-ui.html
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS  
+**프로젝트**: ITMSG  
 **Phase**: Phase 2 Testing  
 **문서 버전**: 1.0.0
 

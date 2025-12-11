@@ -1,4 +1,4 @@
-# 🧪 ARIS Phase 2 - 지금 바로 테스트하기!
+# 🧪 ITMSG Phase 2 - 지금 바로 테스트하기!
 
 ## 🎯 바로 시작하기 (3분 완성)
 
@@ -16,7 +16,7 @@ http://localhost:8080/swagger-ui.html
 4. 다음 내용을 복사해서 붙여넣기:
    ```json
    {
-     "email": "admin@aris.com",
+     "email": "admin@itmsg.com",
      "password": "admin1234"
    }
    ```
@@ -161,7 +161,7 @@ http://localhost:8080/swagger-ui.html
 ### 데이터베이스에서 직접 확인
 ```bash
 # PostgreSQL 접속
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 
 # 프로젝트 확인
 SELECT id, code, name, status FROM projects;
@@ -187,10 +187,10 @@ LEFT JOIN specifications spec ON sr.spec_id = spec.id;
 ### 애플리케이션 로그 확인
 ```bash
 # 최근 로그 50줄 보기
-docker logs aris-backend --tail 50
+docker logs itmsg-backend --tail 50
 
 # 실시간 로그 보기
-docker logs aris-backend -f
+docker logs itmsg-backend -f
 ```
 
 ---
@@ -283,10 +283,10 @@ docker logs aris-backend -f
 ### Swagger UI 접속 안 됨
 ```bash
 # 백엔드 재시작
-docker restart aris-backend
+docker restart itmsg-backend
 
 # 로그 확인
-docker logs aris-backend --tail 50
+docker logs itmsg-backend --tail 50
 ```
 
 ---
@@ -333,7 +333,7 @@ docs/TEST_READY.md
 **Happy Testing! 🚀**
 
 Swagger UI: http://localhost:8080/swagger-ui.html  
-계정: admin@aris.com / admin1234
+계정: admin@itmsg.com / admin1234
 
 
 

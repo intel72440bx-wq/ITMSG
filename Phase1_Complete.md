@@ -1,4 +1,4 @@
-# ✅ ARIS MVP Phase 1 개발 완료
+# ✅ ITMSG MVP Phase 1 개발 완료
 
 ## 🎉 완료 항목
 
@@ -71,7 +71,7 @@
 
 ### 1. PostgreSQL 실행 (Docker)
 ```bash
-cd /Users/kevinpark/Desktop/Dev/ARIS
+cd /Users/kevinpark/Desktop/Dev/ITMSG
 docker-compose up -d postgres
 ```
 
@@ -87,7 +87,7 @@ cd backend
 - **Health Check**: http://localhost:8080/actuator/health
 
 ### 4. 기본 계정 (초기 데이터)
-- **이메일**: admin@aris.com
+- **이메일**: admin@itmsg.com
 - **비밀번호**: admin123
 - **역할**: ROLE_ADMIN
 
@@ -100,7 +100,7 @@ cd backend
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "admin@aris.com",
+    "email": "admin@itmsg.com",
     "password": "admin123"
   }'
 ```
@@ -122,9 +122,9 @@ curl -X POST http://localhost:8080/api/auth/register \
 ## 📂 프로젝트 구조
 
 ```
-ARIS/
+ITMSG/
 ├── backend/
-│   ├── src/main/java/com/aris/
+│   ├── src/main/java/com/itmsg/
 │   │   ├── ArisApplication.java
 │   │   ├── domain/
 │   │   │   ├── user/        ✅ Entity, Repository, DTO
@@ -221,7 +221,7 @@ ARIS/
    - http://localhost:8080/swagger-ui.html
 
 4. **로그인 테스트**
-   - Email: admin@aris.com
+   - Email: admin@itmsg.com
    - Password: admin123
 
 ---

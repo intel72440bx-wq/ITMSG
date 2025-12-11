@@ -43,7 +43,7 @@ Spring Security가 인증되지 않은 요청을 차단하고 있습니다.
 5. Request Body에 다음 내용 **정확히** 복사해서 붙여넣기:
    ```json
    {
-     "email": "admin@aris.com",
+     "email": "admin@itmsg.com",
      "password": "admin1234"
    }
    ```
@@ -138,7 +138,7 @@ JWT 토큰은 **1시간(3600초)** 후에 만료됩니다.
 # 1. 로그인
 TOKEN=$(curl -s -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@aris.com","password":"admin1234"}' \
+  -d '{"email":"admin@itmsg.com","password":"admin1234"}' \
   | grep -o '"accessToken":"[^"]*"' \
   | cut -d'"' -f4)
 
@@ -201,7 +201,7 @@ curl -X POST http://localhost:8080/api/projects \
 ┌─────────────────────────────────────────────┐
 │ 🔒 Authorize  ← 여기를 클릭!                 │
 │                                             │
-│ ARIS API Documentation                      │
+│ ITMSG API Documentation                      │
 │                                             │
 │ ▼ Auth Controller                           │
 │ ▼ Project Controller                        │
@@ -229,7 +229,7 @@ curl -X POST http://localhost:8080/api/projects \
 ┌─────────────────────────────────────────────┐
 │ 🔒 Authorize (인증됨) ✓                     │
 │                                             │
-│ ARIS API Documentation                      │
+│ ITMSG API Documentation                      │
 └─────────────────────────────────────────────┘
 ```
 
@@ -257,7 +257,7 @@ curl -X POST http://localhost:8080/api/projects \
 
 ### 4. 백엔드 재시작
 ```bash
-docker restart aris-backend
+docker restart itmsg-backend
 # 그 다음 다시 로그인
 ```
 
@@ -289,7 +289,7 @@ Content-Type: application/json
   "name": "고객관리시스템 구축",
   "projectType": "SI",
   "status": "PREPARING",
-  "companyName": "ARIS 본사",
+  "companyName": "ITMSG 본사",
   ...
 }
 ```

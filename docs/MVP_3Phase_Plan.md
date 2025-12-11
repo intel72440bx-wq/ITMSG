@@ -1,9 +1,9 @@
-# ARIS MVP 3단계 개발 계획서
+# ITMSG MVP 3단계 개발 계획서
 
 ## 📋 문서 정보
 - **작성일**: 2025-10-15
 - **버전**: 1.0.0
-- **프로젝트명**: ARIS (Advanced Request & Issue Management System)
+- **프로젝트명**: ITMSG (Advanced Request & Issue Management System)
 - **목적**: IT 프로젝트의 SR, SPEC, 승인, 장애 등을 통합 관리하는 엔터프라이즈 시스템 개발
 
 ---
@@ -955,35 +955,35 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: aris-postgres
+    container_name: itmsg-postgres
     environment:
-      POSTGRES_DB: aris_db
-      POSTGRES_USER: aris_user
-      POSTGRES_PASSWORD: aris_password
+      POSTGRES_DB: itmsg_db
+      POSTGRES_USER: itmsg_user
+      POSTGRES_PASSWORD: itmsg_password
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U aris_user -d aris_db"]
+      test: ["CMD-SHELL", "pg_isready -U itmsg_user -d itmsg_db"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - aris-network
+      - itmsg-network
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: aris-backend
+    container_name: itmsg-backend
     ports:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aris_db
-      SPRING_DATASOURCE_USERNAME: aris_user
-      SPRING_DATASOURCE_PASSWORD: aris_password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/itmsg_db
+      SPRING_DATASOURCE_USERNAME: itmsg_user
+      SPRING_DATASOURCE_PASSWORD: itmsg_password
       JWT_SECRET: your-jwt-secret-key-must-be-at-least-256-bits-long
     depends_on:
       postgres:
@@ -992,14 +992,14 @@ services:
       - ./backend/logs:/app/logs
       - ./backend/uploads:/app/uploads
     networks:
-      - aris-network
+      - itmsg-network
     restart: unless-stopped
 
 volumes:
   postgres_data:
 
 networks:
-  aris-network:
+  itmsg-network:
     driver: bridge
 ```
 

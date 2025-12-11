@@ -422,7 +422,7 @@ public abstract class BaseService {
 http://localhost:3000
 
 # 2. 로그인
-admin@aris.com / admin1234
+admin@itmsg.com / admin1234
 
 # 3. 프로젝트 등록
 프로젝트 메뉴 → 프로젝트 등록

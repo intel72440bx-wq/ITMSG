@@ -216,7 +216,7 @@ gridTemplateColumns: {
 
 ```
 1. http://localhost:3000 접속
-2. 로그인 (admin@aris.com / admin1234)
+2. 로그인 (admin@itmsg.com / admin1234)
 3. 대시보드에서 실제 숫자 확인
    - "전체 프로젝트" 숫자가 0 이상
    - "전체 SR" 숫자가 0 이상

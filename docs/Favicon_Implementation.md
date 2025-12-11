@@ -2,7 +2,7 @@
 
 ## 📋 개요
 
-ARIS 프로젝트에 커스텀 Favicon을 적용하여 브랜드 아이덴티티를 강화했습니다.
+ITMSG 프로젝트에 커스텀 Favicon을 적용하여 브랜드 아이덴티티를 강화했습니다.
 
 **완료 일자**: 2025-10-16  
 **작업 범위**: Favicon SVG 생성, 다중 플랫폼 지원, PWA Manifest 추가
@@ -15,7 +15,7 @@ ARIS 프로젝트에 커스텀 Favicon을 적용하여 브랜드 아이덴티티
 
 **위치**: `frontend/public/favicon.svg`
 
-ARIS 브랜드를 대표하는 SVG 아이콘을 디자인했습니다:
+ITMSG 브랜드를 대표하는 SVG 아이콘을 디자인했습니다:
 - 📊 **차트 바 아이콘**: 데이터 분석 및 관리 시스템을 상징
 - 📈 **트렌드 라인**: 성장과 발전을 표현
 - 🎨 **컬러 스키마**: 
@@ -36,9 +36,9 @@ ARIS 브랜드를 대표하는 SVG 아이콘을 디자인했습니다:
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="ARIS - Advanced Request & Issue Management System" />
+    <meta name="description" content="ITMSG - Advanced Request & Issue Management System" />
     <meta name="theme-color" content="#1e3a4c" />
-    <title>ARIS - IT 프로젝트 관리 시스템</title>
+    <title>ITMSG - IT 프로젝트 관리 시스템</title>
   </head>
 ```
 
@@ -57,8 +57,8 @@ ARIS 브랜드를 대표하는 SVG 아이콘을 디자인했습니다:
 
 ```json
 {
-  "name": "ARIS - IT 프로젝트 관리 시스템",
-  "short_name": "ARIS",
+  "name": "ITMSG - IT 프로젝트 관리 시스템",
+  "short_name": "ITMSG",
   "description": "Advanced Request & Issue Management System",
   "start_url": "/",
   "display": "standalone",
@@ -102,7 +102,7 @@ docker-compose up -d --build frontend
 │   │ │ │                     │
 │   └─┴─┴─                    │
 │                             │
-│        ARIS                 │
+│        ITMSG                 │
 │                             │
 └─────────────────────────────┘
 ```
@@ -119,7 +119,7 @@ docker-compose up -d --build frontend
    - 성장과 개선의 추세
    - 동적인 관리 시스템
 
-3. **ARIS 텍스트**
+3. **ITMSG 텍스트**
    - 명확한 브랜드 식별
    - 심플하고 전문적인 폰트
    - 가독성 최적화
@@ -214,7 +214,7 @@ $ curl -s http://localhost:3000/ | grep -E "(favicon|manifest)"
 
 ```
 1. http://localhost:3000 접속
-2. 브라우저 탭에서 ARIS 아이콘 확인
+2. 브라우저 탭에서 ITMSG 아이콘 확인
 3. 북마크 추가 시 아이콘 표시 확인
 ```
 
@@ -223,7 +223,7 @@ $ curl -s http://localhost:3000/ | grep -E "(favicon|manifest)"
 ```
 1. http://localhost:3000 접속
 2. 메뉴 → "홈 화면에 추가"
-3. 앱 아이콘으로 ARIS 표시 확인
+3. 앱 아이콘으로 ITMSG 표시 확인
 ```
 
 ### 3. iOS에서 확인
@@ -245,8 +245,8 @@ $ curl -s http://localhost:3000/ | grep -E "(favicon|manifest)"
 
 ### After
 ```html
-<title>ARIS - IT 프로젝트 관리 시스템</title>
-<meta name="description" content="ARIS - Advanced Request & Issue Management System" />
+<title>ITMSG - IT 프로젝트 관리 시스템</title>
+<meta name="description" content="ITMSG - Advanced Request & Issue Management System" />
 <meta name="theme-color" content="#1e3a4c" />
 ```
 
@@ -274,10 +274,10 @@ $ curl -s http://localhost:3000/ | grep -E "(favicon|manifest)"
 ### 2. Open Graph 메타 태그 추가
 
 ```html
-<meta property="og:title" content="ARIS - IT 프로젝트 관리 시스템">
+<meta property="og:title" content="ITMSG - IT 프로젝트 관리 시스템">
 <meta property="og:description" content="Advanced Request & Issue Management System">
 <meta property="og:image" content="/og-image.png">
-<meta property="og:url" content="https://aris.example.com">
+<meta property="og:url" content="https://itmsg.example.com">
 ```
 
 **장점**:
@@ -308,7 +308,7 @@ $ curl -s http://localhost:3000/ | grep -E "(favicon|manifest)"
 
 ## 📝 결론
 
-ARIS 프로젝트에 브랜드 아이덴티티를 반영한 커스텀 Favicon이 성공적으로 적용되었습니다.
+ITMSG 프로젝트에 브랜드 아이덴티티를 반영한 커스텀 Favicon이 성공적으로 적용되었습니다.
 
 ### 주요 성과
 

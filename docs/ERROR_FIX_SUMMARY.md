@@ -1,4 +1,4 @@
-# 🔧 ARIS Phase 1 오류 수정 요약
+# 🔧 ITMSG Phase 1 오류 수정 요약
 
 **작성일시**: 2025-10-15 13:50  
 **상태**: ✅ 주요 오류 해결 완료
@@ -109,7 +109,7 @@ docker-compose up -d postgres
 
 #### 검증
 ```bash
-docker exec aris-postgres pg_isready -U aris_user
+docker exec itmsg-postgres pg_isready -U itmsg_user
 # 출력: /var/run/postgresql:5432 - accepting connections
 ```
 
@@ -149,12 +149,12 @@ cd backend
 ```
 BUILD SUCCESS
 Total time: 4.433 s
-Artifact: /backend/target/aris-backend-0.0.1-SNAPSHOT.jar
+Artifact: /backend/target/itmsg-backend-0.0.1-SNAPSHOT.jar
 ```
 
 ### 🗄️ PostgreSQL 상태
 ```
-Container: aris-postgres
+Container: itmsg-postgres
 Status: Up (healthy)
 Port: 0.0.0.0:5432->5432/tcp
 ```
@@ -166,7 +166,7 @@ Port: 0.0.0.0:5432->5432/tcp
 ### 1. 애플리케이션 실행 확인
 ```bash
 cd backend
-java -jar target/aris-backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar target/itmsg-backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 
 ### 2. 헬스 체크
@@ -183,7 +183,7 @@ http://localhost:8080/swagger-ui.html
 ### 4. 초기 데이터 확인
 ```sql
 -- PostgreSQL 접속
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 
 -- 초기 데이터 확인
 SELECT * FROM users;
@@ -212,7 +212,7 @@ SELECT * FROM menus;
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 1
 
 

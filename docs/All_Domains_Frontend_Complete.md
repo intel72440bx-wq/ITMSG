@@ -276,7 +276,7 @@ http://localhost:3000
 ```
 
 ### 2. 로그인
-- 이메일: `admin@aris.com`
+- 이메일: `admin@itmsg.com`
 - 비밀번호: `admin1234`
 
 ### 3. 각 메뉴 확인

@@ -1,4 +1,4 @@
-# ARIS 데이터베이스 스키마 설계서
+# ITMSG 데이터베이스 스키마 설계서
 
 ## 📋 문서 정보
 - **작성일**: 2025-10-15
@@ -54,7 +54,7 @@ version BIGINT DEFAULT 0  -- Optimistic Locking
 ### 전체 ERD 개요
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        ARIS Database Schema                      │
+│                        ITMSG Database Schema                      │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────┐       ┌─────────────┐       ┌─────────────┐
@@ -913,7 +913,7 @@ USING (project_id IN (
 
 -- 기본 회사 정보
 INSERT INTO companies (code, name, business_number, created_by) VALUES
-('COMP001', 'ARIS 본사', '123-45-67890', 'system');
+('COMP001', 'ITMSG 본사', '123-45-67890', 'system');
 
 -- 기본 역할
 INSERT INTO roles (name, description, role_type, created_by) VALUES
@@ -923,7 +923,7 @@ INSERT INTO roles (name, description, role_type, created_by) VALUES
 
 -- 관리자 계정 (비밀번호: admin123)
 INSERT INTO users (email, password, name, company_id, is_active, is_approved, created_by) VALUES
-('admin@aris.com', '$2a$10$...', 'Admin', 1, true, true, 'system');
+('admin@itmsg.com', '$2a$10$...', 'Admin', 1, true, true, 'system');
 ```
 
 ---

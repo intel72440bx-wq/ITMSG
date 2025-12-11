@@ -57,7 +57,7 @@ lsof -ti:8080
 
 ### 3. Docker Compose 재시작
 ```bash
-cd /Users/kevinpark/Desktop/Dev/ARIS
+cd /Users/kevinpark/Desktop/Dev/ITMSG
 docker-compose up -d
 ```
 
@@ -68,8 +68,8 @@ docker-compose up -d
 ### ✅ 컨테이너 상태
 ```
 NAME            IMAGE              COMMAND                SERVICE    STATUS
-aris-backend    aris-backend       "java -Djava..."       backend    Up (healthy)
-aris-postgres   postgres:15-alpine "docker-entry..."      postgres   Up (healthy)
+itmsg-backend    itmsg-backend       "java -Djava..."       backend    Up (healthy)
+itmsg-postgres   postgres:15-alpine "docker-entry..."      postgres   Up (healthy)
 
 PORTS
 0.0.0.0:8080->8080/tcp  ✅
@@ -88,7 +88,7 @@ curl http://localhost:8080/actuator/health
 [main] INFO  HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@b0d3e7
 [main] INFO  HikariPool-1 - Start completed.
 [main] INFO  Flyway Community Edition 9.22.3 by Redgate
-[main] INFO  Database: jdbc:postgresql://postgres:5432/aris_db (PostgreSQL 15.13)
+[main] INFO  Database: jdbc:postgresql://postgres:5432/itmsg_db (PostgreSQL 15.13)
 [main] INFO  Started ArisApplication in 6.313 seconds (process running for 6.719)
 ```
 
@@ -190,7 +190,7 @@ docker-compose up -d
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 1
 
 

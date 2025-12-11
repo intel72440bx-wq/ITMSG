@@ -1,4 +1,4 @@
-# ARIS Phase 4 개발 계획서 (4개 MVP)
+# ITMSG Phase 4 개발 계획서 (4개 MVP)
 
 ## 📋 문서 정보
 - **작성일**: 2025-10-15
@@ -644,7 +644,7 @@ CREATE INDEX idx_user_notifications_read ON user_notifications(is_read);
 
 #### 긴급 장애 발생 (SMS)
 ```
-[ARIS 긴급] 
+[ITMSG 긴급] 
 {{systemType}} 장애 발생
 제목: {{incidentTitle}}
 담당자: {{assigneeName}}

@@ -1,4 +1,4 @@
-# ARIS 프로젝트 현재 개발 현황
+# ITMSG 프로젝트 현재 개발 현황
 
 **업데이트**: 2025-10-16  
 **버전**: 1.2.0  
@@ -429,7 +429,7 @@ Nginx 프록시
 # 로그인
 POST /api/auth/login
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 ```
@@ -565,7 +565,7 @@ Swagger:   http://localhost:8080/swagger-ui.html
 Database:  localhost:5432
 
 # 로그인 정보
-Email:     admin@aris.com
+Email:     admin@itmsg.com
 Password:  admin1234
 ```
 

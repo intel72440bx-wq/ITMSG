@@ -11,7 +11,7 @@
 ```
 POST /api/auth/login
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 
@@ -30,7 +30,7 @@ Response: 400 Bad Request
 ```sql
 SELECT id, email, name, password, is_active, is_approved, is_locked 
 FROM users 
-WHERE email = 'admin@aris.com';
+WHERE email = 'admin@itmsg.com';
 ```
 
 **결과**:
@@ -78,7 +78,7 @@ SELECT email, password FROM users WHERE email = 'test@test.com';
 # 3. Admin 계정에 해시 복사
 UPDATE users 
 SET password = (SELECT password FROM users WHERE email = 'test@test.com') 
-WHERE email = 'admin@aris.com';
+WHERE email = 'admin@itmsg.com';
 
 # 4. 테스트 계정 삭제
 DELETE FROM users WHERE email = 'test@test.com';
@@ -93,7 +93,7 @@ DELETE FROM users WHERE email = 'test@test.com';
 -- 관리자 계정 생성 (비밀번호: admin123)
 -- BCrypt 해시: $2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
 INSERT INTO users (email, password, name, company_id, is_active, is_approved, created_by, updated_by) VALUES
-('admin@aris.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 'Admin', 
+('admin@itmsg.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 'Admin', 
  (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system');
 ```
 
@@ -102,7 +102,7 @@ INSERT INTO users (email, password, name, company_id, is_active, is_approved, cr
 -- 관리자 계정 생성 (비밀번호: admin1234)
 -- BCrypt 해시: $2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa
 INSERT INTO users (email, password, name, company_id, is_active, is_approved, created_by, updated_by) VALUES
-('admin@aris.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '시스템 관리자', 
+('admin@itmsg.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '시스템 관리자', 
  (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system');
 ```
 
@@ -115,7 +115,7 @@ INSERT INTO users (email, password, name, company_id, is_active, is_approved, cr
 
 ```sql
 -- 사용자 이름 업데이트
-UPDATE users SET name = '시스템 관리자' WHERE email = 'admin@aris.com';
+UPDATE users SET name = '시스템 관리자' WHERE email = 'admin@itmsg.com';
 ```
 
 ---
@@ -127,7 +127,7 @@ UPDATE users SET name = '시스템 관리자' WHERE email = 'admin@aris.com';
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "admin@aris.com",
+    "email": "admin@itmsg.com",
     "password": "admin1234"
   }'
 ```
@@ -141,7 +141,7 @@ curl -X POST http://localhost:8080/api/auth/login \
   "expiresIn": 3600000,
   "user": {
     "id": 1,
-    "email": "admin@aris.com",
+    "email": "admin@itmsg.com",
     "name": "시스템 관리자",
     "roles": ["ROLE_ADMIN"],
     ...
@@ -158,11 +158,11 @@ curl -X POST http://localhost:8080/api/auth/login \
 -- 관리자 계정 확인
 SELECT id, email, name, is_active, is_approved 
 FROM users 
-WHERE email = 'admin@aris.com';
+WHERE email = 'admin@itmsg.com';
 
 -- Result:
 -- id: 1
--- email: admin@aris.com
+-- email: admin@itmsg.com
 -- name: 시스템 관리자
 -- is_active: true
 -- is_approved: true
@@ -174,10 +174,10 @@ SELECT u.email, r.name as role_name
 FROM user_roles ur 
 JOIN users u ON ur.user_id = u.id 
 JOIN roles r ON ur.role_id = r.id 
-WHERE u.email = 'admin@aris.com';
+WHERE u.email = 'admin@itmsg.com';
 
 -- Result:
--- email: admin@aris.com
+-- email: admin@itmsg.com
 -- role_name: ROLE_ADMIN
 ```
 
@@ -209,7 +209,7 @@ WHERE u.email = 'admin@aris.com';
 1. `docker-compose down -v` (기존 볼륨 삭제)
 2. `docker-compose build backend` (새로운 이미지 빌드)
 3. `docker-compose up -d` (컨테이너 시작)
-4. 로그인 테스트: `admin@aris.com` / `admin1234`
+4. 로그인 테스트: `admin@itmsg.com` / `admin1234`
 
 ### 기존 환경 수정 시
 - DB만 업데이트하면 되므로 위 SQL 명령어 실행
@@ -219,7 +219,7 @@ WHERE u.email = 'admin@aris.com';
 ## ✅ 최종 상태
 
 **로그인 계정 정보**:
-- **이메일**: `admin@aris.com`
+- **이메일**: `admin@itmsg.com`
 - **비밀번호**: `admin1234`
 - **이름**: `시스템 관리자`
 - **역할**: `ROLE_ADMIN`
@@ -232,7 +232,7 @@ WHERE u.email = 'admin@aris.com';
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS  
+**프로젝트**: ITMSG  
 **Phase**: Phase 2 Testing  
 **문서 버전**: 1.0.0
 

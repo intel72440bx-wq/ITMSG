@@ -9,8 +9,8 @@
 
 ### Docker 컨테이너
 ```
-✅ aris-postgres: Running (Healthy)
-✅ aris-backend: Running
+✅ itmsg-postgres: Running (Healthy)
+✅ itmsg-backend: Running
 ✅ Port 8080: Open
 ```
 
@@ -46,7 +46,7 @@ http://localhost:8080/api
 
 ### 기본 관리자 계정
 ```
-Email: admin@aris.com
+Email: admin@itmsg.com
 Password: admin1234
 ```
 
@@ -114,7 +114,7 @@ Password: admin1234
 ```
 POST /api/auth/login
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 → JWT 토큰 획득
@@ -277,7 +277,7 @@ POST /api/specs/1/complete
 
 ### PostgreSQL 접속
 ```bash
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 ```
 
 ### 테이블 목록 확인
@@ -287,21 +287,21 @@ docker exec -it aris-postgres psql -U aris_user -d aris_db
 
 **기대 결과**:
 ```
- public | approvals          | table | aris_user
- public | approval_lines     | table | aris_user
- public | companies          | table | aris_user
- public | departments        | table | aris_user
- public | flyway_schema_history | table | aris_user
- public | menu_permissions   | table | aris_user
- public | menus              | table | aris_user
- public | projects           | table | aris_user
- public | roles              | table | aris_user
- public | service_requests   | table | aris_user
- public | specifications     | table | aris_user
- public | spec_files         | table | aris_user
- public | sr_files           | table | aris_user
- public | users              | table | aris_user
- public | user_roles         | table | aris_user
+ public | approvals          | table | itmsg_user
+ public | approval_lines     | table | itmsg_user
+ public | companies          | table | itmsg_user
+ public | departments        | table | itmsg_user
+ public | flyway_schema_history | table | itmsg_user
+ public | menu_permissions   | table | itmsg_user
+ public | menus              | table | itmsg_user
+ public | projects           | table | itmsg_user
+ public | roles              | table | itmsg_user
+ public | service_requests   | table | itmsg_user
+ public | specifications     | table | itmsg_user
+ public | spec_files         | table | itmsg_user
+ public | sr_files           | table | itmsg_user
+ public | users              | table | itmsg_user
+ public | user_roles         | table | itmsg_user
 ```
 
 **총 15개 테이블 (flyway_schema_history 포함)**
@@ -354,7 +354,7 @@ http://localhost:8080/swagger-ui.html
 4. Request Body 입력:
    ```json
    {
-     "email": "admin@aris.com",
+     "email": "admin@itmsg.com",
      "password": "admin1234"
    }
    ```
@@ -408,7 +408,7 @@ Approval: APP + YY + MM + -NNNN (예: APP2510-0001)
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 2 Complete  
 **문서 버전**: 1.0.0
 

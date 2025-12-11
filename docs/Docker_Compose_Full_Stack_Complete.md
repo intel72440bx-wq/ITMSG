@@ -2,7 +2,7 @@
 
 ## 📋 개요
 
-ARIS 프로젝트의 전체 스택(PostgreSQL + Backend + Frontend)을 Docker Compose로 실행할 수 있도록 구성을 완료했습니다.
+ITMSG 프로젝트의 전체 스택(PostgreSQL + Backend + Frontend)을 Docker Compose로 실행할 수 있도록 구성을 완료했습니다.
 
 **완료 일자**: 2025-10-16  
 **작업 범위**: Frontend 서비스 Docker 통합, TypeScript 빌드 이슈 해결, 전체 스택 통합 테스트
@@ -22,7 +22,7 @@ frontend:
     dockerfile: Dockerfile
     args:
       VITE_API_BASE_URL: http://localhost:8080/api
-  container_name: aris-frontend
+  container_name: itmsg-frontend
   ports:
     - "3000:80"
   environment:
@@ -30,7 +30,7 @@ frontend:
   depends_on:
     - backend
   networks:
-    - aris-network
+    - itmsg-network
   restart: unless-stopped
 ```
 
@@ -164,7 +164,7 @@ Material-UI v5의 Grid 컴포넌트가 TypeScript 빌드 시 타입 오류를 �
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   Docker Network (aris-network)              │
+│                   Docker Network (itmsg-network)              │
 │                                                              │
 │  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
 │  │              │    │              │    │              │  │
@@ -188,7 +188,7 @@ Material-UI v5의 Grid 컴포넌트가 TypeScript 빌드 시 타입 오류를 �
 
 ```bash
 # 프로젝트 루트에서 실행
-cd /Users/kevinpark/Desktop/Dev/ARIS
+cd /Users/kevinpark/Desktop/Dev/ITMSG
 
 # 전체 서비스 빌드 및 실행
 docker-compose up -d --build
@@ -205,9 +205,9 @@ docker-compose ps
 
 # 예상 출력:
 # NAME                IMAGE                STATUS                   PORTS
-# aris-backend        aris-backend         Up (healthy)            0.0.0.0:8080->8080/tcp
-# aris-frontend       aris-frontend        Up                      0.0.0.0:3000->80/tcp
-# aris-postgres       postgres:15-alpine   Up (healthy)            0.0.0.0:5432->5432/tcp
+# itmsg-backend        itmsg-backend         Up (healthy)            0.0.0.0:8080->8080/tcp
+# itmsg-frontend       itmsg-frontend        Up                      0.0.0.0:3000->80/tcp
+# itmsg-postgres       postgres:15-alpine   Up (healthy)            0.0.0.0:5432->5432/tcp
 ```
 
 ### 3. 접속 정보
@@ -221,7 +221,7 @@ docker-compose ps
 
 ### 4. 로그인 정보
 
-- **이메일**: `admin@aris.com`
+- **이메일**: `admin@itmsg.com`
 - **비밀번호**: `admin1234`
 - **역할**: `ROLE_ADMIN`
 
@@ -315,9 +315,9 @@ docker-compose up -d frontend
 ```bash
 $ docker-compose ps
 NAME                STATUS                   PORTS
-aris-backend        Up (healthy)            0.0.0.0:8080->8080/tcp
-aris-frontend       Up                      0.0.0.0:3000->80/tcp
-aris-postgres       Up (healthy)            0.0.0.0:5432->5432/tcp
+itmsg-backend        Up (healthy)            0.0.0.0:8080->8080/tcp
+itmsg-frontend       Up                      0.0.0.0:3000->80/tcp
+itmsg-postgres       Up (healthy)            0.0.0.0:5432->5432/tcp
 ```
 
 ✅ **모든 서비스 정상 실행**
@@ -413,7 +413,7 @@ README.md                                  # Frontend 접속 정보 추가
 
 ## 📝 결론
 
-ARIS 프로젝트의 전체 스택을 Docker Compose로 실행할 수 있는 환경이 완성되었습니다.
+ITMSG 프로젝트의 전체 스택을 Docker Compose로 실행할 수 있는 환경이 완성되었습니다.
 
 ### 주요 성과
 

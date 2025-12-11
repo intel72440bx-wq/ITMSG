@@ -41,7 +41,7 @@ const API_BASE_URL = 'http://localhost:8080/api';
                    │ HTTP Request
                    ↓
 ┌─────────────────────────────────────────────────────┐
-│         Docker Container: aris-frontend             │
+│         Docker Container: itmsg-frontend             │
 │                                                      │
 │  Nginx (Port 80)                                    │
 │  - Static Files: /                                  │
@@ -52,7 +52,7 @@ const API_BASE_URL = 'http://localhost:8080/api';
                    │ Proxy to Backend
                    ↓
 ┌─────────────────────────────────────────────────────┐
-│         Docker Container: aris-backend              │
+│         Docker Container: itmsg-backend              │
 │                                                      │
 │  Spring Boot (Port 8080)                            │
 │  - REST API: /api/**                                │
@@ -393,7 +393,7 @@ Frontend와 Backend 간 API 연결 문제를 Nginx 프록시를 활용하여 완
 1. **브라우저에서 로그인 테스트**
    ```
    http://localhost:3000
-   admin@aris.com / admin1234
+   admin@itmsg.com / admin1234
    ```
 
 2. **개발자 도구로 네트워크 확인**

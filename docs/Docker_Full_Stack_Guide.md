@@ -2,7 +2,7 @@
 
 ## 📋 개요
 
-ARIS 프로젝트의 전체 스택(PostgreSQL + Backend + Frontend)을 Docker Compose로 실행하는 가이드입니다.
+ITMSG 프로젝트의 전체 스택(PostgreSQL + Backend + Frontend)을 Docker Compose로 실행하는 가이드입니다.
 
 ---
 
@@ -11,7 +11,7 @@ ARIS 프로젝트의 전체 스택(PostgreSQL + Backend + Frontend)을 Docker Co
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        Docker Network                        │
-│                        (aris-network)                        │
+│                        (itmsg-network)                        │
 │                                                              │
 │  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
 │  │              │    │              │    │              │  │
@@ -50,7 +50,7 @@ docker-compose logs -f
 
 ### 3. 로그인 정보
 
-- **이메일**: `admin@aris.com`
+- **이메일**: `admin@itmsg.com`
 - **비밀번호**: `admin1234`
 
 ---
@@ -65,17 +65,17 @@ postgres:
   ports:
     - "5432:5432"
   environment:
-    POSTGRES_DB: aris_db
-    POSTGRES_USER: aris_user
-    POSTGRES_PASSWORD: aris_password
+    POSTGRES_DB: itmsg_db
+    POSTGRES_USER: itmsg_user
+    POSTGRES_PASSWORD: itmsg_password
 ```
 
 **접속 정보:**
 - Host: `localhost`
 - Port: `5432`
-- Database: `aris_db`
-- Username: `aris_user`
-- Password: `aris_password`
+- Database: `itmsg_db`
+- Username: `itmsg_user`
+- Password: `itmsg_password`
 
 ### Backend (Spring Boot)
 
@@ -86,7 +86,7 @@ backend:
     - "8080:8080"
   environment:
     SPRING_PROFILES_ACTIVE: dev
-    SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aris_db
+    SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/itmsg_db
 ```
 
 **주요 엔드포인트:**
@@ -289,7 +289,7 @@ docker-compose exec frontend cat /etc/nginx/conf.d/default.conf
 docker-compose down -v --remove-orphans
 
 # 2. Docker 이미지 삭제
-docker rmi aris-backend aris-frontend
+docker rmi itmsg-backend itmsg-frontend
 
 # 3. Docker 빌드 캐시 삭제
 docker builder prune -a
@@ -400,7 +400,7 @@ curl http://localhost:8080/actuator/health
 curl http://localhost:3000
 
 # PostgreSQL
-docker-compose exec postgres pg_isready -U aris_user
+docker-compose exec postgres pg_isready -U itmsg_user
 ```
 
 ---

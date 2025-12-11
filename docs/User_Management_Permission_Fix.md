@@ -38,7 +38,7 @@ SELECT
     r.id,
     'system'
 FROM users u, roles r
-WHERE u.email = 'admin@aris.com'
+WHERE u.email = 'admin@itmsg.com'
   AND r.name = 'ROLE_SYSTEM_ADMIN'
   AND NOT EXISTS (
     SELECT 1 FROM user_roles ur 
@@ -61,7 +61,7 @@ COMMENT ON COLUMN users.password_change_required IS '초기 비밀번호 변경 
 
 #### 2.2 User Entity 수정
 
-**파일**: `backend/src/main/java/com/aris/domain/user/entity/User.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/user/entity/User.java`
 
 ```java
 @Column(nullable = false)
@@ -86,7 +86,7 @@ public void requirePasswordChange() {
 
 #### 2.3 UserService 수정
 
-**파일**: `backend/src/main/java/com/aris/domain/user/service/UserService.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/user/service/UserService.java`
 
 ```java
 @Transactional
@@ -105,7 +105,7 @@ public UserResponse createUser(UserCreateRequest request) {
 
 #### 2.4 UserResponse 수정
 
-**파일**: `backend/src/main/java/com/aris/domain/user/dto/UserResponse.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/user/dto/UserResponse.java`
 
 ```java
 private Boolean passwordChangeRequired;
@@ -257,7 +257,7 @@ public class ProjectController {
 # 1. admin 계정으로 로그인
 POST http://localhost:8080/api/auth/login
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 
@@ -318,7 +318,7 @@ backend/src/main/resources/db/migration/
 ├── V99.2.0__add_system_admin_role.sql (NEW)
 └── V99.3.0__add_password_change_required.sql (NEW)
 
-backend/src/main/java/com/aris/domain/user/
+backend/src/main/java/com/itmsg/domain/user/
 ├── entity/
 │   └── User.java (UPDATED - passwordChangeRequired 필드 및 메서드 추가)
 ├── dto/

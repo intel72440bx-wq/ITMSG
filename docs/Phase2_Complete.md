@@ -1,4 +1,4 @@
-# 🎉 ARIS Phase 2 개발 완료
+# 🎉 ITMSG Phase 2 개발 완료
 
 **작성일시**: 2025-10-15  
 **상태**: ✅ Phase 2 완료 (SR → SPEC → 승인 핵심 업무 프로세스 구현)
@@ -337,7 +337,7 @@ cd backend
 
 ### 3. 데이터베이스 확인
 ```bash
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 
 # 테이블 목록 확인
 \dt
@@ -413,7 +413,7 @@ Phase 3에서 구현할 기능:
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 2 - 완료  
 **다음 단계**: Phase 3 또는 Phase 2 통합 테스트
 

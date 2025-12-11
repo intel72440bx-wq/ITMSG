@@ -61,7 +61,7 @@ Response: 400 Bad Request
 
 #### Step 1: SR 상태 확인
 ```bash
-docker exec aris-postgres psql -U aris_user -d aris_db -c \
+docker exec itmsg-postgres psql -U itmsg_user -d itmsg_db -c \
   "SELECT id, sr_number, title, status FROM service_requests WHERE id = 1;"
 ```
 
@@ -74,13 +74,13 @@ id | sr_number    | title              | status
 
 #### Step 2: SR 상태를 APPROVED로 변경
 ```bash
-docker exec aris-postgres psql -U aris_user -d aris_db -c \
-  "UPDATE service_requests SET status = 'APPROVED', updated_at = CURRENT_TIMESTAMP, updated_by = 'admin@aris.com' WHERE id = 1;"
+docker exec itmsg-postgres psql -U itmsg_user -d itmsg_db -c \
+  "UPDATE service_requests SET status = 'APPROVED', updated_at = CURRENT_TIMESTAMP, updated_by = 'admin@itmsg.com' WHERE id = 1;"
 ```
 
 #### Step 3: 변경 확인
 ```bash
-docker exec aris-postgres psql -U aris_user -d aris_db -c \
+docker exec itmsg-postgres psql -U itmsg_user -d itmsg_db -c \
   "SELECT id, sr_number, status FROM service_requests WHERE id = 1;"
 ```
 
@@ -120,7 +120,7 @@ Content-Type: application/json
 
 ### Step 1: SR 승인 처리
 ```bash
-docker exec aris-postgres psql -U aris_user -d aris_db -c \
+docker exec itmsg-postgres psql -U itmsg_user -d itmsg_db -c \
   "UPDATE service_requests SET status = 'APPROVED' WHERE id = 1;"
 ```
 
@@ -128,7 +128,7 @@ docker exec aris-postgres psql -U aris_user -d aris_db -c \
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@aris.com","password":"admin1234"}' \
+  -d '{"email":"admin@itmsg.com","password":"admin1234"}' \
   | python3 -c "import json, sys; print(json.load(sys.stdin)['accessToken'])")
 ```
 
@@ -163,7 +163,7 @@ curl -X POST http://localhost:8080/api/specs \
   "assigneeName": "시스템 관리자",
   "reviewerName": "시스템 관리자",
   "createdAt": "2025-10-15T...",
-  "createdBy": "admin@aris.com"
+  "createdBy": "admin@itmsg.com"
 }
 ```
 
@@ -202,10 +202,10 @@ echo "=========================================="
 
 # 1. SR 승인 처리 (DB 직접 수정)
 echo "1️⃣ SR 승인 처리 중..."
-docker exec aris-postgres psql -U aris_user -d aris_db -c \
-  "UPDATE service_requests SET status = 'APPROVED', updated_at = CURRENT_TIMESTAMP, updated_by = 'admin@aris.com' WHERE id = 1;"
+docker exec itmsg-postgres psql -U itmsg_user -d itmsg_db -c \
+  "UPDATE service_requests SET status = 'APPROVED', updated_at = CURRENT_TIMESTAMP, updated_by = 'admin@itmsg.com' WHERE id = 1;"
 
-SR_STATUS=$(docker exec aris-postgres psql -U aris_user -d aris_db -t -c \
+SR_STATUS=$(docker exec itmsg-postgres psql -U itmsg_user -d itmsg_db -t -c \
   "SELECT status FROM service_requests WHERE id = 1;")
 
 echo "✅ SR 상태: $(echo $SR_STATUS | tr -d ' ')"
@@ -215,7 +215,7 @@ echo ""
 echo "2️⃣ 로그인 중..."
 LOGIN_RESPONSE=$(curl -s -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@aris.com","password":"admin1234"}')
+  -d '{"email":"admin@itmsg.com","password":"admin1234"}')
 
 TOKEN=$(echo "$LOGIN_RESPONSE" | python3 -c "import json, sys; print(json.load(sys.stdin)['accessToken'])")
 echo "✅ 토큰 발급 완료"
@@ -259,7 +259,7 @@ echo "=========================================="
 **해결**:
 ```sql
 UPDATE service_requests 
-SET status = 'APPROVED', updated_at = CURRENT_TIMESTAMP, updated_by = 'admin@aris.com' 
+SET status = 'APPROVED', updated_at = CURRENT_TIMESTAMP, updated_by = 'admin@itmsg.com' 
 WHERE id = 1;
 ```
 
@@ -331,7 +331,7 @@ SELECT id, email, name FROM users WHERE is_active = true;
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS  
+**프로젝트**: ITMSG  
 **Phase**: Phase 2 Testing  
 **문서 버전**: 1.0.0
 

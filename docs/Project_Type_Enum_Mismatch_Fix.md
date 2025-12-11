@@ -21,7 +21,7 @@ Failed to create project: {
 ### Backend 로그
 ```
 Caused by: com.fasterxml.jackson.databind.exc.InvalidFormatException: 
-Cannot deserialize value of type `com.aris.domain.project.entity.ProjectType` 
+Cannot deserialize value of type `com.itmsg.domain.project.entity.ProjectType` 
 from String "DEVELOPMENT": not one of the values accepted for Enum class: [SM, SI]
 ```
 

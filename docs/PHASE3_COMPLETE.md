@@ -400,7 +400,7 @@ Phase 3 (확장 기능):
 ✅ Maven Clean Package: SUCCESS
 ✅ 컴파일: 117개 파일
 ✅ 빌드 시간: 11.652초
-✅ Docker 이미지: aris-backend
+✅ Docker 이미지: itmsg-backend
 ```
 
 ### 런타임 상태
@@ -564,7 +564,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 5. ✅ **~4,650 lines** 코드 작성
 6. ✅ **전체 시스템** 통합 완료
 
-### ARIS 시스템 현황
+### ITMSG 시스템 현황
 ```
 ✅ 총 19개 테이블
 ✅ 총 117개 소스 파일
@@ -579,13 +579,13 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
 ### 1. 시스템 시작
 ```bash
-cd /Users/kevinpark/Desktop/Dev/ARIS
+cd /Users/kevinpark/Desktop/Dev/ITMSG
 docker-compose up -d
 ```
 
 ### 2. 로그 확인
 ```bash
-docker logs aris-backend --tail 50
+docker logs itmsg-backend --tail 50
 ```
 
 ### 3. Swagger UI 접속
@@ -597,7 +597,7 @@ http://localhost:8080/swagger-ui.html
 ```json
 POST /api/auth/login
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 ```
@@ -612,7 +612,7 @@ POST /api/auth/login
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 3 Complete  
 **문서 버전**: 1.0.0  
 **작성 일시**: 2025-10-15
@@ -621,7 +621,7 @@ POST /api/auth/login
 
 🎊 **Phase 3 완성 축하합니다!** 🎊
 
-**ARIS 시스템이 완전한 MVP로 완성되었습니다!**
+**ITMSG 시스템이 완전한 MVP로 완성되었습니다!**
 
 
 

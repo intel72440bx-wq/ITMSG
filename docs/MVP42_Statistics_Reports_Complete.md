@@ -249,7 +249,7 @@ curl -X POST "http://localhost:8080/api/reports/incident/excel" \
 
 ### Entity & Enum (4개)
 ```
-backend/src/main/java/com/aris/domain/report/entity/
+backend/src/main/java/com/itmsg/domain/report/entity/
 ├── ReportType.java
 ├── ReportFormat.java
 ├── ReportTemplate.java
@@ -258,14 +258,14 @@ backend/src/main/java/com/aris/domain/report/entity/
 
 ### Repository (2개)
 ```
-backend/src/main/java/com/aris/domain/report/repository/
+backend/src/main/java/com/itmsg/domain/report/repository/
 ├── ReportTemplateRepository.java
 └── ReportHistoryRepository.java
 ```
 
 ### DTO (6개)
 ```
-backend/src/main/java/com/aris/domain/statistics/dto/
+backend/src/main/java/com/itmsg/domain/statistics/dto/
 ├── SrStatisticsResponse.java
 ├── SrTrendResponse.java
 ├── ResourceStatisticsResponse.java
@@ -276,22 +276,22 @@ backend/src/main/java/com/aris/domain/statistics/dto/
 
 ### Service (5개)
 ```
-backend/src/main/java/com/aris/domain/statistics/service/
+backend/src/main/java/com/itmsg/domain/statistics/service/
 ├── SrStatisticsService.java
 ├── ResourceStatisticsService.java
 ├── MandayStatisticsService.java
 └── IncidentStatisticsService.java
 
-backend/src/main/java/com/aris/domain/report/service/
+backend/src/main/java/com/itmsg/domain/report/service/
 └── ExcelReportService.java
 ```
 
 ### Controller (2개)
 ```
-backend/src/main/java/com/aris/domain/statistics/controller/
+backend/src/main/java/com/itmsg/domain/statistics/controller/
 └── StatisticsController.java
 
-backend/src/main/java/com/aris/domain/report/controller/
+backend/src/main/java/com/itmsg/domain/report/controller/
 └── ReportController.java
 ```
 

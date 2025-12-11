@@ -1,4 +1,4 @@
-# 🎉 ARIS Phase 2 테스트 준비 완료!
+# 🎉 ITMSG Phase 2 테스트 준비 완료!
 
 ---
 
@@ -26,7 +26,7 @@ http://localhost:8080/swagger-ui.html
 POST /api/auth/login
 
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 ```
@@ -137,7 +137,7 @@ docs/TEST_READY.md
 
 ### 접속
 ```bash
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 ```
 
 ### 테이블
@@ -158,7 +158,7 @@ Swagger UI에서 모든 API를 자유롭게 테스트하세요!
 ---
 
 **URL**: http://localhost:8080/swagger-ui.html  
-**Account**: admin@aris.com / admin1234
+**Account**: admin@itmsg.com / admin1234
 
 
 

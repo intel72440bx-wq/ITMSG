@@ -61,7 +61,7 @@
 
 ### Backend
 
-**파일**: `backend/src/main/java/com/aris/domain/auth/service/AuthService.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/auth/service/AuthService.java`
 
 ```java
 @Transactional
@@ -246,7 +246,7 @@ public UserResponse register(UserCreateRequest request) {
    ```
 
 2. **관리자에게 연락**
-   - 이메일: admin@aris.com
+   - 이메일: admin@itmsg.com
    - 전화: 내선번호
    - 메신저: 사내 메신저
 
@@ -273,7 +273,7 @@ public UserResponse register(UserCreateRequest request) {
 
 관리자가 비밀번호를 초기화하면 자동으로 이메일 발송:
 ```
-제목: [ARIS] 비밀번호가 초기화되었습니다
+제목: [ITMSG] 비밀번호가 초기화되었습니다
 
 안녕하세요, {사용자명}님
 
@@ -283,7 +283,7 @@ public UserResponse register(UserCreateRequest request) {
 보안을 위해 로그인 후 즉시 비밀번호를 변경해주세요.
 
 감사합니다.
-ARIS 시스템
+ITMSG 시스템
 ```
 
 ### 2. 비밀번호 변경 강제

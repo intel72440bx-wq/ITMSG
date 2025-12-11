@@ -40,7 +40,7 @@ public class RefreshTokenResponse {
 
 ### 2. AuthService에 토큰 갱신 메서드 추가
 
-**파일**: `backend/src/main/java/com/aris/domain/auth/service/AuthService.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/auth/service/AuthService.java`
 
 ```java
 @Transactional
@@ -92,7 +92,7 @@ public RefreshTokenResponse refreshToken(String refreshToken) {
 
 ### 3. AuthController에 엔드포인트 추가
 
-**파일**: `backend/src/main/java/com/aris/domain/auth/controller/AuthController.java`
+**파일**: `backend/src/main/java/com/itmsg/domain/auth/controller/AuthController.java`
 
 ```java
 @Operation(summary = "토큰 갱신", description = "리프레시 토큰으로 새로운 액세스 토큰을 발급받습니다.")
@@ -231,7 +231,7 @@ apiClient.interceptors.response.use(
 # 1. 로그인
 POST http://localhost:8080/api/auth/login
 {
-  "email": "admin@aris.com",
+  "email": "admin@itmsg.com",
   "password": "admin1234"
 }
 
@@ -248,7 +248,7 @@ POST http://localhost:8080/api/auth/refresh
 
 ### 3. 사용자 관리 기능 테스트
 
-1. 로그인: `admin@aris.com` / `admin1234`
+1. 로그인: `admin@itmsg.com` / `admin1234`
 2. 사이드바에서 "사용자 관리" 클릭
 3. 사용자 목록 정상 표시 확인
 4. 사용자 생성/수정/삭제 기능 테스트
@@ -258,7 +258,7 @@ POST http://localhost:8080/api/auth/refresh
 ## 📝 추가된 파일
 
 ```
-backend/src/main/java/com/aris/domain/auth/
+backend/src/main/java/com/itmsg/domain/auth/
 ├── dto/
 │   ├── RefreshTokenRequest.java (NEW)
 │   └── RefreshTokenResponse.java (NEW)

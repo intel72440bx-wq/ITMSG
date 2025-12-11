@@ -1,4 +1,4 @@
-# 📊 ARIS 로그 분석 - 정상 동작 확인
+# 📊 ITMSG 로그 분석 - 정상 동작 확인
 
 **작성일시**: 2025-10-15 13:59  
 **상태**: ✅ 정상 동작 (오류 아님)
@@ -111,7 +111,7 @@ Failed to create user: ...
 3. **Flyway 마이그레이션 완료**
    ```
    Flyway Community Edition 9.22.3 by Redgate
-   Database: jdbc:postgresql://postgres:5432/aris_db (PostgreSQL 15.13)
+   Database: jdbc:postgresql://postgres:5432/itmsg_db (PostgreSQL 15.13)
    ```
 
 4. **Security Filter Chain 정상 작동**
@@ -157,7 +157,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 ```yaml
 logging:
   level:
-    com.aris: DEBUG
+    com.itmsg: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: WARN
 ```
 
@@ -208,7 +208,7 @@ curl http://localhost:8080/v3/api-docs
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "ARIS API Documentation",
+    "title": "ITMSG API Documentation",
     ...
   }
 }
@@ -223,15 +223,15 @@ http://localhost:8080/swagger-ui.html
 ### 4. 컨테이너 상태 ✅
 ```bash
 docker-compose ps
-# aris-backend   Up (healthy)
-# aris-postgres  Up (healthy)
+# itmsg-backend   Up (healthy)
+# itmsg-postgres  Up (healthy)
 ```
 
 ---
 
 ## 🎉 결론
 
-**현재 ARIS 애플리케이션은 완벽하게 정상 작동 중입니다!**
+**현재 ITMSG 애플리케이션은 완벽하게 정상 작동 중입니다!**
 
 로그에 나타난 "ERROR"는:
 - ✅ 브라우저의 favicon 자동 요청에 대한 정상적인 404 응답
@@ -253,7 +253,7 @@ docker-compose ps
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ARIS (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
 **Phase**: MVP Phase 1 - 완료
 
 

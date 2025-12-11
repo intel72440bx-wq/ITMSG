@@ -119,8 +119,8 @@ npm run dev
 ### Docker 빌드
 ```bash
 cd frontend
-docker build -t aris-frontend .
-docker run -p 3000:80 aris-frontend
+docker build -t itmsg-frontend .
+docker run -p 3000:80 itmsg-frontend
 ```
 
 ---
@@ -227,7 +227,7 @@ docker run -p 3000:80 aris-frontend
 
 ### 로그인 페이지
 - 중앙 정렬된 로그인 폼
-- ARIS 로고 및 타이틀
+- ITMSG 로고 및 타이틀
 - 이메일/비밀번호 입력
 - 로그인 버튼
 

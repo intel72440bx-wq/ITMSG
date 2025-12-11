@@ -1,4 +1,4 @@
-# ARIS 개발 가이드
+# ITMSG 개발 가이드
 
 ## 📋 문서 정보
 - **작성일**: 2025-10-15
@@ -30,8 +30,8 @@
 
 #### 2.1 프로젝트 클론
 ```bash
-git clone https://github.com/your-org/ARIS.git
-cd ARIS
+git clone https://github.com/your-org/ITMSG.git
+cd ITMSG
 ```
 
 #### 2.2 PostgreSQL 실행 (Docker)
@@ -40,7 +40,7 @@ cd ARIS
 docker-compose up -d postgres
 
 # 데이터베이스 접속 확인
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 ```
 
 #### 2.3 Backend 빌드 및 실행
@@ -56,7 +56,7 @@ cd backend
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 
 # 또는 JAR 실행
-java -jar target/aris-backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar target/itmsg-backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 
 **IntelliJ IDEA**
@@ -71,9 +71,9 @@ java -jar target/aris-backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ```yaml
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/aris_db
-    username: aris_user
-    password: aris_password
+    url: jdbc:postgresql://localhost:5432/itmsg_db
+    username: itmsg_user
+    password: itmsg_password
   
   jpa:
     hibernate:
@@ -90,7 +90,7 @@ jwt:
 
 logging:
   level:
-    com.aris: DEBUG
+    com.itmsg: DEBUG
 ```
 
 #### 2.5 실행 확인
@@ -111,7 +111,7 @@ open http://localhost:8080/swagger-ui.html
 backend/
 ├── src/
 │   ├── main/
-│   │   ├── java/com/aris/
+│   │   ├── java/com/itmsg/
 │   │   │   ├── ArisApplication.java
 │   │   │   ├── domain/
 │   │   │   │   ├── user/
@@ -165,7 +165,7 @@ backend/
 │   │               ├── V1.0.1__create_departments_table.sql
 │   │               └── ...
 │   └── test/
-│       └── java/com/aris/
+│       └── java/com/itmsg/
 │           ├── domain/
 │           │   └── user/
 │           │       ├── controller/
@@ -701,7 +701,7 @@ public UserResponse getUser(Long id) {
 #### 문제: Flyway Migration 실패
 ```bash
 # 마이그레이션 상태 확인
-docker exec aris-postgres psql -U aris_user -d aris_db -c "SELECT * FROM flyway_schema_history;"
+docker exec itmsg-postgres psql -U itmsg_user -d itmsg_db -c "SELECT * FROM flyway_schema_history;"
 
 # 마이그레이션 재시작 (주의!)
 # 1. 잘못된 마이그레이션 파일 수정
@@ -818,7 +818,7 @@ docker-compose restart backend
 docker-compose down -v
 
 # PostgreSQL 접속
-docker exec -it aris-postgres psql -U aris_user -d aris_db
+docker exec -it itmsg-postgres psql -U itmsg_user -d itmsg_db
 ```
 
 ### PostgreSQL
