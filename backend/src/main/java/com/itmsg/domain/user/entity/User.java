@@ -108,6 +108,7 @@ public class User extends BaseEntity {
         this.isApproved = isApproved != null ? isApproved : false;
         this.failedLoginCount = 0;
         this.isLocked = isLocked != null ? isLocked : false;
+        this.passwordChangeRequired = false;
     }
 
     /**
@@ -248,10 +249,3 @@ public class User extends BaseEntity {
         this.roles.remove(role);
     }
 }
-
-
-
-
-
-
-
