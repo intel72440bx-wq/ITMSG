@@ -63,11 +63,11 @@ management:
 logging:
   level:
     root: INFO
-    com.aris: DEBUG
+    com.itmsg: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
-    name: logs/aris.log
+    name: logs/itmsg.log
     max-size: 10MB
     max-history: 30
 

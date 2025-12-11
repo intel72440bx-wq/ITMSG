@@ -23,7 +23,7 @@ spring:
 # Logging
 logging:
   level:
-    com.aris: INFO
+    com.itmsg: INFO
     org.hibernate.SQL: WARN
     org.springframework.security: INFO
 
