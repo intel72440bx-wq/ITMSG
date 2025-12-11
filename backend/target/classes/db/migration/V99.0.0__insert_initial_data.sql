@@ -2,7 +2,7 @@
 
 -- 기본 회사 데이터
 INSERT INTO companies (code, name, business_number, ceo_name, created_by, updated_by) VALUES
-('COMP001', 'ARIS 본사', '123-45-67890', '홍길동', 'system', 'system');
+('COMP001', 'ITMSG 본사', '123-45-67890', '홍길동', 'system', 'system');
 
 -- 기본 부서 데이터
 INSERT INTO departments (company_id, name, depth, sort_order, created_by, updated_by) VALUES
@@ -18,12 +18,12 @@ WHERE name IN ('개발팀', '운영팀') AND depth = 1;
 -- 관리자 계정 생성 (비밀번호: admin1234)
 -- BCrypt 해시: $2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa
 INSERT INTO users (email, password, name, company_id, is_active, is_approved, created_by, updated_by) VALUES
-('admin@aris.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '시스템 관리자', 
+('admin@itmsg.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '시스템 관리자', 
  (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system');
 
 -- 관리자에게 ADMIN 역할 부여
 INSERT INTO user_roles (user_id, role_id, granted_by) VALUES
-((SELECT id FROM users WHERE email = 'admin@aris.com'),
+((SELECT id FROM users WHERE email = 'admin@itmsg.com'),
  (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'),
  'system');
 
