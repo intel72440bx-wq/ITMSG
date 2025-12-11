@@ -23,10 +23,10 @@ RUN mkdir -p /app/logs /app/uploads
 # Note: Running as root for simplicity in development
 # In production, consider using a non-root user
 
-EXPOSE 8080
+EXPOSE 8089
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8089/actuator/health || exit 1
 
 ENTRYPOINT ["java", \
     "-Djava.security.egd=file:/dev/./urandom", \
