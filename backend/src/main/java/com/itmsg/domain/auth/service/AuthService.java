@@ -55,37 +55,69 @@ public class AuthService {
      */
     @Transactional
     public LoginResponse login(LoginRequest request) {
+        log.info("로그인 시도: {}", request.getEmail());
+
         try {
-            // 인증 시도
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-            );
+            // 1. 사용자 조회 및 기본 검증
+            User user = userRepository.findByEmailWithRoles(request.getEmail())
+                    .orElseThrow(() -> {
+                        log.warn("사용자를 찾을 수 없음: {}", request.getEmail());
+                        return new BusinessException(ErrorCode.USER_NOT_FOUND);
+                    });
 
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            User user = userDetails.getUser();
+            log.info("사용자 조회 성공: {}, 활성={}, 승인={}, 잠금={}",
+                    user.getEmail(), user.getIsActive(), user.getIsApproved(), user.getIsLocked());
 
-            // 계정 상태 체크
+            // 2. 계정 상태 상세 체크
             if (!user.getIsActive()) {
+                log.warn("비활성화된 계정: {}", user.getEmail());
                 throw new BusinessException(ErrorCode.USER_NOT_ACTIVE);
             }
             if (!user.getIsApproved()) {
+                log.warn("승인되지 않은 계정: {}", user.getEmail());
                 throw new BusinessException(ErrorCode.USER_NOT_APPROVED);
             }
             if (user.getIsLocked()) {
+                log.warn("잠긴 계정: {}", user.getEmail());
                 throw new BusinessException(ErrorCode.USER_LOCKED);
             }
 
-            // 로그인 성공 처리
+            // 3. 비밀번호 검증
+            if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                log.warn("비밀번호 불일치: {}", user.getEmail());
+
+                // 로그인 실패 카운트 증가
+                user.loginFailed();
+                userRepository.save(user);
+
+                throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
+            }
+
+            // 4. 권한 정보 구성
+            Collection<GrantedAuthority> authorities = user.getRoles().stream()
+                    .map(role -> (GrantedAuthority) () -> role.getName())
+                    .collect(Collectors.toList());
+
+            log.info("사용자 권한 정보 구성됨: {}", authorities.stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList()));
+
+            // 5. 인증 객체 생성
+            CustomUserDetails userDetails = new CustomUserDetails(user);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, authorities);
+
+            // 6. 로그인 성공 처리
             user.loginSuccess();
             userRepository.save(user);
+            log.info("로그인 성공 처리 완료: {}", user.getEmail());
 
-            // 토큰 생성
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            log.info("사용자 권한 정보: {}", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+            // 7. 토큰 생성
             String accessToken = jwtTokenProvider.createAccessToken(user.getEmail(), authorities);
             String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
 
-            log.info("사용자 로그인 성공: {}, 토큰 생성됨", user.getEmail());
+            log.info("토큰 생성 완료: {} (access token length: {})",
+                    user.getEmail(), accessToken.length());
 
             return LoginResponse.of(
                     accessToken,
@@ -93,15 +125,23 @@ public class AuthService {
                     jwtTokenProvider.getAccessTokenValidity(),
                     UserResponse.from(user)
             );
+
+        } catch (BusinessException e) {
+            log.error("비즈니스 예외 발생: {}", e.getMessage());
+            throw e;
         } catch (Exception e) {
-            log.error("로그인 실패: {}", request.getEmail(), e);
-            
-            // 로그인 실패 카운트 증가
-            userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
-                user.loginFailed();
-                userRepository.save(user);
-            });
-            
+            log.error("로그인 처리 중 예외 발생: {}", request.getEmail(), e);
+
+            // 로그인 실패 카운트 증가 (BusinessException이 아닌 경우)
+            try {
+                userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
+                    user.loginFailed();
+                    userRepository.save(user);
+                });
+            } catch (Exception saveException) {
+                log.error("로그인 실패 카운트 증가 중 오류: {}", saveException.getMessage());
+            }
+
             throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
         }
     }
