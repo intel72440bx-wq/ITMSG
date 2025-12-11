@@ -79,16 +79,28 @@ public class JwtTokenProvider {
      */
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
-        
-        if (claims.get("roles") == null) {
+
+        Object rolesClaim = claims.get("roles");
+        if (rolesClaim == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("roles").toString().split(","))
+        Collection<? extends GrantedAuthority> authorities;
+        try {
+            if (rolesClaim instanceof String) {
+                authorities = Arrays.stream(((String) rolesClaim).split(","))
                         .filter(role -> role != null && !role.trim().isEmpty())  // 빈 문자열 필터링
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
+            } else {
+                // roles가 다른 타입인 경우 처리
+                log.warn("Unexpected roles claim type: {}", rolesClaim.getClass());
+                authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+            }
+        } catch (Exception e) {
+            log.error("권한 정보 파싱 실패: {}", e.getMessage());
+            authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        }
 
         return new UsernamePasswordAuthenticationToken(claims.getSubject(), "", authorities);
     }
@@ -144,4 +156,3 @@ public class JwtTokenProvider {
         return accessTokenValidity;
     }
 }
-

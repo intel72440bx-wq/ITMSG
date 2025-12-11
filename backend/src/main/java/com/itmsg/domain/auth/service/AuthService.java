@@ -81,10 +81,11 @@ public class AuthService {
 
             // 토큰 생성
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            log.info("사용자 권한 정보: {}", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
             String accessToken = jwtTokenProvider.createAccessToken(user.getEmail(), authorities);
             String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
 
-            log.info("사용자 로그인 성공: {}", user.getEmail());
+            log.info("사용자 로그인 성공: {}, 토큰 생성됨", user.getEmail());
 
             return LoginResponse.of(
                     accessToken,

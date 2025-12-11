@@ -21,10 +21,14 @@ apiClient.interceptors.request.use(
     const token = localStorage.getItem('accessToken');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('[API Client] 토큰을 헤더에 추가했습니다:', token.substring(0, 20) + '...');
+    } else {
+      console.log('[API Client] 토큰이 없거나 헤더가 없습니다');
     }
     return config;
   },
   (error) => {
+    console.error('[API Client] Request Interceptor 오류:', error);
     return Promise.reject(error);
   }
 );

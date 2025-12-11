@@ -35,7 +35,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/itmsg_db
       SPRING_DATASOURCE_USERNAME: itmsg_user
       SPRING_DATASOURCE_PASSWORD: itmsg_password
-      JWT_SECRET: itmsg-jwt-secret-key-must-be-at-least-256-bits-for-hs256-algorithm
+      JWT_SECRET: myVerySecureJwtSecretKeyThatIsAtLeast256BitsLongForHS256Algorithm2024!@#
       TZ: Asia/Seoul
     depends_on:
       postgres:
