@@ -1,7 +1,10 @@
+server:
+  port: 8089
+
 spring:
   application:
-    name: aris
-  
+    name: itmsg
+
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   
