@@ -32,7 +32,7 @@ services:
       - "8089:8089"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/itmsg_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5439/itmsg_db
       SPRING_DATASOURCE_USERNAME: itmsg_user
       SPRING_DATASOURCE_PASSWORD: itmsg_password
       JWT_SECRET: myVerySecureJwtSecretKeyThatIsAtLeast256BitsLongForHS256Algorithm2024!@#
