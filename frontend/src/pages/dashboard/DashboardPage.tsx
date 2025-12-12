@@ -113,9 +113,17 @@ const DashboardPage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography variant="h4" gutterBottom>
-        대시보드
-      </Typography>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 3,
+        flexWrap: 'wrap',
+        gap: 2,
+        width: '100%',
+      }}>
+        <Typography variant="h4">대시보드</Typography>
+      </Box>
 
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
@@ -187,6 +195,3 @@ const DashboardPage: React.FC = () => {
 };
 
 export default DashboardPage;
-
-
-

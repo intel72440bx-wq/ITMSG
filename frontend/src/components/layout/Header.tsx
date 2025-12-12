@@ -64,30 +64,43 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   };
 
   return (
-    <AppBar 
-      position="fixed" 
-      sx={{ 
+    <AppBar
+      position="fixed"
+      sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        boxShadow: 1,
+        backgroundColor: 'background.paper',
+        color: 'text.primary',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+        borderBottom: '1px solid',
+        borderColor: 'divider',
       }}
     >
-      <Toolbar sx={{ px: { xs: 1, sm: 2 } }}>
+      <Toolbar sx={{ px: { xs: 2, sm: 3 }, minHeight: { xs: 56, sm: 64 } }}>
         <IconButton
           color="inherit"
           edge="start"
           onClick={onMenuClick}
-          sx={{ mr: { xs: 1, sm: 2 } }}
+          sx={{
+            mr: { xs: 1.5, sm: 2.5 },
+            '&:hover': {
+              backgroundColor: 'rgba(25, 118, 210, 0.08)',
+            }
+          }}
         >
           <MenuIcon />
         </IconButton>
 
-        <Typography 
-          variant="h6" 
-          component="div" 
-          sx={{ 
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{
             flexGrow: 1,
-            fontWeight: 'bold',
-            display: { xs: 'block', sm: 'block' },
+            fontWeight: 700,
+            background: 'linear-gradient(45deg, #1976d2, #42a5f5)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            display: { xs: 'none', sm: 'block' },
           }}
         >
           ITMSG

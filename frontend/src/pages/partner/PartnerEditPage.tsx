@@ -63,11 +63,20 @@ const PartnerEditPage: React.FC = () => {
         managerId: data.managerId,
         isClosed: !data.isActive // isActive가 true면 isClosed는 false
       };
-      await updatePartner(partner.id, transformedData);
+      console.log('Updating partner with data:', transformedData);
+      const response = await updatePartner(partner.id, transformedData);
+      console.log('Partner update response:', response);
       setSuccess('파트너가 수정되었습니다!');
       setTimeout(() => navigate(`/partners/${partner.id}`), 2000);
     } catch (err: any) {
       console.error('Failed to update partner:', err);
+      console.error('Error details:', {
+        message: err.message,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        config: err.config
+      });
       setError(err.message || '파트너 수정에 실패했습니다.');
     } finally {
       setLoading(false);

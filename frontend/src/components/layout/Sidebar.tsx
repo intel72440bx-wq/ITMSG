@@ -60,24 +60,36 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
   const drawerContent = (
     <>
       <Toolbar>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', px: 1 }}>
+          <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
             ITMSG
           </Typography>
         </Box>
       </Toolbar>
-      <Divider />
-      <List sx={{ px: 1 }}>
-        {menuItems.map((item) => (
+      <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.08)' }} />
+
+      {/* 메뉴 그룹: 주요 업무 */}
+      <Box sx={{ px: 2, py: 1 }}>
+        <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+          주요 업무
+        </Typography>
+      </Box>
+
+      <List sx={{ px: 1, pb: 2 }}>
+        {menuItems.slice(0, 5).map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
               selected={location.pathname === item.path}
               onClick={() => handleNavigate(item.path)}
               sx={{
-                borderRadius: 1,
+                borderRadius: 2,
+                mx: 0.5,
+                px: 2,
+                py: 1.5,
                 '&.Mui-selected': {
                   backgroundColor: 'primary.main',
                   color: 'white',
+                  boxShadow: '0 2px 8px rgba(25, 118, 210, 0.25)',
                   '&:hover': {
                     backgroundColor: 'primary.dark',
                   },
@@ -85,21 +97,80 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
                     color: 'white',
                   },
                 },
+                '&:hover': {
+                  backgroundColor: location.pathname === item.path ? 'primary.dark' : 'rgba(0, 0, 0, 0.04)',
+                },
               }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 40,
-                  color: location.pathname === item.path ? 'white' : 'inherit',
+                  color: location.pathname === item.path ? 'white' : 'text.secondary',
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText 
+              <ListItemText
                 primary={item.text}
                 primaryTypographyProps={{
                   fontSize: '0.95rem',
-                  fontWeight: location.pathname === item.path ? 600 : 400,
+                  fontWeight: location.pathname === item.path ? 600 : 500,
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+
+      <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.08)' }} />
+
+      {/* 메뉴 그룹: 시스템 관리 */}
+      <Box sx={{ px: 2, py: 1 }}>
+        <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+          시스템 관리
+        </Typography>
+      </Box>
+
+      <List sx={{ px: 1, pb: 2 }}>
+        {menuItems.slice(5).map((item) => (
+          <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+            <ListItemButton
+              selected={location.pathname === item.path}
+              onClick={() => handleNavigate(item.path)}
+              sx={{
+                borderRadius: 2,
+                mx: 0.5,
+                px: 2,
+                py: 1.5,
+                '&.Mui-selected': {
+                  backgroundColor: 'primary.main',
+                  color: 'white',
+                  boxShadow: '0 2px 8px rgba(25, 118, 210, 0.25)',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark',
+                  },
+                  '& .MuiListItemIcon-root': {
+                    color: 'white',
+                  },
+                },
+                '&:hover': {
+                  backgroundColor: location.pathname === item.path ? 'primary.dark' : 'rgba(0, 0, 0, 0.04)',
+                },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 40,
+                  color: location.pathname === item.path ? 'white' : 'text.secondary',
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                primaryTypographyProps={{
+                  fontSize: '0.95rem',
+                  fontWeight: location.pathname === item.path ? 600 : 500,
                 }}
               />
             </ListItemButton>
