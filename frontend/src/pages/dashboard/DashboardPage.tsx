@@ -487,8 +487,8 @@ const DashboardPage: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: 3,
-            height: '100%', // 부모 높이에 맞춤
-            overflow: 'hidden' // 스크롤 숨김
+            maxHeight: '400px', // 최대 높이 제한
+            overflow: 'auto' // 필요시 스크롤
           }}>
             {/* 빠른 액션 */}
             <Card sx={{ borderRadius: 3, flexShrink: 0 }}>
