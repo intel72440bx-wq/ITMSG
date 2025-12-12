@@ -189,7 +189,7 @@ const DashboardPage: React.FC = () => {
     }
   };
 
-  const getStatusColor = (status?: string) => {
+  const getStatusColor = (status?: string): "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" => {
     switch (status) {
       case '완료': return 'success';
       case '진행 중': return 'primary';
@@ -354,7 +354,7 @@ const DashboardPage: React.FC = () => {
                               <Chip
                                 size="small"
                                 label={activity.status}
-                                color={getStatusColor(activity.status) as any}
+                                color={getStatusColor(activity.status)}
                                 variant="outlined"
                                 sx={{ fontSize: '0.7rem', height: '20px' }}
                               />
@@ -446,7 +446,18 @@ const DashboardPage: React.FC = () => {
                       <Typography variant="body2">서버 상태</Typography>
                       <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.7rem' }} />
                     </Box>
-                    <LinearProgress variant="determinate" value={100} color="success" sx={{ height: 6, borderRadius: 3 }} />
+                    <LinearProgress
+                      variant="determinate"
+                      value={100}
+                      sx={{
+                        height: 6,
+                        borderRadius: 3,
+                        '& .MuiLinearProgress-bar': {
+                          backgroundColor: '#4caf50',
+                        },
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                      }}
+                    />
                   </Box>
 
                   <Box>
@@ -454,7 +465,18 @@ const DashboardPage: React.FC = () => {
                       <Typography variant="body2">데이터베이스</Typography>
                       <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.7rem' }} />
                     </Box>
-                    <LinearProgress variant="determinate" value={100} color="success" sx={{ height: 6, borderRadius: 3 }} />
+                    <LinearProgress
+                      variant="determinate"
+                      value={100}
+                      sx={{
+                        height: 6,
+                        borderRadius: 3,
+                        '& .MuiLinearProgress-bar': {
+                          backgroundColor: '#4caf50',
+                        },
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                      }}
+                    />
                   </Box>
 
                   <Box>
@@ -472,7 +494,7 @@ const DashboardPage: React.FC = () => {
             <Card sx={{ borderRadius: 3 }}>
               <CardContent sx={{ p: 3 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <Notifications sx={{ mr: 1, color: 'warning.main' }} />
+                  <Notifications sx={{ mr: 1, color: 'warning.main' as const }} />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                     알림
                   </Typography>
