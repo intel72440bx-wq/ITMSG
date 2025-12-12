@@ -26,6 +26,7 @@ import IncidentCreatePage from './pages/incident/IncidentCreatePage';
 import PartnerListPage from './pages/partner/PartnerListPage';
 import PartnerCreatePage from './pages/partner/PartnerCreatePage';
 import PartnerDetailPage from './pages/partner/PartnerDetailPage';
+import PartnerEditPage from './pages/partner/PartnerEditPage';
 import AssetListPage from './pages/asset/AssetListPage';
 import AssetCreatePage from './pages/asset/AssetCreatePage';
 import UserListPage from './pages/user/UserListPage';
@@ -117,7 +118,7 @@ function App() {
             {/* 파트너 */}
             <Route path="partners" element={<PartnerListPage />} />
             <Route path="partners/new" element={<PartnerCreatePage />} />
-            <Route path="partners/:id/edit" element={<div>파트너 수정 페이지 (구현 예정)</div>} />
+            <Route path="partners/:id/edit" element={<PartnerEditPage />} />
             <Route path="partners/:id" element={<PartnerDetailPage />} />
             
             {/* 자산 관리 */}
