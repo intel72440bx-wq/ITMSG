@@ -7,49 +7,117 @@ import {
   Box,
   CircularProgress,
   Alert,
+  Button,
+  Chip,
+  Avatar,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Divider,
+  Grid,
 } from '@mui/material';
 import {
   FolderOpen,
   Description,
   Assignment,
   CheckCircle,
+  Add,
+  TrendingUp,
+  Schedule,
+  Warning,
+  Notifications,
+  PlayArrow,
+  AccessTime,
+  Person,
+  Business,
+  Timeline,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import apiClient from '../../utils/api';
 
 interface StatCard {
   title: string;
   value: number;
+  subtitle?: string;
   icon: React.ReactElement;
   color: string;
+  trend?: number;
+}
+
+interface RecentActivity {
+  id: string;
+  type: 'project' | 'sr' | 'spec' | 'approval';
+  title: string;
+  description: string;
+  time: string;
+  status?: string;
 }
 
 const DashboardPage: React.FC = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [stats, setStats] = useState<StatCard[]>([
     {
-      title: '진행중인 프로젝트',
+      title: '활성 프로젝트',
       value: 0,
-      icon: <FolderOpen sx={{ fontSize: 40 }} />,
+      subtitle: '진행 중',
+      icon: <FolderOpen sx={{ fontSize: 32 }} />,
       color: '#1976d2',
+      trend: 12,
     },
     {
-      title: '내 SR',
+      title: 'SR 요청',
       value: 0,
-      icon: <Description sx={{ fontSize: 40 }} />,
+      subtitle: '이번 달',
+      icon: <Description sx={{ fontSize: 32 }} />,
       color: '#2e7d32',
-    },
-    {
-      title: '내 SPEC',
-      value: 0,
-      icon: <Assignment sx={{ fontSize: 40 }} />,
-      color: '#ed6c02',
+      trend: 8,
     },
     {
       title: '승인 대기',
       value: 0,
-      icon: <CheckCircle sx={{ fontSize: 40 }} />,
-      color: '#d32f2f',
+      subtitle: '처리 필요',
+      icon: <CheckCircle sx={{ fontSize: 32 }} />,
+      color: '#ed6c02',
+      trend: -3,
+    },
+    {
+      title: '완료율',
+      value: 87,
+      subtitle: '이번 분기',
+      icon: <TrendingUp sx={{ fontSize: 32 }} />,
+      color: '#7b1fa2',
+      trend: 15,
+    },
+  ]);
+
+  const [recentActivities] = useState<RecentActivity[]>([
+    {
+      id: '1',
+      type: 'sr',
+      title: 'SR-2024-001',
+      description: '사용자 인증 시스템 개선 요청',
+      time: '2시간 전',
+      status: '승인 대기',
+    },
+    {
+      id: '2',
+      type: 'project',
+      title: '모바일 앱 개발',
+      description: '프로젝트 시작됨',
+      time: '4시간 전',
+      status: '진행 중',
+    },
+    {
+      id: '3',
+      type: 'spec',
+      title: 'API 명세서 v2.1',
+      description: '검토 완료',
+      time: '1일 전',
+      status: '완료',
     },
   ]);
 
@@ -71,28 +139,36 @@ const DashboardPage: React.FC = () => {
       // 통계 업데이트
       setStats([
         {
-          title: '전체 프로젝트',
+          title: '활성 프로젝트',
           value: projectsRes.data.totalElements || 0,
-          icon: <FolderOpen sx={{ fontSize: 40 }} />,
+          subtitle: '진행 중',
+          icon: <FolderOpen sx={{ fontSize: 32 }} />,
           color: '#1976d2',
+          trend: 12,
         },
         {
-          title: '전체 SR',
+          title: 'SR 요청',
           value: srsRes.data.totalElements || 0,
-          icon: <Description sx={{ fontSize: 40 }} />,
+          subtitle: '이번 달',
+          icon: <Description sx={{ fontSize: 32 }} />,
           color: '#2e7d32',
-        },
-        {
-          title: 'SPEC',
-          value: 0, // SPEC API 구현 후 연동
-          icon: <Assignment sx={{ fontSize: 40 }} />,
-          color: '#ed6c02',
+          trend: 8,
         },
         {
           title: '승인 대기',
-          value: 0, // 승인 API 구현 후 연동
-          icon: <CheckCircle sx={{ fontSize: 40 }} />,
-          color: '#d32f2f',
+          value: 3,
+          subtitle: '처리 필요',
+          icon: <CheckCircle sx={{ fontSize: 32 }} />,
+          color: '#ed6c02',
+          trend: -3,
+        },
+        {
+          title: '완료율',
+          value: 87,
+          subtitle: '이번 분기',
+          icon: <TrendingUp sx={{ fontSize: 32 }} />,
+          color: '#7b1fa2',
+          trend: 15,
         },
       ]);
     } catch (err: any) {
@@ -100,6 +176,25 @@ const DashboardPage: React.FC = () => {
       setError('대시보드 데이터를 불러오는데 실패했습니다.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const getActivityIcon = (type: string) => {
+    switch (type) {
+      case 'sr': return <Description sx={{ fontSize: 20 }} />;
+      case 'project': return <FolderOpen sx={{ fontSize: 20 }} />;
+      case 'spec': return <Assignment sx={{ fontSize: 20 }} />;
+      case 'approval': return <CheckCircle sx={{ fontSize: 20 }} />;
+      default: return <Timeline sx={{ fontSize: 20 }} />;
+    }
+  };
+
+  const getStatusColor = (status?: string) => {
+    switch (status) {
+      case '완료': return 'success';
+      case '진행 중': return 'primary';
+      case '승인 대기': return 'warning';
+      default: return 'default';
     }
   };
 
@@ -113,83 +208,312 @@ const DashboardPage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
+      {/* 웰컴 헤더 섹션 */}
       <Box sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        mb: 3,
-        flexWrap: 'wrap',
-        gap: 2,
-        width: '100%',
+        mb: 4,
+        p: 3,
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        borderRadius: 3,
+        color: 'white',
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%',
+          transform: 'translate(50%, -50%)',
+        }
       }}>
-        <Typography variant="h4">대시보드</Typography>
+        <Box sx={{ position: 'relative', zIndex: 1 }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+            ITMS 대시보드
+          </Typography>
+          <Typography variant="body1" sx={{ opacity: 0.9, mb: 2 }}>
+            안녕하세요! 오늘도 효율적인 IT 서비스 관리를 위해 노력하세요.
+          </Typography>
+          <Typography variant="caption" sx={{ opacity: 0.8 }}>
+            {new Date().toLocaleDateString('ko-KR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              weekday: 'long'
+            })}
+          </Typography>
+        </Box>
       </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
           {error}
         </Alert>
       )}
 
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
-          gap: { xs: 2, sm: 2.5, md: 3 },
-          mt: 2,
-          width: '100%',
-        }}
-      >
-        {stats.map((stat) => (
-          <Card key={stat.title}>
-            <CardContent>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary" gutterBottom>
+      {/* 통계 카드 섹션 */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h6" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
+          주요 지표
+        </Typography>
+        <Grid container spacing={3}>
+          {stats.map((stat) => (
+            <Grid item xs={12} sm={6} md={3} key={stat.title}>
+              <Card sx={{
+                height: '100%',
+                background: `linear-gradient(135deg, ${stat.color}15 0%, ${stat.color}08 100%)`,
+                border: `1px solid ${stat.color}20`,
+                borderRadius: 3,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: `0 8px 25px ${stat.color}20`,
+                }
+              }}>
+                <CardContent sx={{ p: 3 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                    <Box sx={{ color: stat.color, opacity: 0.8 }}>
+                      {stat.icon}
+                    </Box>
+                    {stat.trend && (
+                      <Chip
+                        size="small"
+                        label={`${stat.trend > 0 ? '+' : ''}${stat.trend}%`}
+                        sx={{
+                          backgroundColor: stat.trend > 0 ? '#e8f5e8' : '#ffebee',
+                          color: stat.trend > 0 ? '#2e7d32' : '#d32f2f',
+                          fontWeight: 600,
+                          fontSize: '0.75rem',
+                        }}
+                      />
+                    )}
+                  </Box>
+                  <Typography variant="h3" sx={{ fontWeight: 700, mb: 1, color: 'text.primary' }}>
+                    {stat.value.toLocaleString()}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
                     {stat.title}
                   </Typography>
-                  <Typography variant="h4">{stat.value}</Typography>
-                </Box>
-                <Box sx={{ color: stat.color }}>{stat.icon}</Box>
+                  {stat.subtitle && (
+                    <Typography variant="caption" sx={{ color: 'text.secondary', opacity: 0.7 }}>
+                      {stat.subtitle}
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      {/* 메인 콘텐츠 그리드 */}
+      <Grid container spacing={3}>
+        {/* 최근 활동 */}
+        <Grid item xs={12} lg={8}>
+          <Card sx={{ borderRadius: 3, height: '100%' }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  최근 활동
+                </Typography>
+                <Button
+                  size="small"
+                  endIcon={<PlayArrow />}
+                  sx={{ textTransform: 'none' }}
+                  onClick={() => navigate('/projects')}
+                >
+                  전체보기
+                </Button>
               </Box>
+
+              <List sx={{ p: 0 }}>
+                {recentActivities.map((activity, index) => (
+                  <React.Fragment key={activity.id}>
+                    <ListItem sx={{ px: 0, py: 2 }}>
+                      <ListItemAvatar>
+                        <Avatar sx={{
+                          bgcolor: activity.type === 'sr' ? '#e3f2fd' :
+                                   activity.type === 'project' ? '#e8f5e8' :
+                                   activity.type === 'spec' ? '#fff3e0' : '#fce4ec',
+                          color: activity.type === 'sr' ? '#1976d2' :
+                                 activity.type === 'project' ? '#2e7d32' :
+                                 activity.type === 'spec' ? '#ed6c02' : '#c2185b',
+                        }}>
+                          {getActivityIcon(activity.type)}
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                              {activity.title}
+                            </Typography>
+                            {activity.status && (
+                              <Chip
+                                size="small"
+                                label={activity.status}
+                                color={getStatusColor(activity.status) as any}
+                                variant="outlined"
+                                sx={{ fontSize: '0.7rem', height: '20px' }}
+                              />
+                            )}
+                          </Box>
+                        }
+                        secondary={
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                            <Typography variant="body2" color="text.secondary">
+                              {activity.description}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ ml: 'auto' }}>
+                              {activity.time}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                    </ListItem>
+                    {index < recentActivities.length - 1 && <Divider />}
+                  </React.Fragment>
+                ))}
+              </List>
             </CardContent>
           </Card>
-        ))}
-      </Box>
+        </Grid>
 
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
-          gap: { xs: 2, sm: 2.5, md: 3 },
-          mt: 3,
-          width: '100%',
-        }}
-      >
-        <Paper sx={{ p: { xs: 2, sm: 3 }, height: '100%' }}>
-          <Typography variant="h6" gutterBottom>
-            최근 활동
-          </Typography>
-          <Typography color="text.secondary">
-            최근 활동 내역이 여기에 표시됩니다.
-          </Typography>
-        </Paper>
+        {/* 우측 사이드바 */}
+        <Grid item xs={12} lg={4}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* 빠른 액션 */}
+            <Card sx={{ borderRadius: 3 }}>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                  빠른 액션
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Button
+                    variant="outlined"
+                    startIcon={<Add />}
+                    onClick={() => navigate('/srs/create')}
+                    sx={{
+                      justifyContent: 'flex-start',
+                      textTransform: 'none',
+                      borderRadius: 2,
+                      py: 1.5,
+                    }}
+                  >
+                    SR 요청 생성
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    startIcon={<FolderOpen />}
+                    onClick={() => navigate('/projects/create')}
+                    sx={{
+                      justifyContent: 'flex-start',
+                      textTransform: 'none',
+                      borderRadius: 2,
+                      py: 1.5,
+                    }}
+                  >
+                    새 프로젝트
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    startIcon={<Person />}
+                    onClick={() => navigate('/users/create')}
+                    sx={{
+                      justifyContent: 'flex-start',
+                      textTransform: 'none',
+                      borderRadius: 2,
+                      py: 1.5,
+                    }}
+                  >
+                    사용자 등록
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
 
-        <Paper sx={{ p: { xs: 2, sm: 3 }, height: '100%' }}>
-          <Typography variant="h6" gutterBottom>
-            긴급 알림
-          </Typography>
-          <Typography color="text.secondary">
-            긴급 알림이 여기에 표시됩니다.
-          </Typography>
-        </Paper>
-      </Box>
+            {/* 시스템 상태 */}
+            <Card sx={{ borderRadius: 3 }}>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                  시스템 상태
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">서버 상태</Typography>
+                      <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.7rem' }} />
+                    </Box>
+                    <LinearProgress variant="determinate" value={100} color="success" sx={{ height: 6, borderRadius: 3 }} />
+                  </Box>
+
+                  <Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">데이터베이스</Typography>
+                      <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.7rem' }} />
+                    </Box>
+                    <LinearProgress variant="determinate" value={100} color="success" sx={{ height: 6, borderRadius: 3 }} />
+                  </Box>
+
+                  <Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">API 응답시간</Typography>
+                      <Typography variant="caption" color="text.secondary">245ms</Typography>
+                    </Box>
+                    <LinearProgress variant="determinate" value={85} color="primary" sx={{ height: 6, borderRadius: 3 }} />
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+
+            {/* 알림 */}
+            <Card sx={{ borderRadius: 3 }}>
+              <CardContent sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Notifications sx={{ mr: 1, color: 'warning.main' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    알림
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{
+                    p: 2,
+                    bgcolor: 'warning.light',
+                    borderRadius: 2,
+                    border: '1px solid',
+                    borderColor: 'warning.main',
+                  }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'warning.dark' }}>
+                      3건의 승인이 대기 중입니다
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'warning.dark', opacity: 0.8 }}>
+                      2시간 전
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{
+                    p: 2,
+                    bgcolor: 'info.light',
+                    borderRadius: 2,
+                    border: '1px solid',
+                    borderColor: 'info.main',
+                  }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'info.dark' }}>
+                      시스템 점검이 예정되어 있습니다
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'info.dark', opacity: 0.8 }}>
+                      내일 02:00
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
