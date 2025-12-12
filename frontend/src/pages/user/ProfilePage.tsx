@@ -78,12 +78,31 @@ const ProfilePage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto', p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        내 프로필
-      </Typography>
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 3,
+        flexWrap: 'wrap',
+        gap: 2,
+        width: '100%',
+      }}>
+        <Typography variant="h4">내 프로필</Typography>
+      </Box>
 
-      <Paper sx={{ p: 3, mt: 3 }}>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          {success}
+        </Alert>
+      )}
+
+      <Paper sx={{ p: { xs: 2, sm: 3 }, mt: 2, width: '100%', maxWidth: 800, mx: 'auto' }}>
         {/* 프로필 헤더 */}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <Avatar
@@ -208,4 +227,3 @@ const ProfilePage: React.FC = () => {
 };
 
 export default ProfilePage;
-
