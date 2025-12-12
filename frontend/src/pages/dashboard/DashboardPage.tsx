@@ -16,7 +16,6 @@ import {
   ListItemAvatar,
   ListItemText,
   Divider,
-  Grid,
 } from '@mui/material';
 import {
   FolderOpen,
@@ -258,9 +257,13 @@ const DashboardPage: React.FC = () => {
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
           주요 지표
         </Typography>
-        <Grid container spacing={3}>
+        <Box sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
+          gap: 3,
+        }}>
           {stats.map((stat) => (
-            <Grid item xs={12} sm={6} md={3} key={stat.title}>
+            <Box key={stat.title} sx={{ minWidth: 0 }}>
               <Card sx={{
                 height: '100%',
                 background: `linear-gradient(135deg, ${stat.color}15 0%, ${stat.color}08 100%)`,
@@ -303,15 +306,19 @@ const DashboardPage: React.FC = () => {
                   )}
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </Box>
 
       {/* 메인 콘텐츠 그리드 */}
-      <Grid container spacing={3}>
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' },
+        gap: 3,
+      }}>
         {/* 최근 활동 */}
-        <Grid item xs={12} lg={8}>
+        <Box sx={{ minWidth: 0 }}>
           <Card sx={{ borderRadius: 3, height: '100%' }}>
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
@@ -379,10 +386,10 @@ const DashboardPage: React.FC = () => {
               </List>
             </CardContent>
           </Card>
-        </Grid>
+        </Box>
 
         {/* 우측 사이드바 */}
-        <Grid item xs={12} lg={4}>
+        <Box sx={{ minWidth: 0 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             {/* 빠른 액션 */}
             <Card sx={{ borderRadius: 3 }}>
@@ -534,8 +541,8 @@ const DashboardPage: React.FC = () => {
               </CardContent>
             </Card>
           </Box>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 };
