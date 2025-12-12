@@ -34,6 +34,7 @@ import {
   Timeline,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/authStore';
 import apiClient from '../../utils/api';
 
 interface StatCard {
@@ -56,6 +57,7 @@ interface RecentActivity {
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [stats, setStats] = useState<StatCard[]>([
@@ -228,21 +230,49 @@ const DashboardPage: React.FC = () => {
           transform: 'translate(50%, -50%)',
         }
       }}>
-        <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-            ITMS 대시보드
-          </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.9, mb: 2 }}>
-            안녕하세요! 오늘도 효율적인 IT 서비스 관리를 위해 노력하세요.
-          </Typography>
-          <Typography variant="caption" sx={{ opacity: 0.8 }}>
-            {new Date().toLocaleDateString('ko-KR', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              weekday: 'long'
-            })}
-          </Typography>
+        <Box sx={{
+          position: 'relative',
+          zIndex: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 2
+        }}>
+          {/* 왼쪽: ITMS 텍스트 */}
+          <Box>
+            <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+              ITMS 대시보드
+            </Typography>
+            <Typography variant="body1" sx={{ opacity: 0.9, mb: 2 }}>
+              안녕하세요! 오늘도 효율적인 IT 서비스 관리를 위해 노력하세요.
+            </Typography>
+            <Typography variant="caption" sx={{ opacity: 0.8 }}>
+              {new Date().toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+              })}
+            </Typography>
+          </Box>
+
+          {/* 오른쪽: 사용자 정보 */}
+          {user && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ textAlign: 'right' }}>
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                  {user.name}
+                </Typography>
+                <Typography variant="caption" sx={{ opacity: 0.8 }}>
+                  {user.companyName}
+                </Typography>
+              </Box>
+              <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)', width: 48, height: 48 }}>
+                {user.name?.charAt(0)?.toUpperCase() || 'U'}
+              </Avatar>
+            </Box>
+          )}
         </Box>
       </Box>
 
