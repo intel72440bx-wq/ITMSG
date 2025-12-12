@@ -40,6 +40,7 @@ const MainLayout: React.FC = () => {
         sx={{
           flexGrow: 1,
           p: { xs: 3, sm: 4, md: 5 },
+          pt: { xs: 11, sm: 12 }, // 헤더 높이만큼 상단 패딩 추가
           width: '100%',
           minHeight: '100vh',
           maxHeight: '100vh',
@@ -48,7 +49,6 @@ const MainLayout: React.FC = () => {
           transition: 'padding 0.3s ease',
         }}
       >
-        <Toolbar />
         <Box
           sx={{
             width: '100%',
