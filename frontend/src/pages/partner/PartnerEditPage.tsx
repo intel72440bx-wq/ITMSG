@@ -57,9 +57,11 @@ const PartnerEditPage: React.FC = () => {
     try {
       // 프론트엔드의 isActive를 백엔드의 isClosed로 변환
       const transformedData = {
-        ...data,
-        // isActive가 true면 isClosed는 false, isActive가 false면 isClosed는 true
-        // 하지만 백엔드에서 isClosed 필드를 직접 지원하지 않으므로 일단 그대로 전달
+        name: data.name,
+        businessNumber: data.businessNumber,
+        ceoName: data.ceoName,
+        managerId: data.managerId,
+        isClosed: !data.isActive // isActive가 true면 isClosed는 false
       };
       await updatePartner(partner.id, transformedData);
       setSuccess('파트너가 수정되었습니다!');
