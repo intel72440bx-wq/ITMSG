@@ -210,7 +210,13 @@ const DashboardPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box sx={{
+      width: '100%',
+      height: '100vh', // 한 화면에 맞춤
+      overflow: 'hidden', // 스크롤 방지
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
       {/* 웰컴 헤더 섹션 */}
       <Box sx={{
         mb: 4,
@@ -355,10 +361,18 @@ const DashboardPage: React.FC = () => {
         display: 'grid',
         gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' },
         gap: 3,
+        flex: 1, // 남은 공간 모두 차지
+        minHeight: 0, // 그리드 아이템이 축소될 수 있도록
       }}>
         {/* 최근 활동 */}
-        <Box sx={{ minWidth: 0 }}>
-          <Card sx={{ borderRadius: 3, height: '100%' }}>
+        <Box sx={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+          <Card sx={{
+            borderRadius: 3,
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            maxHeight: '400px', // 최대 높이 제한
+          }}>
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -428,8 +442,14 @@ const DashboardPage: React.FC = () => {
         </Box>
 
         {/* 우측 사이드바 */}
-        <Box sx={{ minWidth: 0 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Box sx={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+            maxHeight: '400px', // 최대 높이 제한
+            overflow: 'auto' // 필요시 스크롤
+          }}>
             {/* 빠른 액션 */}
             <Card sx={{ borderRadius: 3 }}>
               <CardContent sx={{ p: 3 }}>
