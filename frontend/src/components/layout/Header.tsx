@@ -98,7 +98,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           variant="h6"
           component="div"
           sx={{
-            flexGrow: 1,
             fontWeight: 800,
             fontSize: '1.5rem',
             letterSpacing: '-0.025em',
@@ -108,12 +107,13 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             WebkitTextFillColor: 'transparent',
             textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
             display: { xs: 'none', sm: 'block' },
+            marginRight: 'auto',
           }}
         >
           ITMS
         </Typography>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 }, marginLeft: 'auto' }}>
           {/* 모바일에서는 사용자 정보 숨김 */}
           {!isMobile && (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', mr: 1 }}>
