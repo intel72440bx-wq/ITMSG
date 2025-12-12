@@ -48,10 +48,19 @@ public class Partner extends BaseEntity {
     /**
      * 파트너 수정
      */
-    public void updatePartner(String name, String ceoName, User manager) {
+    public void updatePartner(String name, String ceoName, User manager, Boolean isClosed) {
         this.name = name;
         this.ceoName = ceoName;
         this.manager = manager;
+
+        // isClosed 상태가 변경되는 경우 처리
+        if (isClosed != null && !isClosed.equals(this.isClosed)) {
+            if (isClosed) {
+                close();
+            } else {
+                reopen();
+            }
+        }
     }
 
     /**
@@ -70,12 +79,3 @@ public class Partner extends BaseEntity {
         this.closedAt = null;
     }
 }
-
-
-
-
-
-
-
-
-

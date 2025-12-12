@@ -74,14 +74,14 @@ public class PartnerService {
     public PartnerResponse updatePartner(Long id, PartnerRequest request) {
         Partner partner = partnerRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.PARTNER_NOT_FOUND));
-        
+
         var manager = request.managerId() != null
                 ? userRepository.findById(request.managerId())
                         .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
                 : null;
-        
-        partner.updatePartner(request.name(), request.ceoName(), manager);
-        
+
+        partner.updatePartner(request.name(), request.ceoName(), manager, request.isClosed());
+
         log.info("파트너 수정 완료: {}", partner.getCode());
         return PartnerResponse.from(partner);
     }
@@ -118,12 +118,3 @@ public class PartnerService {
         log.info("파트너 삭제 완료: {}", partner.getCode());
     }
 }
-
-
-
-
-
-
-
-
-
