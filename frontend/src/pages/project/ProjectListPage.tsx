@@ -12,11 +12,12 @@ import {
   TableRow,
   TablePagination,
   Chip,
+  CircularProgress,
+  Alert,
   Card,
   CardContent,
   useMediaQuery,
   useTheme,
-  Alert,
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -114,42 +115,49 @@ const ProjectListPage: React.FC = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
           {loading ? (
             <Paper sx={{ p: 3, textAlign: 'center' }}>
-              <Typography>로딩 중...</Typography>
+              <CircularProgress size={24} />
+              <Typography sx={{ mt: 1 }}>로딩 중...</Typography>
             </Paper>
-          ) : projects.map((project) => (
-            <Card 
-              key={project.id}
-              sx={{ cursor: 'pointer', width: '100%' }}
-              onClick={() => navigate(`/projects/${project.id}`)}
-            >
-              <CardContent>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
-                  <Typography variant="h6" component="div">
-                    {project.name}
+          ) : projects.length === 0 ? (
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography>데이터가 없습니다.</Typography>
+            </Paper>
+          ) : (
+            projects.map((project) => (
+              <Card
+                key={project.id}
+                sx={{ cursor: 'pointer', width: '100%' }}
+                onClick={() => navigate(`/projects/${project.id}`)}
+              >
+                <CardContent>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
+                    <Typography variant="h6" component="div">
+                      {project.name}
+                    </Typography>
+                    <Chip
+                      label={getStatusLabel(project.status)}
+                      color={getStatusColor(project.status)}
+                      size="small"
+                    />
+                  </Box>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    코드: {project.code}
                   </Typography>
-                  <Chip
-                    label={getStatusLabel(project.status)}
-                    color={getStatusColor(project.status)}
-                    size="small"
-                  />
-                </Box>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  코드: {project.code}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  유형: {getProjectTypeLabel(project.projectType)}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  기간: {project.startDate} ~ {project.endDate || '진행중'}
-                </Typography>
-                {project.pmName && (
-                  <Typography variant="body2" color="text.secondary">
-                    PM: {project.pmName}
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    유형: {getProjectTypeLabel(project.projectType)}
                   </Typography>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    기간: {project.startDate} ~ {project.endDate || '진행중'}
+                  </Typography>
+                  {project.pmName && (
+                    <Typography variant="body2" color="text.secondary">
+                      PM: {project.pmName}
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            ))
+          )}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <TablePagination
               component="div"
@@ -184,34 +192,43 @@ const ProjectListPage: React.FC = () => {
               {loading ? (
                 <TableRow>
                   <TableCell colSpan={7} align="center">
-                    <Typography>로딩 중...</Typography>
+                    <CircularProgress size={24} />
+                    <Typography sx={{ mt: 1 }}>로딩 중...</Typography>
                   </TableCell>
                 </TableRow>
-              ) : projects.map((project) => (
-                <TableRow
-                  key={project.id}
-                  hover
-                  onClick={() => {
-                    console.log('Navigating to project detail:', project.id);
-                    navigate(`/projects/${project.id}`);
-                  }}
-                  sx={{ cursor: 'pointer' }}
-                >
-                  <TableCell>{project.code}</TableCell>
-                  <TableCell>{project.name}</TableCell>
-                  <TableCell>{getProjectTypeLabel(project.projectType)}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={getStatusLabel(project.status)}
-                      color={getStatusColor(project.status)}
-                      size="small"
-                    />
+              ) : projects.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    <Typography>데이터가 없습니다.</Typography>
                   </TableCell>
-                  <TableCell>{project.startDate}</TableCell>
-                  <TableCell>{project.endDate || '-'}</TableCell>
-                  <TableCell>{project.pmName || '-'}</TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                projects.map((project) => (
+                  <TableRow
+                    key={project.id}
+                    hover
+                    onClick={() => {
+                      console.log('Navigating to project detail:', project.id);
+                      navigate(`/projects/${project.id}`);
+                    }}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <TableCell>{project.code}</TableCell>
+                    <TableCell>{project.name}</TableCell>
+                    <TableCell>{getProjectTypeLabel(project.projectType)}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={getStatusLabel(project.status)}
+                        color={getStatusColor(project.status)}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell>{project.startDate}</TableCell>
+                    <TableCell>{project.endDate || '-'}</TableCell>
+                    <TableCell>{project.pmName || '-'}</TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
           <TablePagination
