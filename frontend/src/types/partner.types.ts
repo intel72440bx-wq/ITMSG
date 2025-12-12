@@ -32,6 +32,7 @@ export interface PartnerUpdateRequest {
   businessNumber?: string;
   ceoName?: string;
   managerId?: number;
+  isActive?: boolean;
 }
 
 export interface PartnerListParams {

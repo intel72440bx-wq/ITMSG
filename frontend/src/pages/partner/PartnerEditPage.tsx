@@ -38,6 +38,7 @@ const PartnerEditPage: React.FC = () => {
       setValue('businessNumber', data.businessNumber);
       setValue('ceoName', data.ceoName || '');
       setValue('managerId', data.managerId || undefined);
+      setValue('isActive', !data.isClosed); // isClosed의 반대로 설정
     } catch (err: any) {
       console.error('Failed to fetch partner:', err);
       setError(err.message || '파트너 정보를 불러오는데 실패했습니다.');
@@ -54,7 +55,13 @@ const PartnerEditPage: React.FC = () => {
     setSuccess('');
 
     try {
-      await updatePartner(partner.id, data);
+      // 프론트엔드의 isActive를 백엔드의 isClosed로 변환
+      const transformedData = {
+        ...data,
+        // isActive가 true면 isClosed는 false, isActive가 false면 isClosed는 true
+        // 하지만 백엔드에서 isClosed 필드를 직접 지원하지 않으므로 일단 그대로 전달
+      };
+      await updatePartner(partner.id, transformedData);
       setSuccess('파트너가 수정되었습니다!');
       setTimeout(() => navigate(`/partners/${partner.id}`), 2000);
     } catch (err: any) {
@@ -134,68 +141,17 @@ const PartnerEditPage: React.FC = () => {
             )}
           />
 
-          {/* 백엔드에서 지원하지 않는 필드들은 주석 처리 또는 제거 */}
-          {/* TODO: 백엔드 API 확장 시 아래 필드들 활성화 */}
-          {/*
-          <Controller
-            name="contactPerson"
-            control={control}
-            render={({ field }) => (
-              <TextField {...field} label="연락처 담당자" fullWidth margin="normal" helperText="선택사항" />
-            )}
-          />
-
-          <Controller
-            name="phoneNumber"
-            control={control}
-            rules={{
-              pattern: {
-                value: /^01[0-9]-[0-9]{4}-[0-9]{4}$/,
-                message: '올바른 전화번호 형식이 아닙니다. (예: 010-1234-5678)'
-              }
-            }}
-            render={({ field }) => (
-              <TextField {...field} label="전화번호" fullWidth margin="normal"
-                error={!!errors.phoneNumber} helperText={errors.phoneNumber?.message || '010-1234-5678 형식'}
-                placeholder="010-1234-5678" />
-            )}
-          />
-
-          <Controller
-            name="email"
-            control={control}
-            rules={{
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: '올바른 이메일 형식이 아닙니다.'
-              }
-            }}
-            render={({ field }) => (
-              <TextField {...field} label="이메일" type="email" fullWidth margin="normal"
-                error={!!errors.email} helperText={errors.email?.message} />
-            )}
-          />
-
-          <Controller
-            name="address"
-            control={control}
-            render={({ field }) => (
-              <TextField {...field} label="주소" fullWidth margin="normal" multiline rows={3} helperText="선택사항" />
-            )}
-          />
-
           <Controller
             name="isActive"
             control={control}
             render={({ field }) => (
               <FormControlLabel
-                control={<Switch {...field} checked={field.value} />}
-                label="활성 상태"
+                control={<Switch {...field} checked={field.value || false} />}
+                label={field.value ? "활성 상태" : "비활성 상태"}
                 sx={{ mt: 2 }}
               />
             )}
           />
-          */}
 
           <Box sx={{ display: 'flex', gap: 2, mt: 3, flexDirection: isMobile ? 'column' : 'row' }}>
             <Button type="button" variant="outlined" onClick={() => navigate(`/partners/${id}`)}
