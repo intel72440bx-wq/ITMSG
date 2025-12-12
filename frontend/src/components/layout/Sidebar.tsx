@@ -59,14 +59,28 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
 
   const drawerContent = (
     <>
-      <Toolbar>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', px: 1 }}>
-          <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-            ITMSG
+      <Toolbar sx={{ px: 3, py: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{
+              fontWeight: 800,
+              fontSize: '1.5rem',
+              letterSpacing: '-0.025em',
+              background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            ITMS
           </Typography>
         </Box>
       </Toolbar>
-      <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.08)' }} />
+      <Divider sx={{ borderColor: 'rgba(30, 64, 175, 0.12)', borderWidth: '1px' }} />
 
       {/* 메뉴 그룹: 주요 업무 */}
       <Box sx={{ px: 2, py: 1 }}>

@@ -20,10 +20,18 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', width: '100vw', overflow: 'hidden' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
+        backgroundColor: '#f8fafc', // ITMS 시스템 배경색
+      }}
+    >
       <Header onMenuClick={handleDrawerToggle} />
-      <Sidebar 
-        open={isMobile ? mobileOpen : true} 
+      <Sidebar
+        open={isMobile ? mobileOpen : true}
         onClose={handleDrawerClose}
         isMobile={isMobile}
       />
@@ -31,16 +39,24 @@ const MainLayout: React.FC = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: { xs: 2, sm: 3 },
+          p: { xs: 3, sm: 4, md: 5 },
           width: '100%',
           minHeight: '100vh',
           maxHeight: '100vh',
           overflow: 'auto',
-          backgroundColor: 'background.default',
+          backgroundColor: '#f8fafc',
+          transition: 'padding 0.3s ease',
         }}
       >
         <Toolbar />
-        <Box sx={{ width: '100%', height: '100%' }}>
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            maxWidth: '1400px', // ITMS 시스템 최대 너비 제한
+            mx: 'auto',
+          }}
+        >
           <Outlet />
         </Box>
       </Box>
@@ -49,6 +65,3 @@ const MainLayout: React.FC = () => {
 };
 
 export default MainLayout;
-
-
-

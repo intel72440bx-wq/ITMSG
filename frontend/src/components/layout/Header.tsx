@@ -68,23 +68,27 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       position="fixed"
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        backgroundColor: 'background.paper',
+        backgroundColor: '#ffffff',
         color: 'text.primary',
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-        borderBottom: '1px solid',
-        borderColor: 'divider',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
+        borderBottom: '1px solid #e0e7ff',
+        backdropFilter: 'blur(8px)',
       }}
     >
-      <Toolbar sx={{ px: { xs: 2, sm: 3 }, minHeight: { xs: 56, sm: 64 } }}>
+      <Toolbar sx={{ px: { xs: 3, sm: 4, md: 5 }, minHeight: { xs: 64, sm: 72 }, maxWidth: '1400px', width: '100%', mx: 'auto' }}>
         <IconButton
           color="inherit"
           edge="start"
           onClick={onMenuClick}
           sx={{
-            mr: { xs: 1.5, sm: 2.5 },
+            mr: { xs: 2, sm: 3 },
+            p: 1.5,
+            borderRadius: 2,
             '&:hover': {
               backgroundColor: 'rgba(25, 118, 210, 0.08)',
-            }
+              transform: 'scale(1.05)',
+            },
+            transition: 'all 0.2s ease',
           }}
         >
           <MenuIcon />
@@ -95,15 +99,18 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           component="div"
           sx={{
             flexGrow: 1,
-            fontWeight: 700,
-            background: 'linear-gradient(45deg, #1976d2, #42a5f5)',
+            fontWeight: 800,
+            fontSize: '1.5rem',
+            letterSpacing: '-0.025em',
+            background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
+            textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
             display: { xs: 'none', sm: 'block' },
           }}
         >
-          ITMSG
+          ITMS
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
