@@ -133,8 +133,8 @@ const PartnerDetailPage: React.FC = () => {
 
         <Box sx={{ display: 'flex', gap: 1, mb: 3, flexWrap: 'wrap' }}>
           <Chip
-            label={partner.isActive ? '활성' : '비활성'}
-            color={partner.isActive ? 'success' : 'default'}
+            label={partner.isClosed ? '폐업' : '활성'}
+            color={partner.isClosed ? 'error' : 'success'}
           />
         </Box>
 
@@ -159,6 +159,27 @@ const PartnerDetailPage: React.FC = () => {
             </Typography>
           </Box>
 
+          <Box>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              담당자
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              {partner.managerName || '-'}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              코드
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              {partner.code || '-'}
+            </Typography>
+          </Box>
+
+          {/* 백엔드에서 지원하지 않는 필드들은 주석 처리 또는 제거 */}
+          {/* TODO: 백엔드 API 확장 시 아래 필드들 활성화 */}
+          {/*
           <Box>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               연락처 담당자
@@ -186,15 +207,6 @@ const PartnerDetailPage: React.FC = () => {
             </Typography>
           </Box>
 
-          <Box>
-            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              담당자
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {partner.managerName || '-'}
-            </Typography>
-          </Box>
-
           <Box sx={{ gridColumn: { xs: '1', md: '1 / -1' } }}>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               주소
@@ -206,6 +218,7 @@ const PartnerDetailPage: React.FC = () => {
               <Typography variant="body1">{partner.address || '-'}</Typography>
             </Paper>
           </Box>
+          */}
 
           <Box>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>

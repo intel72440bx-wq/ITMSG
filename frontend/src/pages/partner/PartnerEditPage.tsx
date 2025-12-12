@@ -37,12 +37,7 @@ const PartnerEditPage: React.FC = () => {
       setValue('name', data.name);
       setValue('businessNumber', data.businessNumber);
       setValue('ceoName', data.ceoName || '');
-      setValue('address', data.address || '');
-      setValue('contactPerson', data.contactPerson || '');
-      setValue('phoneNumber', data.phoneNumber || '');
-      setValue('email', data.email || '');
       setValue('managerId', data.managerId || undefined);
-      setValue('isActive', data.isActive);
     } catch (err: any) {
       console.error('Failed to fetch partner:', err);
       setError(err.message || '파트너 정보를 불러오는데 실패했습니다.');
@@ -139,6 +134,9 @@ const PartnerEditPage: React.FC = () => {
             )}
           />
 
+          {/* 백엔드에서 지원하지 않는 필드들은 주석 처리 또는 제거 */}
+          {/* TODO: 백엔드 API 확장 시 아래 필드들 활성화 */}
+          {/*
           <Controller
             name="contactPerson"
             control={control}
@@ -197,6 +195,7 @@ const PartnerEditPage: React.FC = () => {
               />
             )}
           />
+          */}
 
           <Box sx={{ display: 'flex', gap: 2, mt: 3, flexDirection: isMobile ? 'column' : 'row' }}>
             <Button type="button" variant="outlined" onClick={() => navigate(`/partners/${id}`)}

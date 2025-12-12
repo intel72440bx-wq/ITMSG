@@ -2,18 +2,18 @@
 
 export interface Partner {
   id: number;
+  code?: string;
   name: string;
   businessNumber: string;
   ceoName?: string;
-  address?: string;
-  contactPerson?: string;
-  phoneNumber?: string;
-  email?: string;
+  isClosed?: boolean;
+  closedAt?: string;
   managerId?: number;
   managerName?: string;
-  isActive: boolean;
   createdAt: string;
+  createdBy?: string;
   updatedAt: string;
+  updatedBy?: string;
 }
 
 export interface PartnerCreateRequest {
@@ -31,12 +31,7 @@ export interface PartnerUpdateRequest {
   name?: string;
   businessNumber?: string;
   ceoName?: string;
-  address?: string;
-  contactPerson?: string;
-  phoneNumber?: string;
-  email?: string;
   managerId?: number;
-  isActive?: boolean;
 }
 
 export interface PartnerListParams {
@@ -47,10 +42,3 @@ export interface PartnerListParams {
   isActive?: boolean;
   search?: string;
 }
-
-
-
-
-
-
-

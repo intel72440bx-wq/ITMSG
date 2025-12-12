@@ -44,7 +44,7 @@ const PartnerListPage: React.FC = () => {
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
                   <Typography variant="h6" component="div" sx={{ flex: 1, mr: 1 }}>{partner.name}</Typography>
-                  <Chip label={partner.isActive ? '활성' : '비활성'} color={partner.isActive ? 'success' : 'default'} size="small" />
+                  <Chip label={partner.isClosed ? '폐업' : '활성'} color={partner.isClosed ? 'error' : 'success'} size="small" />
                 </Box>
                 <Typography variant="body2" color="text.secondary" gutterBottom>사업자번호: {partner.businessNumber}</Typography>
                 <Typography variant="body2" color="text.secondary" gutterBottom>대표: {partner.ceoName || '-'}</Typography>
@@ -65,7 +65,7 @@ const PartnerListPage: React.FC = () => {
                   <TableCell>{partner.id}</TableCell><TableCell>{partner.name}</TableCell>
                   <TableCell>{partner.businessNumber}</TableCell><TableCell>{partner.ceoName || '-'}</TableCell>
                   <TableCell>{partner.phoneNumber || '-'}</TableCell><TableCell>{partner.managerName || '-'}</TableCell>
-                  <TableCell><Chip label={partner.isActive ? '활성' : '비활성'} color={partner.isActive ? 'success' : 'default'} size="small" /></TableCell>
+                  <TableCell><Chip label={partner.isClosed ? '폐업' : '활성'} color={partner.isClosed ? 'error' : 'success'} size="small" /></TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -78,10 +78,3 @@ const PartnerListPage: React.FC = () => {
 };
 
 export default PartnerListPage;
-
-
-
-
-
-
-
