@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Paper, TextField, Button, Alert,
+  Box, Typography, Paper, TextField, Button, Alert, CircularProgress,
   useMediaQuery, useTheme,
 } from '@mui/material';
 import { ArrowBack, Save } from '@mui/icons-material';
@@ -37,54 +37,100 @@ const PartnerCreatePage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom>파트너 등록</Typography>
+      <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom>
+        새 파트너 등록
+      </Typography>
 
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
-
-      <Paper sx={{ p: { xs: 2, sm: 3 }, mt: 2, width: '100%' }}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, mt: 3, width: '100%' }}>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ width: '100%' }}>
-          <Controller
-            name="name"
-            control={control}
-            rules={{ required: '파트너명은 필수입니다.' }}
-            render={({ field }) => (
-              <TextField {...field} label="파트너명" fullWidth margin="normal"
-                error={!!errors.name} helperText={errors.name?.message} required />
-            )}
-          />
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
+          {success && (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              {success}
+            </Alert>
+          )}
 
-          <Controller
-            name="businessNumber"
-            control={control}
-            rules={{
-              required: '사업자등록번호는 필수입니다.',
-              pattern: {
-                value: /^\d{10,12}$/,
-                message: '사업자등록번호는 10-12자리 숫자여야 합니다.'
-              }
-            }}
-            render={({ field }) => (
-              <TextField {...field} label="사업자등록번호" fullWidth margin="normal"
-                error={!!errors.businessNumber} helperText={errors.businessNumber?.message || '10-12자리 숫자'}
-                required placeholder="1234567890" />
-            )}
-          />
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: '파트너명은 필수입니다.' }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label="파트너명"
+                  error={!!errors.name}
+                  helperText={errors.name?.message}
+                  required
+                  placeholder="파트너명을 입력하세요"
+                />
+              )}
+            />
 
-          <Controller
-            name="ceoName"
-            control={control}
-            render={({ field }) => (
-              <TextField {...field} label="대표자명" fullWidth margin="normal" helperText="선택사항" />
-            )}
-          />
+            <Controller
+              name="businessNumber"
+              control={control}
+              rules={{
+                required: '사업자등록번호는 필수입니다.',
+                pattern: {
+                  value: /^\d{10,12}$/,
+                  message: '사업자등록번호는 10-12자리 숫자여야 합니다.'
+                }
+              }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label="사업자등록번호"
+                  error={!!errors.businessNumber}
+                  helperText={errors.businessNumber?.message || '10-12자리 숫자'}
+                  required
+                  placeholder="1234567890"
+                />
+              )}
+            />
 
-          <Box sx={{ display: 'flex', gap: 2, mt: 3, flexDirection: isMobile ? 'column' : 'row' }}>
-            <Button type="button" variant="outlined" onClick={() => navigate('/partners')}
-              fullWidth={isMobile} startIcon={!isMobile && <ArrowBack />}>취소</Button>
-            <Button type="submit" variant="contained" disabled={loading}
-              fullWidth={isMobile} startIcon={!isMobile && <Save />}>
-              {loading ? '등록 중...' : '등록'}
+            <Controller
+              name="ceoName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label="대표자명"
+                  helperText="선택사항"
+                />
+              )}
+            />
+          </Box>
+
+          <Box sx={{
+            mt: 3,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 2,
+            flexDirection: { xs: 'column', sm: 'row' },
+          }}>
+            <Button
+              variant="outlined"
+              onClick={() => navigate('/partners')}
+              disabled={loading}
+              fullWidth={isMobile}
+            >
+              취소
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={loading}
+              fullWidth={isMobile}
+            >
+              {loading ? <CircularProgress size={24} /> : '등록'}
             </Button>
           </Box>
         </Box>
@@ -94,6 +140,3 @@ const PartnerCreatePage: React.FC = () => {
 };
 
 export default PartnerCreatePage;
-
-
-

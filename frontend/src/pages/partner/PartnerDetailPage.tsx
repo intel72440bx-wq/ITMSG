@@ -36,10 +36,19 @@ const PartnerDetailPage: React.FC = () => {
     try {
       setLoading(true);
       setError('');
+      console.log('Fetching partner detail for ID:', partnerId);
       const data = await getPartner(partnerId);
+      console.log('Partner detail API response:', data);
       setPartner(data);
     } catch (err: any) {
       console.error('Failed to fetch partner:', err);
+      console.error('Error details:', {
+        message: err.message,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        config: err.config
+      });
       setError(err.message || '파트너 정보를 불러오는데 실패했습니다.');
     } finally {
       setLoading(false);
@@ -136,6 +145,10 @@ const PartnerDetailPage: React.FC = () => {
             label={partner.isClosed ? '폐업' : '활성'}
             color={partner.isClosed ? 'error' : 'success'}
           />
+          <Chip
+            label={partner.code || '코드 없음'}
+            color="default"
+          />
         </Box>
 
         <Divider sx={{ my: 3 }} />
@@ -177,48 +190,22 @@ const PartnerDetailPage: React.FC = () => {
             </Typography>
           </Box>
 
-          {/* 백엔드에서 지원하지 않는 필드들은 주석 처리 또는 제거 */}
-          {/* TODO: 백엔드 API 확장 시 아래 필드들 활성화 */}
-          {/*
-          <Box>
-            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              연락처 담당자
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {partner.contactPerson || '-'}
-            </Typography>
-          </Box>
-
-          <Box>
-            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              전화번호
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {partner.phoneNumber || '-'}
-            </Typography>
-          </Box>
-
-          <Box>
-            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              이메일
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {partner.email || '-'}
-            </Typography>
-          </Box>
-
           <Box sx={{ gridColumn: { xs: '1', md: '1 / -1' } }}>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              주소
+              상태 정보
             </Typography>
             <Paper
               variant="outlined"
               sx={{ p: 2, bgcolor: 'grey.50' }}
             >
-              <Typography variant="body1">{partner.address || '-'}</Typography>
+              <Typography variant="body1">
+                현재 상태: {partner.isClosed ? '폐업' : '활성'}
+                {partner.isClosed && partner.closedAt && (
+                  <><br />폐업일: {new Date(partner.closedAt).toLocaleDateString()}</>
+                )}
+              </Typography>
             </Paper>
           </Box>
-          */}
 
           <Box>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>

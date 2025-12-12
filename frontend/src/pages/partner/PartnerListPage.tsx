@@ -32,45 +32,157 @@ const PartnerListPage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2, width: '100%' }}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 3,
+        flexWrap: 'wrap',
+        gap: 2,
+        width: '100%',
+      }}>
         <Typography variant={isMobile ? 'h5' : 'h4'}>파트너 관리</Typography>
-        <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/partners/new')} size={isMobile ? 'small' : 'medium'}>파트너 등록</Button>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={() => navigate('/partners/new')}
+          size={isMobile ? 'small' : 'medium'}
+        >
+          {isMobile ? '파트너 등록' : '파트너 등록'}
+        </Button>
       </Box>
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+
+      {/* 모바일: 카드 뷰 */}
       {isMobile ? (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
-          {loading ? <Paper sx={{ p: 3, textAlign: 'center' }}><CircularProgress size={24} /><Typography sx={{ mt: 1 }}>로딩 중...</Typography></Paper> : partners.length === 0 ? <Paper sx={{ p: 3, textAlign: 'center' }}><Typography>데이터가 없습니다.</Typography></Paper> : partners.map((partner) => (
-            <Card key={partner.id} sx={{ cursor: 'pointer', width: '100%' }} onClick={() => navigate(`/partners/${partner.id}`)}>
-              <CardContent>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
-                  <Typography variant="h6" component="div" sx={{ flex: 1, mr: 1 }}>{partner.name}</Typography>
-                  <Chip label={partner.isClosed ? '폐업' : '활성'} color={partner.isClosed ? 'error' : 'success'} size="small" />
-                </Box>
-                <Typography variant="body2" color="text.secondary" gutterBottom>사업자번호: {partner.businessNumber}</Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>대표: {partner.ceoName || '-'}</Typography>
-                <Typography variant="body2" color="text.secondary">담당자: {partner.managerName || '-'}</Typography>
-              </CardContent>
-            </Card>
-          ))}
+          {loading ? (
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <CircularProgress size={24} />
+              <Typography sx={{ mt: 1 }}>로딩 중...</Typography>
+            </Paper>
+          ) : partners.length === 0 ? (
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography>데이터가 없습니다.</Typography>
+            </Paper>
+          ) : (
+            partners.map((partner) => (
+              <Card
+                key={partner.id}
+                sx={{ cursor: 'pointer', width: '100%' }}
+                onClick={() => navigate(`/partners/${partner.id}`)}
+              >
+                <CardContent>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ flex: 1, mr: 1 }}>
+                      {partner.name}
+                    </Typography>
+                    <Chip
+                      label={partner.isClosed ? '폐업' : '활성'}
+                      color={partner.isClosed ? 'error' : 'success'}
+                      size="small"
+                    />
+                  </Box>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    사업자번호: {partner.businessNumber}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    대표: {partner.ceoName || '-'}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    담당자: {partner.managerName || '-'}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))
+          )}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <TablePagination component="div" count={totalElements} page={page} onPageChange={(_, newPage) => setPage(newPage)} rowsPerPage={rowsPerPage} onRowsPerPageChange={(e) => { setRowsPerPage(parseInt(e.target.value, 10)); setPage(0); }} labelRowsPerPage="페이지당:" />
+            <TablePagination
+              component="div"
+              count={totalElements}
+              page={page}
+              onPageChange={(_, newPage) => setPage(newPage)}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={(e) => {
+                setRowsPerPage(parseInt(e.target.value, 10));
+                setPage(0);
+              }}
+              labelRowsPerPage="페이지당:"
+            />
           </Box>
         </Box>
       ) : (
+        /* 데스크탑: 테이블 뷰 */
         <TableContainer component={Paper} sx={{ width: '100%' }}>
-          <Table><TableHead><TableRow><TableCell>ID</TableCell><TableCell>파트너명</TableCell><TableCell>사업자번호</TableCell><TableCell>대표</TableCell><TableCell>담당자</TableCell><TableCell>상태</TableCell></TableRow></TableHead>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>파트너명</TableCell>
+                <TableCell>사업자번호</TableCell>
+                <TableCell>대표</TableCell>
+                <TableCell>담당자</TableCell>
+                <TableCell>상태</TableCell>
+                <TableCell>등록일</TableCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
-              {loading ? <TableRow><TableCell colSpan={6} align="center"><CircularProgress size={24} /><Typography sx={{ mt: 1 }}>로딩 중...</Typography></TableCell></TableRow> : partners.length === 0 ? <TableRow><TableCell colSpan={6} align="center"><Typography>데이터가 없습니다.</Typography></TableCell></TableRow> : partners.map((partner) => (
-                <TableRow key={partner.id} hover onClick={() => navigate(`/partners/${partner.id}`)} sx={{ cursor: 'pointer' }}>
-                  <TableCell>{partner.id}</TableCell><TableCell>{partner.name}</TableCell>
-                  <TableCell>{partner.businessNumber}</TableCell><TableCell>{partner.ceoName || '-'}</TableCell>
-                  <TableCell>{partner.managerName || '-'}</TableCell>
-                  <TableCell><Chip label={partner.isClosed ? '폐업' : '활성'} color={partner.isClosed ? 'error' : 'success'} size="small" /></TableCell>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    <CircularProgress size={24} />
+                    <Typography sx={{ mt: 1 }}>로딩 중...</Typography>
+                  </TableCell>
                 </TableRow>
-              ))}
+              ) : partners.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    <Typography>데이터가 없습니다.</Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                partners.map((partner) => (
+                  <TableRow
+                    key={partner.id}
+                    hover
+                    onClick={() => navigate(`/partners/${partner.id}`)}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <TableCell>{partner.id}</TableCell>
+                    <TableCell>{partner.name}</TableCell>
+                    <TableCell>{partner.businessNumber}</TableCell>
+                    <TableCell>{partner.ceoName || '-'}</TableCell>
+                    <TableCell>{partner.managerName || '-'}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={partner.isClosed ? '폐업' : '활성'}
+                        color={partner.isClosed ? 'error' : 'success'}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell>{new Date(partner.createdAt).toLocaleDateString()}</TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
-          <TablePagination component="div" count={totalElements} page={page} onPageChange={(_, newPage) => setPage(newPage)} rowsPerPage={rowsPerPage} onRowsPerPageChange={(e) => { setRowsPerPage(parseInt(e.target.value, 10)); setPage(0); }} labelRowsPerPage="페이지당 행 수:" />
+          <TablePagination
+            component="div"
+            count={totalElements}
+            page={page}
+            onPageChange={(_, newPage) => setPage(newPage)}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={(e) => {
+              setRowsPerPage(parseInt(e.target.value, 10));
+              setPage(0);
+            }}
+            labelRowsPerPage="페이지당 행 수:"
+          />
         </TableContainer>
       )}
     </Box>
