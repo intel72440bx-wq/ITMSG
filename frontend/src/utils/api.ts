@@ -41,6 +41,8 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+
+
     // 임시로 테스트를 위해 인증 에러 시 리다이렉트 비활성화
     // 401 또는 403 에러 (인증 실패 / 권한 없음) - 토큰 갱신 시도
     if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {

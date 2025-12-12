@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/companies",  // 회원가입 시 회사 목록 조회
                                 "/api/projects/**",  // 임시: 프로젝트 API 인증 없이 허용
+                                "/api/partners/**",  // 임시: 파트너 API 인증 없이 허용 (개발/테스트용)
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
