@@ -9,7 +9,7 @@ services:
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
       TZ: Asia/Seoul
     ports:
-      - "0.0.0.0:5432:5432"  # 외부 접속 허용
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     container_name: itmsg-backend
     ports:
-      - "0.0.0.0:8089:8089"  # 외부 접속 허용
+      - "8089:8089"
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/itmsg_db
@@ -51,7 +51,7 @@ services:
       dockerfile: Dockerfile
     container_name: itmsg-frontend
     ports:
-      - "0.0.0.0:3009:80"  # 외부 접속 허용
+      - "3009:80"
     environment:
       TZ: Asia/Seoul
     depends_on:
