@@ -10,15 +10,18 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
-  
+
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-  
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate  # PostgreSQL에서는 Flyway 사용
+
   flyway:
-    clean-disabled: false
+    enabled: true  # PostgreSQL에서는 Flyway 활성화
 
 # Logging
 logging:
@@ -27,12 +30,3 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.security: DEBUG
-
-
-
-
-
-
-
-
-
