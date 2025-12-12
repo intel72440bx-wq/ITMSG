@@ -129,9 +129,9 @@ const UserListPage: React.FC = () => {
               <CircularProgress size={24} />
               <Typography sx={{ mt: 1 }}>로딩 중...</Typography>
             </Paper>
-          ) : users.length === 0 && !error ? (
+          ) : users.length === 0 ? (
             <Paper sx={{ p: 3, textAlign: 'center' }}>
-              <Typography color="text.secondary">데이터가 없습니다.</Typography>
+              <Typography>데이터가 없습니다.</Typography>
             </Paper>
           ) : (
             users.map((user) => (
@@ -278,6 +278,3 @@ const UserListPage: React.FC = () => {
 };
 
 export default UserListPage;
-
-
-
