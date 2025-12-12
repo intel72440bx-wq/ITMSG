@@ -133,17 +133,20 @@ const DashboardPage: React.FC = () => {
       setLoading(true);
       setError('');
 
-      // 병렬로 API 호출
+      // 임시: 백엔드 API가 준비될 때까지 더미 데이터 사용
+      // 실제로는 아래 주석 처리된 코드를 사용할 것
+      /*
       const [projectsRes, srsRes] = await Promise.all([
         apiClient.get('/projects', { params: { page: 0, size: 1 } }),
         apiClient.get('/srs', { params: { page: 0, size: 1 } }),
       ]);
+      */
 
-      // 통계 업데이트
+      // 임시 더미 데이터
       setStats([
         {
           title: '활성 프로젝트',
-          value: projectsRes.data.totalElements || 0,
+          value: 5, // projectsRes.data.totalElements || 0
           subtitle: '진행 중',
           icon: <FolderOpen sx={{ fontSize: 32 }} />,
           color: '#1976d2',
@@ -151,7 +154,7 @@ const DashboardPage: React.FC = () => {
         },
         {
           title: 'SR 요청',
-          value: srsRes.data.totalElements || 0,
+          value: 23, // srsRes.data.totalElements || 0
           subtitle: '이번 달',
           icon: <Description sx={{ fontSize: 32 }} />,
           color: '#2e7d32',
@@ -174,9 +177,46 @@ const DashboardPage: React.FC = () => {
           trend: 15,
         },
       ]);
+
+      console.log('대시보드 더미 데이터 로드 완료');
     } catch (err: any) {
       console.error('Failed to fetch dashboard data:', err);
-      setError('대시보드 데이터를 불러오는데 실패했습니다.');
+      // API 호출 실패 시에도 더미 데이터로 표시
+      setStats([
+        {
+          title: '활성 프로젝트',
+          value: 0,
+          subtitle: '진행 중',
+          icon: <FolderOpen sx={{ fontSize: 32 }} />,
+          color: '#1976d2',
+          trend: 0,
+        },
+        {
+          title: 'SR 요청',
+          value: 0,
+          subtitle: '이번 달',
+          icon: <Description sx={{ fontSize: 32 }} />,
+          color: '#2e7d32',
+          trend: 0,
+        },
+        {
+          title: '승인 대기',
+          value: 0,
+          subtitle: '처리 필요',
+          icon: <CheckCircle sx={{ fontSize: 32 }} />,
+          color: '#ed6c02',
+          trend: 0,
+        },
+        {
+          title: '완료율',
+          value: 0,
+          subtitle: '이번 분기',
+          icon: <TrendingUp sx={{ fontSize: 32 }} />,
+          color: '#7b1fa2',
+          trend: 0,
+        },
+      ]);
+      setError('대시보드 데이터를 불러오는데 실패했습니다. 더미 데이터를 표시합니다.');
     } finally {
       setLoading(false);
     }
@@ -291,14 +331,14 @@ const DashboardPage: React.FC = () => {
       )}
 
       {/* 통계 카드 섹션 */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h6" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
+      <Box sx={{ mb: 3, flexShrink: 0 }}>
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
           주요 지표
         </Typography>
         <Box sx={{
           display: 'grid',
           gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
-          gap: 3,
+          gap: 2,
         }}>
           {stats.map((stat) => (
             <Box key={stat.title} sx={{ minWidth: 0 }}>
@@ -373,15 +413,15 @@ const DashboardPage: React.FC = () => {
             flexDirection: 'column',
             maxHeight: '400px', // 최대 높이 제한
           }}>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            <CardContent sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
                   최근 활동
                 </Typography>
                 <Button
                   size="small"
                   endIcon={<PlayArrow />}
-                  sx={{ textTransform: 'none' }}
+                  sx={{ textTransform: 'none', fontSize: '0.8rem' }}
                   onClick={() => navigate('/projects')}
                 >
                   전체보기
@@ -451,12 +491,12 @@ const DashboardPage: React.FC = () => {
             overflow: 'auto' // 필요시 스크롤
           }}>
             {/* 빠른 액션 */}
-            <Card sx={{ borderRadius: 3 }}>
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+            <Card sx={{ borderRadius: 3, flexShrink: 0 }}>
+              <CardContent sx={{ p: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5, fontSize: '1.1rem' }}>
                   빠른 액션
                 </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
                   <Button
                     variant="outlined"
                     startIcon={<Add />}
@@ -465,7 +505,8 @@ const DashboardPage: React.FC = () => {
                       justifyContent: 'flex-start',
                       textTransform: 'none',
                       borderRadius: 2,
-                      py: 1.5,
+                      py: 1.25,
+                      fontSize: '0.85rem',
                     }}
                   >
                     SR 요청 생성
@@ -478,7 +519,8 @@ const DashboardPage: React.FC = () => {
                       justifyContent: 'flex-start',
                       textTransform: 'none',
                       borderRadius: 2,
-                      py: 1.5,
+                      py: 1.25,
+                      fontSize: '0.85rem',
                     }}
                   >
                     새 프로젝트
@@ -491,7 +533,8 @@ const DashboardPage: React.FC = () => {
                       justifyContent: 'flex-start',
                       textTransform: 'none',
                       borderRadius: 2,
-                      py: 1.5,
+                      py: 1.25,
+                      fontSize: '0.85rem',
                     }}
                   >
                     사용자 등록
@@ -501,23 +544,23 @@ const DashboardPage: React.FC = () => {
             </Card>
 
             {/* 시스템 상태 */}
-            <Card sx={{ borderRadius: 3 }}>
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+            <Card sx={{ borderRadius: 3, flexShrink: 0 }}>
+              <CardContent sx={{ p: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5, fontSize: '1.1rem' }}>
                   시스템 상태
                 </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                   <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                      <Typography variant="body2">서버 상태</Typography>
-                      <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.7rem' }} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
+                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>서버 상태</Typography>
+                      <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.65rem', height: '18px' }} />
                     </Box>
                     <LinearProgress
                       variant="determinate"
                       value={100}
                       sx={{
-                        height: 6,
-                        borderRadius: 3,
+                        height: 5,
+                        borderRadius: 2.5,
                         '& .MuiLinearProgress-bar': {
                           backgroundColor: '#4caf50',
                         },
@@ -527,16 +570,16 @@ const DashboardPage: React.FC = () => {
                   </Box>
 
                   <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                      <Typography variant="body2">데이터베이스</Typography>
-                      <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.7rem' }} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
+                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>데이터베이스</Typography>
+                      <Chip size="small" label="정상" color="success" sx={{ fontSize: '0.65rem', height: '18px' }} />
                     </Box>
                     <LinearProgress
                       variant="determinate"
                       value={100}
                       sx={{
-                        height: 6,
-                        borderRadius: 3,
+                        height: 5,
+                        borderRadius: 2.5,
                         '& .MuiLinearProgress-bar': {
                           backgroundColor: '#4caf50',
                         },
@@ -546,11 +589,11 @@ const DashboardPage: React.FC = () => {
                   </Box>
 
                   <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                      <Typography variant="body2">API 응답시간</Typography>
-                      <Typography variant="caption" color="text.secondary">245ms</Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
+                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>API 응답시간</Typography>
+                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>245ms</Typography>
                     </Box>
-                    <LinearProgress variant="determinate" value={85} color="primary" sx={{ height: 6, borderRadius: 3 }} />
+                    <LinearProgress variant="determinate" value={85} color="primary" sx={{ height: 5, borderRadius: 2.5 }} />
                   </Box>
                 </Box>
               </CardContent>
@@ -558,41 +601,41 @@ const DashboardPage: React.FC = () => {
 
             {/* 알림 */}
             <Card sx={{ borderRadius: 3 }}>
-              <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <Notifications sx={{ mr: 1, color: 'warning.main' as const }} />
-                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              <CardContent sx={{ p: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                  <Notifications sx={{ mr: 1, color: 'warning.main' as const, fontSize: '1.2rem' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
                     알림
                   </Typography>
                 </Box>
 
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
                   <Box sx={{
-                    p: 2,
+                    p: 1.5,
                     bgcolor: 'warning.light',
                     borderRadius: 2,
                     border: '1px solid',
                     borderColor: 'warning.main',
                   }}>
-                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'warning.dark' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'warning.dark', fontSize: '0.85rem' }}>
                       3건의 승인이 대기 중입니다
                     </Typography>
-                    <Typography variant="caption" sx={{ color: 'warning.dark', opacity: 0.8 }}>
+                    <Typography variant="caption" sx={{ color: 'warning.dark', opacity: 0.8, fontSize: '0.75rem' }}>
                       2시간 전
                     </Typography>
                   </Box>
 
                   <Box sx={{
-                    p: 2,
+                    p: 1.5,
                     bgcolor: 'info.light',
                     borderRadius: 2,
                     border: '1px solid',
                     borderColor: 'info.main',
                   }}>
-                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'info.dark' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'info.dark', fontSize: '0.85rem' }}>
                       시스템 점검이 예정되어 있습니다
                     </Typography>
-                    <Typography variant="caption" sx={{ color: 'info.dark', opacity: 0.8 }}>
+                    <Typography variant="caption" sx={{ color: 'info.dark', opacity: 0.8, fontSize: '0.75rem' }}>
                       내일 02:00
                     </Typography>
                   </Box>
