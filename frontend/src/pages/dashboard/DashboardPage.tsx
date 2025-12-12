@@ -124,6 +124,8 @@ const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     fetchDashboardData();
+    // 페이지 로드 시 상단으로 스크롤
+    window.scrollTo(0, 0);
   }, []);
 
   const fetchDashboardData = async () => {

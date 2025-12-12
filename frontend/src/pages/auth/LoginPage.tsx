@@ -42,7 +42,18 @@ const LoginPage: React.FC = () => {
       const response = await login(formData);
       console.log('로그인 성공:', response);
       setAuth(response.user, response.accessToken, response.refreshToken);
+
+      // 로그인 성공 후 대시보드로 이동하며 위치 초기화
       navigate('/dashboard');
+
+      // 약간의 지연 후 페이지 상단으로 스크롤 및 레이아웃 재조정
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        // 브라우저 리플로우 강제 실행으로 레이아웃 재조정
+        document.body.style.display = 'none';
+        document.body.offsetHeight; // 리플로우 트리거
+        document.body.style.display = '';
+      }, 100);
     } catch (err: any) {
       console.error('로그인 실패:', err);
       console.error('에러 상세:', err.response?.data || err.message);
