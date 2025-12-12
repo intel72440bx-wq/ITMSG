@@ -259,8 +259,8 @@ const DashboardPage: React.FC = () => {
 
           {/* 오른쪽: 사용자 정보 */}
           {user && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box sx={{ textAlign: 'right' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, marginLeft: 'auto' }}>
+              <Box sx={{ textAlign: 'right', mr: 2 }}>
                 <Typography variant="body1" sx={{ fontWeight: 600 }}>
                   {user.name}
                 </Typography>
@@ -307,7 +307,14 @@ const DashboardPage: React.FC = () => {
               }}>
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                    <Box sx={{ color: stat.color, opacity: 0.8 }}>
+                    <Box sx={{
+                      color: stat.color,
+                      opacity: 0.8,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      width: '100%'
+                    }}>
                       {stat.icon}
                     </Box>
                     {stat.trend && (
