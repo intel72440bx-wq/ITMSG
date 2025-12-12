@@ -60,7 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
   const drawerContent = (
     <>
       <Toolbar sx={{ px: 3, py: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <Box sx={{ display: 'flex', alignItems: 'left', width: '100%' }}>
           <Typography
             variant="h6"
             noWrap
