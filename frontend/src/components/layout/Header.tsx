@@ -113,10 +113,10 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           ITMS
         </Typography>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 }, marginLeft: 'auto' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 }, marginLeft: 'auto' }}>
           {/* 모바일에서는 사용자 정보 숨김 */}
           {!isMobile && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', mr: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
               <Typography variant="body2" sx={{ fontWeight: 500 }}>
                 {user?.name}
               </Typography>
@@ -130,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             size={isMobile ? 'small' : 'medium'}
             onClick={handleMenu}
             color="inherit"
-            sx={{ p: { xs: 0.5, sm: 1 } }}
+            sx={{ p: { xs: 0.5, sm: 0.75 } }}
           >
             {user?.name ? (
               <Avatar 
