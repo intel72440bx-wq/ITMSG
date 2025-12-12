@@ -73,6 +73,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
         borderBottom: '1px solid #e0e7ff',
         backdropFilter: 'blur(8px)',
+        display: 'none', // 헤더를 화면에서 숨김
       }}
     >
       <Toolbar sx={{ px: { xs: 3, sm: 4, md: 5 }, minHeight: { xs: 64, sm: 72 }, maxWidth: '1400px', width: '100%', mx: 'auto' }}>
