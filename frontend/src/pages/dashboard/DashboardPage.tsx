@@ -285,17 +285,17 @@ const DashboardPage: React.FC = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: 2
+          gap: 1.5
         }}>
           {/* 왼쪽: ITMS 텍스트 */}
           <Box>
-            <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-              ITMS 대시보드
+            <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.75, fontSize: '1.75rem' }}>
+              ITMSG 대시보드
             </Typography>
-            <Typography variant="body1" sx={{ opacity: 0.9, mb: 2 }}>
+            <Typography variant="body1" sx={{ opacity: 0.9, mb: 1.5, fontSize: '0.95rem' }}>
               안녕하세요! 오늘도 효율적인 IT 서비스 관리를 위해 노력하세요.
             </Typography>
-            <Typography variant="caption" sx={{ opacity: 0.8 }}>
+            <Typography variant="caption" sx={{ opacity: 0.8, fontSize: '0.8rem' }}>
               {new Date().toLocaleDateString('ko-KR', {
                 year: 'numeric',
                 month: 'long',
