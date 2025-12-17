@@ -16,6 +16,9 @@ import {
   ListItemAvatar,
   ListItemText,
   Divider,
+  Menu,
+  MenuItem,
+  IconButton,
 } from '@mui/material';
 import {
   FolderOpen,
@@ -32,9 +35,13 @@ import {
   Person,
   Business,
   Timeline,
+  AccountCircle,
+  Logout,
+  Lock,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
+import { logout } from '../../api/auth';
 import apiClient from '../../utils/api';
 
 interface StatCard {
@@ -57,9 +64,10 @@ interface RecentActivity {
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, clearAuth } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [stats, setStats] = useState<StatCard[]>([
     {
       title: '활성 프로젝트',
@@ -241,6 +249,25 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      clearAuth();
+      navigate('/login');
+    }
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
@@ -316,11 +343,51 @@ const DashboardPage: React.FC = () => {
                   {user.companyName}
                 </Typography>
               </Box>
-              <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)', width: 48, height: 48 }}>
-                {user.name?.charAt(0)?.toUpperCase() || 'U'}
-              </Avatar>
+              <IconButton
+                onClick={handleMenu}
+                sx={{
+                  p: 0.5,
+                  borderRadius: 2,
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  }
+                }}
+              >
+                <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)', width: 48, height: 48 }}>
+                  {user.name?.charAt(0)?.toUpperCase() || 'U'}
+                </Avatar>
+              </IconButton>
             </Box>
           )}
+
+          {/* 사용자 메뉴 */}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            PaperProps={{
+              sx: {
+                mt: 1,
+                minWidth: 200,
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+              },
+            }}
+          >
+            <MenuItem onClick={() => { handleClose(); navigate('/profile'); }}>
+              <Person sx={{ mr: 1, fontSize: 20 }} /> 내 프로필
+            </MenuItem>
+            <MenuItem onClick={() => { handleClose(); navigate('/change-password'); }}>
+              <Lock sx={{ mr: 1, fontSize: 20 }} /> 비밀번호 변경
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={handleLogout}>
+              <Logout sx={{ mr: 1, fontSize: 20 }} /> 로그아웃
+            </MenuItem>
+          </Menu>
         </Box>
       </Box>
 
