@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
   const location = useLocation();
   const { user } = useAuthStore();
   const isAdmin = user?.roles?.includes('ADMIN') || false;
-  const isSystemAdmin = user?.roles?.includes('SYSTEM_ADMIN') || false;
+  const isSystemAdmin = user?.roles?.some(role => role === 'ROLE_SYSTEM_ADMIN' || role === 'SYSTEM_ADMIN') || false;
 
   const handleNavigate = (path: string) => {
     navigate(path);
