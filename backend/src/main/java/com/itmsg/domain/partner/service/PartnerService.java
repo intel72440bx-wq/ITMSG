@@ -110,7 +110,7 @@ public class PartnerService {
     }
     
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public void deletePartner(Long id) {
         Partner partner = partnerRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.PARTNER_NOT_FOUND));
