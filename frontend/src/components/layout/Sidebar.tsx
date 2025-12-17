@@ -54,6 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
   const location = useLocation();
   const { user } = useAuthStore();
   const isAdmin = user?.roles?.includes('ADMIN') || false;
+  const isSystemAdmin = user?.roles?.includes('SYSTEM_ADMIN') || false;
 
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -150,8 +151,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
 
       <List sx={{ px: 1, pb: 2 }}>
         {menuItems.slice(5).map((item) => {
-          // 사용자 관리 메뉴는 ADMIN 권한이 있는 경우에만 표시
-          if (item.path === '/users' && !isAdmin) {
+          // 사용자 관리 메뉴는 SYSTEM_ADMIN 권한이 있는 경우에만 표시
+          if (item.path === '/users' && !isSystemAdmin) {
             return null;
           }
 

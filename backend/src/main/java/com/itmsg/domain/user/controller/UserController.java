@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 사용자 관리 Controller
  *
- * ADMIN 권한을 가진 사용자만 접근 가능
+ * SYSTEM_ADMIN 권한을 가진 사용자만 접근 가능
  */
-@Tag(name = "User Management", description = "사용자 관리 API (관리자 전용)")
+@Tag(name = "User Management", description = "사용자 관리 API (시스템 관리자 전용)")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('SYSTEM_ADMIN')")
 public class UserController {
     
     private final UserService userService;
