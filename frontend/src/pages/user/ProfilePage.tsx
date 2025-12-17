@@ -10,7 +10,7 @@ import {
   Avatar,
   Divider,
 } from '@mui/material';
-import { Save, Person } from '@mui/icons-material';
+import { Save, Person, Cancel } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuthStore } from '../../store/authStore';
 import { getMyProfile, updateMyProfile, type UserUpdateRequest } from '../../api/user';
@@ -58,6 +58,14 @@ const ProfilePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCancel = () => {
+    // 폼을 원래 값으로 리셋
+    fetchUser();
+    // 에러 및 성공 메시지 초기화
+    setError('');
+    setSuccess('');
   };
 
   const getInitials = (name: string) => {
@@ -211,6 +219,15 @@ const ProfilePage: React.FC = () => {
           />
 
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
+            <Button
+              type="button"
+              variant="outlined"
+              startIcon={<Cancel />}
+              onClick={handleCancel}
+              disabled={loading}
+            >
+              취소
+            </Button>
             <Button
               type="submit"
               variant="contained"
