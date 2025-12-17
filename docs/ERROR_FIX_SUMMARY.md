@@ -212,7 +212,7 @@ SELECT * FROM menus;
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (IT Management System GCDC)  
 **Phase**: MVP Phase 1
 
 

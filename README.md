@@ -1,4 +1,4 @@
-# ITMSG - Advanced Request & Issue Management System
+# ITMSG - IT Management System GCDC
 
 IT 프로젝트의 SR(Service Request), SPEC, 승인, 장애 등을 통합 관리하는 엔터프라이즈급 관리 시스템
 

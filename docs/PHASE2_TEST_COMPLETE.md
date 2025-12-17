@@ -408,7 +408,7 @@ Approval Line 상태:
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (IT Management System GCDC)  
 **Phase**: MVP Phase 2 - Testing Complete  
 **문서 버전**: 1.0.0  
 **테스트 일시**: 2025-10-15

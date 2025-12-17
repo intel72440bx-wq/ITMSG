@@ -612,7 +612,7 @@ POST /api/auth/login
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (IT Management System GCDC)  
 **Phase**: MVP Phase 3 Complete  
 **문서 버전**: 1.0.0  
 **작성 일시**: 2025-10-15

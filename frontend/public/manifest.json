@@ -1,7 +1,7 @@
 {
   "name": "ITMSG - IT 프로젝트 관리 시스템",
   "short_name": "ITMSG",
-  "description": "Advanced Request & Issue Management System",
+  "description": "IT Management System GCDC",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1e3a4c",

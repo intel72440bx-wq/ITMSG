@@ -879,7 +879,7 @@ Phase 2의 핵심 프로세스인 **SR → SPEC → 승인**이 모두 정상 �
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (IT Management System GCDC)  
 **Phase**: MVP Phase 2 - Testing Guide  
 **문서 버전**: 1.0.0
 

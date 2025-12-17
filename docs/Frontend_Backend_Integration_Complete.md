@@ -420,7 +420,7 @@ services:
 
 ## 🎉 결론
 
-**ITMSG (Advanced Request & Issue Management System)**의 **Frontend-Backend 연동이 완벽하게 완료**되었습니다!
+**ITMSG (IT Management System GCDC)**의 **Frontend-Backend 연동이 완벽하게 완료**되었습니다!
 
 ### 연동 성공률
 - **API 연동**: 100% (9/9)

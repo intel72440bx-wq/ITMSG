@@ -101,7 +101,7 @@ const LoginPage: React.FC = () => {
           ITMSG
         </Typography>
         <Typography variant="subtitle1" gutterBottom align="center" color="text.secondary">
-          Advanced Request & Issue Management System
+          IT Management System GCDC
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>

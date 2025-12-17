@@ -36,7 +36,7 @@ ITMSG 브랜드를 대표하는 SVG 아이콘을 디자인했습니다:
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="ITMSG - Advanced Request & Issue Management System" />
+    <meta name="description" content="ITMSG - IT Management System GCDC" />
     <meta name="theme-color" content="#1e3a4c" />
     <title>ITMSG - IT 프로젝트 관리 시스템</title>
   </head>
@@ -59,7 +59,7 @@ ITMSG 브랜드를 대표하는 SVG 아이콘을 디자인했습니다:
 {
   "name": "ITMSG - IT 프로젝트 관리 시스템",
   "short_name": "ITMSG",
-  "description": "Advanced Request & Issue Management System",
+  "description": "IT Management System GCDC",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1e3a4c",
@@ -246,7 +246,7 @@ $ curl -s http://localhost:3000/ | grep -E "(favicon|manifest)"
 ### After
 ```html
 <title>ITMSG - IT 프로젝트 관리 시스템</title>
-<meta name="description" content="ITMSG - Advanced Request & Issue Management System" />
+<meta name="description" content="ITMSG - IT Management System GCDC" />
 <meta name="theme-color" content="#1e3a4c" />
 ```
 
@@ -275,7 +275,7 @@ $ curl -s http://localhost:3000/ | grep -E "(favicon|manifest)"
 
 ```html
 <meta property="og:title" content="ITMSG - IT 프로젝트 관리 시스템">
-<meta property="og:description" content="Advanced Request & Issue Management System">
+<meta property="og:description" content="IT Management System GCDC">
 <meta property="og:image" content="/og-image.png">
 <meta property="og:url" content="https://itmsg.example.com">
 ```

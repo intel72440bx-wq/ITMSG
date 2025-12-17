@@ -392,7 +392,7 @@ service_requests/specifications → approvals (1) ←→ (N) approval_lines
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (IT Management System GCDC)  
 **Phase**: MVP Phase 2 - 기반 구조 완료
 
 

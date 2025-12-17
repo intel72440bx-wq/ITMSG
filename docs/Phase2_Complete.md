@@ -413,7 +413,7 @@ Phase 3에서 구현할 기능:
 ---
 
 **작성자**: AI Assistant  
-**프로젝트**: ITMSG (Advanced Request & Issue Management System)  
+**프로젝트**: ITMSG (IT Management System GCDC)  
 **Phase**: MVP Phase 2 - 완료  
 **다음 단계**: Phase 3 또는 Phase 2 통합 테스트
 

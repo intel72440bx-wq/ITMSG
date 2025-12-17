@@ -3,7 +3,7 @@
 ## 📋 문서 정보
 - **작성일**: 2025-10-15
 - **버전**: 1.0.0
-- **프로젝트명**: ITMSG (Advanced Request & Issue Management System)
+- **프로젝트명**: ITMSG (IT Management System GCDC)
 - **목적**: IT 프로젝트의 SR, SPEC, 승인, 장애 등을 통합 관리하는 엔터프라이즈 시스템 개발
 
 ---

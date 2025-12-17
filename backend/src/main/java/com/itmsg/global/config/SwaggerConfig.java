@@ -22,12 +22,12 @@ public class SwaggerConfig {
         
         return new OpenAPI()
                 .info(new Info()
-                        .title("ARIS API Documentation")
-                        .description("Advanced Request & Issue Management System REST API")
+                        .title("IT Management System GCDC API Documentation")
+                        .description("IT Management System GCDC")
                         .version("1.0.0")
                         .contact(new Contact()
-                                .name("ARIS Team")
-                                .email("contact@aris.com"))
+                                .name("ITMSG Team")
+                                .email("contact@ITMSG.com"))
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("http://www.apache.org/licenses/LICENSE-2.0.html")))
@@ -42,12 +42,3 @@ public class SwaggerConfig {
                                         .description("JWT 토큰을 입력하세요 (Bearer 접두사 없이)")));
     }
 }
-
-
-
-
-
-
-
-
-
