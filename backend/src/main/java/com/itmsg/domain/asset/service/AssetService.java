@@ -82,7 +82,18 @@ public class AssetService {
                         .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
                 : null;
 
-        asset.updateAsset(request, manager);
+        asset.updateAsset(
+            request.name(),
+            request.assetType(),
+            request.model(),
+            request.manufacturer(),
+            request.serialNumber(),
+            request.location(),
+            request.acquiredAt(),
+            request.warrantyEndDate(),
+            request.notes(),
+            manager
+        );
 
         log.info("자산 수정 완료: {}", asset.getAssetNumber());
         return AssetResponse.from(asset);

@@ -72,18 +72,20 @@ public class Asset extends BaseEntity {
     /**
      * 자산 수정
      */
-    public void updateAsset(AssetRequest request, User manager) {
-        this.name = request.name();
-        this.assetType = request.assetType();
-        this.model = request.model();
-        this.manufacturer = request.manufacturer();
-        this.serialNumber = request.serialNumber();
-        this.location = request.location();
-        if (request.acquiredAt() != null) {
-            this.acquiredAt = request.acquiredAt();
+    public void updateAsset(String name, AssetType assetType, String model, String manufacturer,
+                           String serialNumber, String location, LocalDate acquiredAt,
+                           LocalDate warrantyEndDate, String notes, User manager) {
+        this.name = name;
+        this.assetType = assetType;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.serialNumber = serialNumber;
+        this.location = location;
+        if (acquiredAt != null) {
+            this.acquiredAt = acquiredAt;
         }
-        this.warrantyEndDate = request.warrantyEndDate();
-        this.notes = request.notes();
+        this.warrantyEndDate = warrantyEndDate;
+        this.notes = notes;
         this.manager = manager;
     }
 
