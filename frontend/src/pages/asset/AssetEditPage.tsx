@@ -1,45 +1,114 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, Paper, TextField, Button, MenuItem, Alert,
   useMediaQuery, useTheme,
 } from '@mui/material';
 import { ArrowBack, Save } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { createAsset } from '../../api/asset';
-import type { AssetCreateRequest } from '../../types/asset.types';
-import { getUsers } from '../../api/user';
-import type { User } from '../../types/auth.types';
+import { getAsset, updateAsset } from '../../api/asset';
+import type { Asset, AssetUpdateRequest } from '../../types/asset.types';
 
-const AssetCreatePage: React.FC = () => {
+const AssetEditPage: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { control, handleSubmit, formState: { errors } } = useForm<AssetCreateRequest>();
+  const { id } = useParams<{ id: string }>();
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm<AssetUpdateRequest>();
+  const [asset, setAsset] = useState<Asset | null>(null);
   const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const onSubmit = async (data: AssetCreateRequest) => {
+  useEffect(() => {
+    if (id) {
+      fetchAsset(Number(id));
+    }
+  }, [id]);
+
+  const fetchAsset = async (assetId: number) => {
+    try {
+      setFetchLoading(true);
+      const data = await getAsset(assetId);
+      setAsset(data);
+
+      // 폼에 데이터 채우기
+      setValue('name', data.name);
+      setValue('assetType', data.assetType);
+      setValue('manufacturer', data.manufacturer || '');
+      setValue('model', data.model || '');
+      setValue('serialNumber', data.serialNumber || '');
+      setValue('location', data.location || '');
+      setValue('acquiredAt', data.acquiredAt ? data.acquiredAt.split('T')[0] : '');
+      setValue('warrantyEndDate', data.warrantyEndDate ? data.warrantyEndDate.split('T')[0] : '');
+      setValue('status', data.status);
+      setValue('managerId', data.managerId || undefined);
+      setValue('notes', data.notes || '');
+    } catch (err: any) {
+      console.error('Failed to fetch asset:', err);
+      setError(err.message || '자산 정보를 불러오는데 실패했습니다.');
+    } finally {
+      setFetchLoading(false);
+    }
+  };
+
+  const onSubmit = async (data: AssetUpdateRequest) => {
+    if (!asset) return;
+
     setLoading(true);
     setError('');
     setSuccess('');
 
     try {
-      await createAsset(data);
-      setSuccess('자산이 등록되었습니다!');
-      setTimeout(() => navigate('/assets'), 2000);
+      console.log('Updating asset with data:', data);
+      const response = await updateAsset(asset.id, data);
+      console.log('Asset update response:', response);
+      setSuccess('자산이 수정되었습니다!');
+      setTimeout(() => navigate(`/assets/${asset.id}`), 2000);
     } catch (err: any) {
-      console.error('Failed to create asset:', err);
-      setError(err.message || '자산 등록에 실패했습니다.');
+      console.error('Failed to update asset:', err);
+      console.error('Error details:', {
+        message: err.message,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        config: err.config
+      });
+      setError(err.message || '자산 수정에 실패했습니다.');
     } finally {
       setLoading(false);
     }
   };
 
+  if (fetchLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+        <Typography>로딩 중...</Typography>
+      </Box>
+    );
+  }
+
+  if (error && !asset) {
+    return (
+      <Box>
+        <Alert severity="error">{error}</Alert>
+        <Button
+          startIcon={<ArrowBack />}
+          onClick={() => navigate('/assets')}
+          sx={{ mt: 2 }}
+        >
+          목록으로
+        </Button>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom>자산 등록</Typography>
+      <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom>
+        자산 수정 - {asset?.name}
+      </Typography>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
@@ -112,7 +181,7 @@ const AssetCreatePage: React.FC = () => {
             control={control}
             render={({ field }) => (
               <TextField {...field} label="취득일" type="date" fullWidth margin="normal"
-                InputLabelProps={{ shrink: true }} helperText="선택사항 (미입력 시 오늘 날짜)" />
+                InputLabelProps={{ shrink: true }} helperText="선택사항" />
             )}
           />
 
@@ -126,6 +195,19 @@ const AssetCreatePage: React.FC = () => {
           />
 
           <Controller
+            name="status"
+            control={control}
+            render={({ field }) => (
+              <TextField {...field} select label="상태" fullWidth margin="normal">
+                <MenuItem value="AVAILABLE">사용가능</MenuItem>
+                <MenuItem value="IN_USE">사용중</MenuItem>
+                <MenuItem value="MAINTENANCE">유지보수</MenuItem>
+                <MenuItem value="RETIRED">폐기</MenuItem>
+              </TextField>
+            )}
+          />
+
+          <Controller
             name="notes"
             control={control}
             render={({ field }) => (
@@ -134,11 +216,11 @@ const AssetCreatePage: React.FC = () => {
           />
 
           <Box sx={{ display: 'flex', gap: 2, mt: 3, flexDirection: isMobile ? 'column' : 'row' }}>
-            <Button type="button" variant="outlined" onClick={() => navigate('/assets')}
+            <Button type="button" variant="outlined" onClick={() => navigate(`/assets/${id}`)}
               fullWidth={isMobile} startIcon={!isMobile && <ArrowBack />}>취소</Button>
             <Button type="submit" variant="contained" disabled={loading}
               fullWidth={isMobile} startIcon={!isMobile && <Save />}>
-              {loading ? '등록 중...' : '등록'}
+              {loading ? '수정 중...' : '수정'}
             </Button>
           </Box>
         </Box>
@@ -147,4 +229,4 @@ const AssetCreatePage: React.FC = () => {
   );
 };
 
-export default AssetCreatePage;
+export default AssetEditPage;

@@ -29,6 +29,8 @@ import PartnerDetailPage from './pages/partner/PartnerDetailPage';
 import PartnerEditPage from './pages/partner/PartnerEditPage';
 import AssetListPage from './pages/asset/AssetListPage';
 import AssetCreatePage from './pages/asset/AssetCreatePage';
+import AssetDetailPage from './pages/asset/AssetDetailPage';
+import AssetEditPage from './pages/asset/AssetEditPage';
 import UserListPage from './pages/user/UserListPage';
 import UserCreatePage from './pages/user/UserCreatePage';
 import UserEditPage from './pages/user/UserEditPage';
@@ -124,7 +126,8 @@ function App() {
             {/* 자산 관리 */}
             <Route path="assets" element={<AssetListPage />} />
             <Route path="assets/new" element={<AssetCreatePage />} />
-            <Route path="assets/:id" element={<div>자산 상세 페이지 (구현 예정)</div>} />
+            <Route path="assets/:id/edit" element={<AssetEditPage />} />
+            <Route path="assets/:id" element={<AssetDetailPage />} />
             
             {/* 사용자 관리 (시스템 관리자 전용) */}
             <Route path="users" element={<UserListPage />} />

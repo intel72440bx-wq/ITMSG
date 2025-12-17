@@ -29,22 +29,28 @@ public class AssetService {
     @Transactional
     public AssetResponse createAsset(AssetRequest request) {
         String assetNumber = numberingService.generateAssetNumber();
-        
+
         var assetBuilder = Asset.builder()
                 .assetNumber(assetNumber)
+                .name(request.name())
                 .assetType(request.assetType())
+                .model(request.model())
+                .manufacturer(request.manufacturer())
                 .serialNumber(request.serialNumber())
-                .acquiredAt(request.acquiredAt());
-        
+                .location(request.location())
+                .acquiredAt(request.acquiredAt() != null ? request.acquiredAt() : LocalDate.now())
+                .warrantyEndDate(request.warrantyEndDate())
+                .notes(request.notes());
+
         if (request.managerId() != null) {
             var manager = userRepository.findById(request.managerId())
                     .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
             assetBuilder.manager(manager);
         }
-        
+
         Asset asset = assetBuilder.build();
         Asset savedAsset = assetRepository.save(asset);
-        
+
         log.info("자산 생성 완료: {}", savedAsset.getAssetNumber());
         return AssetResponse.from(savedAsset);
     }
@@ -70,14 +76,14 @@ public class AssetService {
     public AssetResponse updateAsset(Long id, AssetRequest request) {
         Asset asset = assetRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ASSET_NOT_FOUND));
-        
+
         var manager = request.managerId() != null
                 ? userRepository.findById(request.managerId())
                         .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
                 : null;
-        
-        asset.updateAsset(request.assetType(), request.serialNumber(), manager);
-        
+
+        asset.updateAsset(request, manager);
+
         log.info("자산 수정 완료: {}", asset.getAssetNumber());
         return AssetResponse.from(asset);
     }
@@ -114,12 +120,3 @@ public class AssetService {
         log.info("자산 삭제 완료: {}", asset.getAssetNumber());
     }
 }
-
-
-
-
-
-
-
-
-

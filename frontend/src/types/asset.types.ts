@@ -2,39 +2,50 @@
 
 export interface Asset {
   id: number;
+  assetNumber: string;
   name: string;
-  assetType: 'SERVER' | 'NETWORK' | 'SOFTWARE' | 'LICENSE' | 'ETC';
-  serialNumber?: string;
+  assetType: 'PC' | 'LAPTOP' | 'MONITOR' | 'SERVER' | 'NETWORK' | 'SOFTWARE' | 'LICENSE' | 'ETC';
   model?: string;
   manufacturer?: string;
-  purchaseDate?: string;
-  warrantyEndDate?: string;
-  status: 'IN_USE' | 'AVAILABLE' | 'MAINTENANCE' | 'RETIRED';
+  serialNumber?: string;
   location?: string;
+  acquiredAt?: string;
+  warrantyEndDate?: string;
+  status: string;
+  isExpired?: boolean;
+  expiredAt?: string;
+  notes?: string;
   managerId?: number;
   managerName?: string;
-  notes?: string;
   createdAt: string;
+  createdBy?: string;
   updatedAt: string;
+  updatedBy?: string;
 }
 
 export interface AssetCreateRequest {
-  assetType: 'PC' | 'LAPTOP' | 'MONITOR' | 'SERVER' | 'NETWORK';
+  name: string;
+  assetType: 'PC' | 'LAPTOP' | 'MONITOR' | 'SERVER' | 'NETWORK' | 'SOFTWARE' | 'LICENSE' | 'ETC';
+  model?: string;
+  manufacturer?: string;
   serialNumber?: string;
+  location?: string;
   acquiredAt?: string;
+  warrantyEndDate?: string;
   managerId?: number;
+  notes?: string;
 }
 
 export interface AssetUpdateRequest {
   name?: string;
-  assetType?: 'SERVER' | 'NETWORK' | 'SOFTWARE' | 'LICENSE' | 'ETC';
-  serialNumber?: string;
+  assetType?: 'PC' | 'LAPTOP' | 'MONITOR' | 'SERVER' | 'NETWORK' | 'SOFTWARE' | 'LICENSE' | 'ETC';
   model?: string;
   manufacturer?: string;
-  purchaseDate?: string;
-  warrantyEndDate?: string;
-  status?: 'IN_USE' | 'AVAILABLE' | 'MAINTENANCE' | 'RETIRED';
+  serialNumber?: string;
   location?: string;
+  acquiredAt?: string;
+  warrantyEndDate?: string;
+  status?: string;
   managerId?: number;
   notes?: string;
 }
@@ -48,8 +59,3 @@ export interface AssetListParams {
   assetType?: string;
   search?: string;
 }
-
-
-
-
-

@@ -25,15 +25,35 @@ public class Asset extends BaseEntity {
     @Column(nullable = false, unique = true, length = 20)
     private String assetNumber;
 
+    @Column(nullable = false, length = 100)
+    private String name;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private AssetType assetType;
 
     @Column(length = 100)
+    private String model;
+
+    @Column(length = 100)
+    private String manufacturer;
+
+    @Column(length = 100)
     private String serialNumber;
+
+    @Column(length = 100)
+    private String location;
 
     @Column(nullable = false)
     private LocalDate acquiredAt;
+
+    @Column
+    private LocalDate warrantyEndDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    @Builder.Default
+    private AssetStatus status = AssetStatus.AVAILABLE;
 
     @Column(nullable = false)
     @Builder.Default
@@ -42,6 +62,9 @@ public class Asset extends BaseEntity {
     @Column
     private LocalDate expiredAt;
 
+    @Column(length = 500)
+    private String notes;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private User manager;
@@ -49,9 +72,18 @@ public class Asset extends BaseEntity {
     /**
      * 자산 수정
      */
-    public void updateAsset(AssetType assetType, String serialNumber, User manager) {
-        this.assetType = assetType;
-        this.serialNumber = serialNumber;
+    public void updateAsset(AssetRequest request, User manager) {
+        this.name = request.name();
+        this.assetType = request.assetType();
+        this.model = request.model();
+        this.manufacturer = request.manufacturer();
+        this.serialNumber = request.serialNumber();
+        this.location = request.location();
+        if (request.acquiredAt() != null) {
+            this.acquiredAt = request.acquiredAt();
+        }
+        this.warrantyEndDate = request.warrantyEndDate();
+        this.notes = request.notes();
         this.manager = manager;
     }
 
@@ -71,10 +103,3 @@ public class Asset extends BaseEntity {
         this.expiredAt = null;
     }
 }
-
-
-
-
-
-
-

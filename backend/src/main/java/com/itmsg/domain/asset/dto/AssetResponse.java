@@ -11,11 +11,18 @@ import java.time.LocalDateTime;
 public record AssetResponse(
         Long id,
         String assetNumber,
+        String name,
         AssetType assetType,
+        String model,
+        String manufacturer,
         String serialNumber,
+        String location,
         LocalDate acquiredAt,
+        LocalDate warrantyEndDate,
+        String status,
         Boolean isExpired,
         LocalDate expiredAt,
+        String notes,
         Long managerId,
         String managerName,
         LocalDateTime createdAt,
@@ -27,11 +34,18 @@ public record AssetResponse(
         return AssetResponse.builder()
                 .id(asset.getId())
                 .assetNumber(asset.getAssetNumber())
+                .name(asset.getName())
                 .assetType(asset.getAssetType())
+                .model(asset.getModel())
+                .manufacturer(asset.getManufacturer())
                 .serialNumber(asset.getSerialNumber())
+                .location(asset.getLocation())
                 .acquiredAt(asset.getAcquiredAt())
+                .warrantyEndDate(asset.getWarrantyEndDate())
+                .status(asset.getStatus().name())
                 .isExpired(asset.getIsExpired())
                 .expiredAt(asset.getExpiredAt())
+                .notes(asset.getNotes())
                 .managerId(asset.getManager() != null ? asset.getManager().getId() : null)
                 .managerName(asset.getManager() != null ? asset.getManager().getName() : null)
                 .createdAt(asset.getCreatedAt())
@@ -41,12 +55,3 @@ public record AssetResponse(
                 .build();
     }
 }
-
-
-
-
-
-
-
-
-
