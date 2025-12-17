@@ -25,6 +25,7 @@ import {
   People,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuthStore } from '../../store/authStore';
 
 const DRAWER_WIDTH = 240;
 
@@ -51,6 +52,8 @@ const menuItems = [
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuthStore();
+  const isAdmin = user?.roles?.includes('ADMIN') || false;
 
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -146,50 +149,57 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isMobile }) => {
       </Box>
 
       <List sx={{ px: 1, pb: 2 }}>
-        {menuItems.slice(5).map((item) => (
-          <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
-            <ListItemButton
-              selected={location.pathname === item.path}
-              onClick={() => handleNavigate(item.path)}
-              sx={{
-                borderRadius: 2,
-                mx: 0.5,
-                px: 2,
-                py: 1.5,
-                '&.Mui-selected': {
-                  backgroundColor: 'primary.main',
-                  color: 'white',
-                  boxShadow: '0 2px 8px rgba(25, 118, 210, 0.25)',
-                  '&:hover': {
-                    backgroundColor: 'primary.dark',
-                  },
-                  '& .MuiListItemIcon-root': {
-                    color: 'white',
-                  },
-                },
-                '&:hover': {
-                  backgroundColor: location.pathname === item.path ? 'primary.dark' : 'rgba(0, 0, 0, 0.04)',
-                },
-              }}
-            >
-              <ListItemIcon
+        {menuItems.slice(5).map((item) => {
+          // 사용자 관리 메뉴는 ADMIN 권한이 있는 경우에만 표시
+          if (item.path === '/users' && !isAdmin) {
+            return null;
+          }
+
+          return (
+            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+              <ListItemButton
+                selected={location.pathname === item.path}
+                onClick={() => handleNavigate(item.path)}
                 sx={{
-                  minWidth: 40,
-                  color: location.pathname === item.path ? 'white' : 'text.secondary',
+                  borderRadius: 2,
+                  mx: 0.5,
+                  px: 2,
+                  py: 1.5,
+                  '&.Mui-selected': {
+                    backgroundColor: 'primary.main',
+                    color: 'white',
+                    boxShadow: '0 2px 8px rgba(25, 118, 210, 0.25)',
+                    '&:hover': {
+                      backgroundColor: 'primary.dark',
+                    },
+                    '& .MuiListItemIcon-root': {
+                      color: 'white',
+                    },
+                  },
+                  '&:hover': {
+                    backgroundColor: location.pathname === item.path ? 'primary.dark' : 'rgba(0, 0, 0, 0.04)',
+                  },
                 }}
               >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.text}
-                primaryTypographyProps={{
-                  fontSize: '0.95rem',
-                  fontWeight: location.pathname === item.path ? 600 : 500,
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+                <ListItemIcon
+                  sx={{
+                    minWidth: 40,
+                    color: location.pathname === item.path ? 'white' : 'text.secondary',
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  primaryTypographyProps={{
+                    fontSize: '0.95rem',
+                    fontWeight: location.pathname === item.path ? 600 : 500,
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
     </>
   );
