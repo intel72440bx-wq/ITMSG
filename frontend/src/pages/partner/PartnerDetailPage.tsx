@@ -14,6 +14,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowBack, Edit, Delete } from '@mui/icons-material';
 import { getPartner, deletePartner } from '../../api/partner';
+import { useAuthStore } from '../../store/authStore';
 import type { Partner } from '../../types/partner.types';
 
 const PartnerDetailPage: React.FC = () => {
@@ -21,10 +22,13 @@ const PartnerDetailPage: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { id } = useParams<{ id: string }>();
+  const { user } = useAuthStore();
   const [partner, setPartner] = useState<Partner | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState(false);
+
+  const isAdmin = user?.roles?.includes('ADMIN') || false;
 
   useEffect(() => {
     if (id) {
@@ -122,16 +126,18 @@ const PartnerDetailPage: React.FC = () => {
           >
             수정
           </Button>
-          <Button
-            variant="outlined"
-            color="error"
-            startIcon={isMobile ? null : <Delete />}
-            onClick={handleDelete}
-            disabled={deleting}
-            size={isMobile ? 'small' : 'medium'}
-          >
-            {deleting ? '삭제 중...' : '삭제'}
-          </Button>
+          {isAdmin && (
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={isMobile ? null : <Delete />}
+              onClick={handleDelete}
+              disabled={deleting}
+              size={isMobile ? 'small' : 'medium'}
+            >
+              {deleting ? '삭제 중...' : '삭제'}
+            </Button>
+          )}
         </Box>
       </Box>
 
