@@ -6,6 +6,7 @@ export interface User {
   email: string;
   name: string;
   phoneNumber?: string;
+  companyId?: number;
   companyName?: string;
   departmentName?: string;
   employeeNumber?: string;
@@ -117,4 +118,3 @@ export const updateMyProfile = async (data: UserUpdateRequest): Promise<User> =>
   const response = await apiClient.put('/profile', data);
   return response.data;
 };
-
