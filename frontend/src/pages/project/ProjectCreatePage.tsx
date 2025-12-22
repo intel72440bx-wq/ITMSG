@@ -32,6 +32,7 @@ interface ProjectFormData {
 }
 
 const ProjectCreatePage: React.FC = () => {
+  console.log('ProjectCreatePage rendering...');
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -53,8 +54,15 @@ const ProjectCreatePage: React.FC = () => {
       code: '',
       name: '',
       description: '',
-      projectType: 'SI',
-      startDate: new Date().toISOString().split('T')[0],
+      projectType: 'SI' as ProjectType,
+      startDate: (() => {
+        try {
+          return new Date().toISOString().split('T')[0];
+        } catch (e) {
+          console.error('Failed to generate default start date:', e);
+          return '';
+        }
+      })(),
       endDate: '',
       companyId: undefined,
       pmId: undefined,
