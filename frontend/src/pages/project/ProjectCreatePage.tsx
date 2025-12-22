@@ -15,9 +15,8 @@ import { Save, Cancel } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { createProject, getCompanies, getPartnersForCompanySelection } from '../../api/project';
-import { getUsers } from '../../api/user';
+import { getUsers, type User } from '../../api/user';
 import type { ProjectRequest, Company, ProjectType } from '../../types/project.types';
-import type { User } from '../../types/auth.types';
 import type { Partner } from '../../types/partner.types';
 
 interface ProjectFormData {
@@ -94,27 +93,30 @@ const ProjectCreatePage: React.FC = () => {
   const fetchCompanies = async () => {
     try {
       const companies = await getCompanies();
-      setCompanies(companies);
+      setCompanies(companies || []);
     } catch (err: any) {
       console.error('Failed to fetch companies:', err);
+      setCompanies([]); // API 실패 시 빈 배열로 설정
     }
   };
 
   const fetchPartners = async () => {
     try {
       const partners = await getPartnersForCompanySelection();
-      setPartners(partners);
+      setPartners(partners || []);
     } catch (err: any) {
       console.error('Failed to fetch partners:', err);
+      setPartners([]); // API 실패 시 빈 배열로 설정
     }
   };
 
   const fetchUsers = async () => {
     try {
       const response = await getUsers();
-      setUsers(response.content);
+      setUsers(response.content || []);
     } catch (err: any) {
       console.error('Failed to fetch users:', err);
+      setUsers([]); // API 실패 시 빈 배열로 설정
     }
   };
 
