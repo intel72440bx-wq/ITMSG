@@ -5,6 +5,7 @@ export interface User {
   email: string;
   name: string;
   phoneNumber?: string;
+  companyId?: number;
   companyName?: string;
   departmentName?: string;
   employeeNumber?: string;
@@ -37,10 +38,3 @@ export interface AuthState {
   refreshToken: string | null;
   isAuthenticated: boolean;
 }
-
-
-
-
-
-
-

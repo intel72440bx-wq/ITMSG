@@ -2,6 +2,8 @@ package com.itmsg.domain.project.service;
 
 import com.itmsg.domain.company.entity.Company;
 import com.itmsg.domain.company.repository.CompanyRepository;
+
+import com.itmsg.domain.partner.service.PartnerService;
 import com.itmsg.domain.project.dto.ProjectRequest;
 import com.itmsg.domain.project.dto.ProjectResponse;
 import com.itmsg.domain.project.entity.Project;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * 프로젝트 Service
@@ -32,6 +35,7 @@ public class ProjectService {
     
     private final ProjectRepository projectRepository;
     private final CompanyRepository companyRepository;
+    private final PartnerService partnerService;
     private final UserRepository userRepository;
     
     /**
@@ -47,15 +51,39 @@ public class ProjectService {
         // 회사 조회: companyId가 없으면 현재 로그인한 사용자의 회사 사용
         Company company;
         if (request.getCompanyId() != null) {
-            company = companyRepository.findById(request.getCompanyId())
-                    .orElseThrow(() -> new BusinessException(ErrorCode.COMPANY_NOT_FOUND));
+            // 먼저 Company에서 조회
+            Optional<Company> companyOpt = companyRepository.findById(request.getCompanyId());
+            if (companyOpt.isPresent()) {
+                company = companyOpt.get();
+            } else {
+                // Company에 없으면 Partner로 간주하고 Partner 정보를 조회
+                try {
+                    var partnerResponse = partnerService.getPartner(request.getCompanyId());
+                    // 파트너의 businessNumber로 동일한 회사가 있는지 확인
+                    Optional<Company> existingCompany = companyRepository.findByBusinessNumber(partnerResponse.businessNumber());
+                    if (existingCompany.isPresent()) {
+                        company = existingCompany.get();
+                    } else {
+                        // 없으면 파트너 정보를 기반으로 새 회사 생성
+                        Company newCompany = Company.builder()
+                                .code(partnerResponse.code())
+                                .name(partnerResponse.name())
+                                .businessNumber(partnerResponse.businessNumber())
+                                .ceoName(partnerResponse.ceoName())
+                                .build();
+                        company = companyRepository.save(newCompany);
+                    }
+                } catch (Exception e) {
+                    throw new BusinessException(ErrorCode.COMPANY_NOT_FOUND, "선택한 회사를 찾을 수 없습니다.");
+                }
+            }
         } else {
             // 현재 로그인한 사용자의 회사 조회
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String email = authentication.getName();
             User currentUser = userRepository.findByEmail(email)
                     .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-            
+
             if (currentUser.getCompany() == null) {
                 throw new BusinessException(ErrorCode.COMPANY_NOT_FOUND);
             }
@@ -150,5 +178,21 @@ public class ProjectService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.PROJECT_NOT_FOUND));
         project.delete();
     }
-}
 
+    /**
+     * 파트너별 담당자 PM 프로젝트 조회
+     * 특정 파트너의 담당자가 PM으로 있는 프로젝트들을 조회
+     */
+    public Page<ProjectResponse> getProjectsByPartnerManager(Long partnerId, Pageable pageable) {
+        // 파트너의 담당자 조회
+        var partnerResponse = partnerService.getPartner(partnerId);
+        if (partnerResponse.managerId() == null) {
+            // 담당자가 없는 경우 빈 결과 반환
+            return Page.empty(pageable);
+        }
+
+        // 담당자가 PM인 프로젝트들 조회
+        return projectRepository.findByPmId(partnerResponse.managerId(), pageable)
+                .map(ProjectResponse::from);
+    }
+}

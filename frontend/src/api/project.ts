@@ -48,5 +48,8 @@ export const getCompanies = async (): Promise<Company[]> => {
   return response.data;
 };
 
-
-
+// 파트너 목록 조회 (회사 선택에 포함하기 위해)
+export const getPartnersForCompanySelection = async (): Promise<Partner[]> => {
+  const response = await apiClient.get<Partner[]>('/partners?size=1000');
+  return response.data;
+};

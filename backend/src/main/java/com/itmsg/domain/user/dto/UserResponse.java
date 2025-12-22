@@ -19,6 +19,7 @@ public class UserResponse {
     private String email;
     private String name;
     private String phoneNumber;
+    private Long companyId;
     private String companyName;
     private String departmentName;
     private String employeeNumber;
@@ -37,6 +38,7 @@ public class UserResponse {
                 .email(user.getEmail())
                 .name(user.getName())
                 .phoneNumber(user.getPhoneNumber())
+                .companyId(user.getCompany() != null ? user.getCompany().getId() : null)
                 .companyName(user.getCompany() != null ? user.getCompany().getName() : null)
                 .departmentName(user.getDepartment() != null ? user.getDepartment().getName() : null)
                 .employeeNumber(user.getEmployeeNumber())
@@ -53,10 +55,3 @@ public class UserResponse {
                 .build();
     }
 }
-
-
-
-
-
-
-

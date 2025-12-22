@@ -567,7 +567,7 @@ const DashboardPage: React.FC = () => {
                   <Button
                     variant="outlined"
                     startIcon={<Add />}
-                    onClick={() => navigate('/srs/create')}
+                    onClick={() => navigate('/srs/new')}
                     sx={{
                       justifyContent: 'flex-start',
                       textTransform: 'none',
@@ -581,7 +581,7 @@ const DashboardPage: React.FC = () => {
                   <Button
                     variant="outlined"
                     startIcon={<FolderOpen />}
-                    onClick={() => navigate('/projects/create')}
+                    onClick={() => navigate('/projects/new')}
                     sx={{
                       justifyContent: 'flex-start',
                       textTransform: 'none',
@@ -595,7 +595,7 @@ const DashboardPage: React.FC = () => {
                   <Button
                     variant="outlined"
                     startIcon={<Person />}
-                    onClick={() => navigate('/users/create')}
+                    onClick={() => navigate('/users/new')}
                     sx={{
                       justifyContent: 'flex-start',
                       textTransform: 'none',

@@ -66,13 +66,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
      */
     @Query("SELECT p FROM Project p WHERE p.pm.id = :pmId AND p.deletedAt IS NULL")
     List<Project> findByPmId(@Param("pmId") Long pmId);
+
+    /**
+     * PM이 관리하는 프로젝트 목록 (페이징)
+     */
+    @Query("SELECT p FROM Project p WHERE p.pm.id = :pmId AND p.deletedAt IS NULL")
+    Page<Project> findByPmId(@Param("pmId") Long pmId, Pageable pageable);
 }
-
-
-
-
-
-
-
-
-

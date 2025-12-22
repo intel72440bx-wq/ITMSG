@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, TextField, Button, Alert, CircularProgress,
-  useMediaQuery, useTheme,
+  useMediaQuery, useTheme, MenuItem,
 } from '@mui/material';
 import { ArrowBack, Save } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { createPartner } from '../../api/partner';
+import { getUsers } from '../../api/user';
 import type { PartnerCreateRequest } from '../../types/partner.types';
+import type { User } from '../../types/auth.types';
 
 const PartnerCreatePage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,6 +19,20 @@ const PartnerCreatePage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await getUsers();
+      setUsers(response.content);
+    } catch (err: any) {
+      console.error('Failed to fetch users:', err);
+    }
+  };
 
   const onSubmit = async (data: PartnerCreateRequest) => {
     setLoading(true);
@@ -105,6 +121,29 @@ const PartnerCreatePage: React.FC = () => {
                   label="대표자명"
                   helperText="선택사항"
                 />
+              )}
+            />
+
+            <Controller
+              name="managerId"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  select
+                  fullWidth
+                  label="담당자"
+                  helperText="파트너 담당자를 선택하세요 (선택사항)"
+                >
+                  <MenuItem value="">
+                    <em>선택 안함</em>
+                  </MenuItem>
+                  {users.map((user) => (
+                    <MenuItem key={user.id} value={user.id}>
+                      {user.name} ({user.email})
+                    </MenuItem>
+                  ))}
+                </TextField>
               )}
             />
           </Box>

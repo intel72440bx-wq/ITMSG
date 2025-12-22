@@ -3,6 +3,8 @@ package com.itmsg.domain.partner.controller;
 import com.itmsg.domain.partner.dto.PartnerRequest;
 import com.itmsg.domain.partner.dto.PartnerResponse;
 import com.itmsg.domain.partner.service.PartnerService;
+import com.itmsg.domain.project.dto.ProjectResponse;
+import com.itmsg.domain.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class PartnerController {
     
     private final PartnerService partnerService;
+    private final ProjectService projectService;
     
     @PostMapping
     @Operation(summary = "파트너 등록", description = "새로운 파트너를 등록합니다.")
@@ -84,13 +87,14 @@ public class PartnerController {
         partnerService.deletePartner(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}/projects")
+    @Operation(summary = "파트너 담당자 PM 프로젝트 조회",
+               description = "파트너의 담당자가 PM으로 있는 프로젝트들을 조회합니다.")
+    public ResponseEntity<Page<ProjectResponse>> getPartnerManagerProjects(
+            @PathVariable Long id,
+            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<ProjectResponse> response = projectService.getProjectsByPartnerManager(id, pageable);
+        return ResponseEntity.ok(response);
+    }
 }
-
-
-
-
-
-
-
-
-

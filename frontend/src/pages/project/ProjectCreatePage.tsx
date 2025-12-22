@@ -14,10 +14,11 @@ import {
 import { Save, Cancel } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { createProject, getCompanies } from '../../api/project';
+import { createProject, getCompanies, getPartnersForCompanySelection } from '../../api/project';
 import { getUsers } from '../../api/user';
 import type { ProjectRequest, Company, ProjectType } from '../../types/project.types';
 import type { User } from '../../types/auth.types';
+import type { Partner } from '../../types/partner.types';
 
 interface ProjectFormData {
   code: string;
@@ -39,12 +40,15 @@ const ProjectCreatePage: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<ProjectFormData>({
     defaultValues: {
       code: '',
@@ -59,10 +63,33 @@ const ProjectCreatePage: React.FC = () => {
     },
   });
 
+  const selectedCompanyId = watch('companyId');
+
   useEffect(() => {
     fetchCompanies();
+    fetchPartners();
     fetchUsers();
   }, []);
+
+  // 회사 선택 시 PM 목록 필터링
+  useEffect(() => {
+    if (selectedCompanyId) {
+      // 파트너 ID인지 회사 ID인지 확인 (파트너는 partners 배열에 있음)
+      const isPartnerSelected = partners.some(partner => partner.id === selectedCompanyId);
+
+      if (isPartnerSelected) {
+        // 파트너 선택 시 모든 사용자 표시 (또는 파트너 담당자 등으로 필터링 가능)
+        setFilteredUsers(users);
+      } else {
+        // 회사 선택 시 해당 회사의 사용자만 필터링
+        const filtered = users.filter(user => user.companyId === selectedCompanyId);
+        setFilteredUsers(filtered);
+      }
+    } else {
+      // 회사 선택 안함 시 모든 사용자 표시
+      setFilteredUsers(users);
+    }
+  }, [selectedCompanyId, users, partners]);
 
   const fetchCompanies = async () => {
     try {
@@ -70,6 +97,15 @@ const ProjectCreatePage: React.FC = () => {
       setCompanies(companies);
     } catch (err: any) {
       console.error('Failed to fetch companies:', err);
+    }
+  };
+
+  const fetchPartners = async () => {
+    try {
+      const partners = await getPartnersForCompanySelection();
+      setPartners(partners);
+    } catch (err: any) {
+      console.error('Failed to fetch partners:', err);
     }
   };
 
@@ -248,8 +284,13 @@ const ProjectCreatePage: React.FC = () => {
                   <em>기본 회사 사용</em>
                 </MenuItem>
                 {companies.map((company) => (
-                  <MenuItem key={company.id} value={company.id}>
+                  <MenuItem key={`company-${company.id}`} value={company.id}>
                     {company.name}
+                  </MenuItem>
+                ))}
+                {partners.map((partner) => (
+                  <MenuItem key={`partner-${partner.id}`} value={partner.id}>
+                    [파트너] {partner.name}
                   </MenuItem>
                 ))}
               </TextField>
@@ -290,7 +331,7 @@ const ProjectCreatePage: React.FC = () => {
                 <MenuItem value="">
                   <em>선택 안함</em>
                 </MenuItem>
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                   <MenuItem key={user.id} value={user.id}>
                     {user.name} ({user.email})
                   </MenuItem>
