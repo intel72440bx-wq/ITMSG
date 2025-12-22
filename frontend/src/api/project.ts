@@ -1,6 +1,7 @@
 import apiClient from '../utils/api';
 import type { Project, ProjectRequest, ProjectListParams, Company } from '../types/project.types';
 import type { PageResponse } from '../types/common.types';
+import type { Partner } from '../types/partner.types';
 
 // 프로젝트 목록 조회
 export const getProjects = async (
