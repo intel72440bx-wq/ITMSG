@@ -74,14 +74,14 @@ const ProjectCreatePage: React.FC = () => {
   useEffect(() => {
     if (selectedCompanyId) {
       // 파트너 ID인지 회사 ID인지 확인 (파트너는 partners 배열에 있음)
-      const isPartnerSelected = partners.some(partner => partner.id === selectedCompanyId);
+      const isPartnerSelected = partners.some(partner => partner && partner.id === selectedCompanyId);
 
       if (isPartnerSelected) {
         // 파트너 선택 시 모든 사용자 표시 (또는 파트너 담당자 등으로 필터링 가능)
         setFilteredUsers(users);
       } else {
         // 회사 선택 시 해당 회사의 사용자만 필터링
-        const filtered = users.filter(user => user.companyId === selectedCompanyId);
+        const filtered = users.filter(user => user && user.companyId === selectedCompanyId);
         setFilteredUsers(filtered);
       }
     } else {
@@ -285,12 +285,12 @@ const ProjectCreatePage: React.FC = () => {
                 <MenuItem value="">
                   <em>기본 회사 사용</em>
                 </MenuItem>
-                {companies.map((company) => (
+                {companies.filter(company => company && company.id).map((company) => (
                   <MenuItem key={`company-${company.id}`} value={company.id}>
                     {company.name}
                   </MenuItem>
                 ))}
-                {partners.map((partner) => (
+                {partners.filter(partner => partner && partner.id).map((partner) => (
                   <MenuItem key={`partner-${partner.id}`} value={partner.id}>
                     [파트너] {partner.name}
                   </MenuItem>
@@ -333,7 +333,7 @@ const ProjectCreatePage: React.FC = () => {
                 <MenuItem value="">
                   <em>선택 안함</em>
                 </MenuItem>
-                {filteredUsers.map((user) => (
+                {filteredUsers.filter(user => user && user.id).map((user) => (
                   <MenuItem key={user.id} value={user.id}>
                     {user.name} ({user.email})
                   </MenuItem>
