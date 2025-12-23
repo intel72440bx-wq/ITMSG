@@ -16,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -69,6 +71,13 @@ public class PartnerService {
     public Page<PartnerResponse> getPartners(String name, Boolean isClosed, Pageable pageable) {
         return partnerRepository.search(name, isClosed, pageable)
                 .map(PartnerResponse::from);
+    }
+
+    public List<PartnerResponse> getPartnersForCompanySelection() {
+        List<Partner> partners = partnerRepository.findByIsClosedFalseOrderByNameAsc();
+        return partners.stream()
+                .map(PartnerResponse::from)
+                .toList();
     }
     
     @Transactional

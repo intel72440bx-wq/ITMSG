@@ -18,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/partners")
 @RequiredArgsConstructor
@@ -55,6 +57,13 @@ public class PartnerController {
             @Parameter(description = "폐업 여부") @RequestParam(required = false) Boolean isClosed,
             @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<PartnerResponse> response = partnerService.getPartners(name, isClosed, pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/for-company-selection")
+    @Operation(summary = "회사 선택용 파트너 목록 조회", description = "프로젝트 등록 시 회사 선택에 사용할 파트너 목록을 조회합니다.")
+    public ResponseEntity<List<PartnerResponse>> getPartnersForCompanySelection() {
+        List<PartnerResponse> response = partnerService.getPartnersForCompanySelection();
         return ResponseEntity.ok(response);
     }
     

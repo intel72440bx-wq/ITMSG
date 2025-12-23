@@ -29,13 +29,7 @@ public interface PartnerRepository extends JpaRepository<Partner, Long> {
     Page<Partner> search(@Param("name") String name,
                         @Param("isClosed") Boolean isClosed,
                         Pageable pageable);
+
+    // 회사 선택용 파트너 목록 조회 (폐업되지 않은 파트너, 이름순 정렬)
+    List<Partner> findByIsClosedFalseOrderByNameAsc();
 }
-
-
-
-
-
-
-
-
-
