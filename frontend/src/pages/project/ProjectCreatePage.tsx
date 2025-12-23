@@ -67,13 +67,16 @@ const ProjectCreatePage: React.FC = () => {
         ]);
 
         if (companiesRes.status === 'fulfilled') {
-          setCompanies(companiesRes.value || []);
+          const companiesData = companiesRes.value;
+          setCompanies(Array.isArray(companiesData) ? companiesData : []);
         }
         if (partnersRes.status === 'fulfilled') {
-          setPartners(partnersRes.value || []);
+          const partnersData = partnersRes.value;
+          setPartners(Array.isArray(partnersData) ? partnersData : []);
         }
         if (usersRes.status === 'fulfilled') {
-          setUsers(usersRes.value.content || []);
+          const usersData = usersRes.value?.content;
+          setUsers(Array.isArray(usersData) ? usersData : []);
         }
 
         console.log('Initial data loaded successfully');
@@ -87,18 +90,18 @@ const ProjectCreatePage: React.FC = () => {
 
   // 회사 선택 시 PM 목록 필터링
   useEffect(() => {
-    if (formData.companyId) {
+    if (formData.companyId && Array.isArray(users) && Array.isArray(partners)) {
       const selectedCompanyId = parseInt(formData.companyId);
-      const isPartnerSelected = partners.some(partner => partner.id === selectedCompanyId);
+      const isPartnerSelected = partners.some(partner => partner && partner.id === selectedCompanyId);
 
       if (isPartnerSelected) {
         setFilteredUsers(users);
       } else {
-        const filtered = users.filter(user => user.companyId === selectedCompanyId);
+        const filtered = users.filter(user => user && user.companyId === selectedCompanyId);
         setFilteredUsers(filtered);
       }
     } else {
-      setFilteredUsers(users);
+      setFilteredUsers(Array.isArray(users) ? users : []);
     }
   }, [formData.companyId, users, partners]);
 
@@ -252,12 +255,12 @@ const ProjectCreatePage: React.FC = () => {
             <MenuItem value="">
               <em>기본 회사 사용</em>
             </MenuItem>
-            {companies.map((company) => (
+            {Array.isArray(companies) && companies.map((company) => (
               <MenuItem key={`company-${company.id}`} value={company.id}>
                 {company.name}
               </MenuItem>
             ))}
-            {partners.map((partner) => (
+            {Array.isArray(partners) && partners.map((partner) => (
               <MenuItem key={`partner-${partner.id}`} value={partner.id}>
                 [파트너] {partner.name}
               </MenuItem>
@@ -276,7 +279,7 @@ const ProjectCreatePage: React.FC = () => {
             <MenuItem value="">
               <em>선택 안함</em>
             </MenuItem>
-            {filteredUsers.map((user) => (
+            {Array.isArray(filteredUsers) && filteredUsers.map((user) => (
               <MenuItem key={user.id} value={user.id}>
                 {user.name} ({user.email})
               </MenuItem>
