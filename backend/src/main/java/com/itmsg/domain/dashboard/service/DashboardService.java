@@ -88,6 +88,59 @@ public class DashboardService {
                 .build();
     }
 
+    public List<RecentActivityResponse> getRecentActivities(int limit) {
+        List<RecentActivityResponse> activities = new ArrayList<>();
+        Pageable pageable = PageRequest.of(0, limit / 4); // 각 타입별로 균등하게 가져오기 위해 나누기
+
+        // 최근 SR 요청
+        List<ServiceRequest> recentSRs = serviceRequestRepository.findAll(pageable).getContent();
+        for (ServiceRequest sr : recentSRs) {
+            activities.add(RecentActivityResponse.builder()
+                    .id("sr-" + sr.getId())
+                    .type("sr")
+                    .title("SR-" + sr.getSrNumber())
+                    .description(sr.getTitle())
+                    .createdAt(sr.getCreatedAt())
+                    .status("요청됨")
+                    .userName(sr.getRequester() != null ? sr.getRequester().getName() : "Unknown")
+                    .build());
+        }
+
+        // 최근 프로젝트
+        List<Project> recentProjects = projectRepository.findAll(pageable).getContent();
+        for (Project project : recentProjects) {
+            activities.add(RecentActivityResponse.builder()
+                    .id("project-" + project.getId())
+                    .type("project")
+                    .title(project.getName())
+                    .description("프로젝트 생성됨")
+                    .createdAt(project.getCreatedAt())
+                    .status("진행 중")
+                    .userName(project.getPm() != null ? project.getPm().getName() : "Unknown")
+                    .build());
+        }
+
+        // 최근 승인 요청
+        List<Approval> recentApprovals = approvalRepository.findAll(pageable).getContent();
+        for (Approval approval : recentApprovals) {
+            activities.add(RecentActivityResponse.builder()
+                    .id("approval-" + approval.getId())
+                    .type("approval")
+                    .title("승인-" + approval.getApprovalNumber())
+                    .description(approval.getTitle())
+                    .createdAt(approval.getRequestedAt())
+                    .status(approval.getStatus().toString())
+                    .userName(approval.getRequester() != null ? approval.getRequester().getName() : "Unknown")
+                    .build());
+        }
+
+        // 시간순으로 정렬 (최신순)
+        activities.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+
+        // 제한된 개수만큼 반환
+        return activities.stream().limit(limit).toList();
+    }
+
     private int getActiveProjects() {
         // ProjectStatus.ACTIVE 또는 진행 중인 프로젝트 수를 계산
         // 현재는 간단히 모든 프로젝트 수를 반환 (실제로는 상태별로 필터링 필요)
