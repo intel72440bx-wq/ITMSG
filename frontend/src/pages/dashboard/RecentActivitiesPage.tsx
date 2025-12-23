@@ -21,11 +21,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  SelectChangeEvent,
   Button,
   Breadcrumbs,
   Link as MuiLink,
 } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material';
 import {
   FolderOpen,
   Description,
@@ -34,7 +34,8 @@ import {
   ArrowBack,
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllRecentActivities, RecentActivity, RecentActivitiesPage } from '../../api/dashboard';
+import { getAllRecentActivities } from '../../api/dashboard';
+import type { RecentActivity, RecentActivitiesPage } from '../../api/dashboard';
 
 const RecentActivitiesPage: React.FC = () => {
   const navigate = useNavigate();
