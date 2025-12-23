@@ -13,6 +13,8 @@ import com.itmsg.domain.sr.entity.ServiceRequest;
 import com.itmsg.domain.sr.repository.ServiceRequestRepository;
 import com.itmsg.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -139,6 +142,70 @@ public class DashboardService {
 
         // 제한된 개수만큼 반환
         return activities.stream().limit(limit).toList();
+    }
+
+    public Page<RecentActivityResponse> getAllRecentActivities(Pageable pageable, String type) {
+        List<RecentActivityResponse> allActivities = new ArrayList<>();
+
+        // 각 도메인에서 모든 데이터를 가져옴
+        List<ServiceRequest> allSRs = serviceRequestRepository.findAll();
+        List<Project> allProjects = projectRepository.findAll();
+        List<Approval> allApprovals = approvalRepository.findAll();
+
+        // SR 활동 추가
+        if (type == null || "sr".equals(type)) {
+            for (ServiceRequest sr : allSRs) {
+                allActivities.add(RecentActivityResponse.builder()
+                        .id("sr-" + sr.getId())
+                        .type("sr")
+                        .title("SR-" + sr.getSrNumber())
+                        .description(sr.getTitle())
+                        .createdAt(sr.getCreatedAt())
+                        .status("요청됨")
+                        .userName(sr.getRequester() != null ? sr.getRequester().getName() : "Unknown")
+                        .build());
+            }
+        }
+
+        // 프로젝트 활동 추가
+        if (type == null || "project".equals(type)) {
+            for (Project project : allProjects) {
+                allActivities.add(RecentActivityResponse.builder()
+                        .id("project-" + project.getId())
+                        .type("project")
+                        .title(project.getName())
+                        .description("프로젝트 생성됨")
+                        .createdAt(project.getCreatedAt())
+                        .status("진행 중")
+                        .userName(project.getPm() != null ? project.getPm().getName() : "Unknown")
+                        .build());
+            }
+        }
+
+        // 승인 활동 추가
+        if (type == null || "approval".equals(type)) {
+            for (Approval approval : allApprovals) {
+                allActivities.add(RecentActivityResponse.builder()
+                        .id("approval-" + approval.getId())
+                        .type("approval")
+                        .title("승인-" + approval.getApprovalNumber())
+                        .description(approval.getApprovalType().toString() + " 승인 요청")
+                        .createdAt(approval.getRequestedAt())
+                        .status(approval.getStatus().toString())
+                        .userName(approval.getRequester() != null ? approval.getRequester().getName() : "Unknown")
+                        .build());
+            }
+        }
+
+        // 시간순으로 정렬 (최신순)
+        allActivities.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+
+        // 페이징 처리
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), allActivities.size());
+        List<RecentActivityResponse> pageContent = allActivities.subList(start, end);
+
+        return new PageImpl<>(pageContent, pageable, allActivities.size());
     }
 
     private int getActiveProjects() {
