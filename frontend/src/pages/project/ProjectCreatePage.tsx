@@ -43,6 +43,21 @@ const ProjectCreatePage: React.FC = () => {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+
+  // 안전한 날짜 생성 함수
+  const getDefaultStartDate = (): string => {
+    try {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    } catch (e) {
+      console.error('Failed to generate default start date:', e);
+      return '';
+    }
+  };
 
   const {
     control,
@@ -55,14 +70,7 @@ const ProjectCreatePage: React.FC = () => {
       name: '',
       description: '',
       projectType: 'SI' as ProjectType,
-      startDate: (() => {
-        try {
-          return new Date().toISOString().split('T')[0];
-        } catch (e) {
-          console.error('Failed to generate default start date:', e);
-          return '';
-        }
-      })(),
+      startDate: getDefaultStartDate(),
       endDate: '',
       companyId: undefined,
       pmId: undefined,
@@ -73,45 +81,66 @@ const ProjectCreatePage: React.FC = () => {
   const selectedCompanyId = watch('companyId');
 
   useEffect(() => {
-    fetchCompanies();
-    fetchPartners();
-    fetchUsers();
+    const fetchInitialData = async () => {
+      setDataLoading(true);
+      try {
+        console.log('Fetching initial data...');
+        await Promise.allSettled([
+          fetchCompanies(),
+          fetchPartners(),
+          fetchUsers()
+        ]);
+        console.log('Initial data fetching completed');
+      } catch (err: any) {
+        console.error('Failed to fetch initial data:', err);
+        // 개별 API 실패는 각 함수에서 처리하므로 여기서는 추가 처리 불필요
+      } finally {
+        setDataLoading(false);
+      }
+    };
+
+    fetchInitialData();
   }, []);
 
   // 회사 선택 시 PM 목록 필터링
   useEffect(() => {
     if (selectedCompanyId) {
       // 파트너 ID인지 회사 ID인지 확인 (파트너는 partners 배열에 있음)
-      const isPartnerSelected = partners.some(partner => partner && partner.id === selectedCompanyId);
+      const isPartnerSelected = (partners || []).some(partner => partner && partner.id === selectedCompanyId);
 
       if (isPartnerSelected) {
         // 파트너 선택 시 모든 사용자 표시 (또는 파트너 담당자 등으로 필터링 가능)
-        setFilteredUsers(users);
+        setFilteredUsers(users || []);
       } else {
         // 회사 선택 시 해당 회사의 사용자만 필터링
-        const filtered = users.filter(user => user && user.companyId === selectedCompanyId);
+        const filtered = (users || []).filter(user => user && user.companyId === selectedCompanyId);
         setFilteredUsers(filtered);
       }
     } else {
       // 회사 선택 안함 시 모든 사용자 표시
-      setFilteredUsers(users);
+      setFilteredUsers(users || []);
     }
   }, [selectedCompanyId, users, partners]);
 
   const fetchCompanies = async () => {
     try {
+      console.log('Fetching companies...');
       const companies = await getCompanies();
       setCompanies(companies || []);
+      console.log('Companies fetched:', companies?.length || 0);
     } catch (err: any) {
       console.error('Failed to fetch companies:', err);
       setCompanies([]); // API 실패 시 빈 배열로 설정
+      // 에러를 throw하지 않고 처리하여 Promise.allSettled가 계속 진행되도록 함
     }
   };
 
   const fetchPartners = async () => {
     try {
+      console.log('Fetching partners...');
       const partners = await getPartnersForCompanySelection();
       setPartners(partners || []);
+      console.log('Partners fetched:', partners?.length || 0);
     } catch (err: any) {
       console.error('Failed to fetch partners:', err);
       setPartners([]); // API 실패 시 빈 배열로 설정
@@ -120,8 +149,10 @@ const ProjectCreatePage: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
+      console.log('Fetching users...');
       const response = await getUsers();
       setUsers(response.content || []);
+      console.log('Users fetched:', response.content?.length || 0);
     } catch (err: any) {
       console.error('Failed to fetch users:', err);
       setUsers([]); // API 실패 시 빈 배열로 설정
@@ -153,6 +184,26 @@ const ProjectCreatePage: React.FC = () => {
       setLoading(false);
     }
   };
+
+  // 데이터 로딩 중일 때는 로딩 화면 표시
+  if (dataLoading) {
+    return (
+      <Box sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '400px'
+      }}>
+        <CircularProgress size={60} sx={{ mb: 2 }} />
+        <Typography variant="h6" color="text.secondary">
+          데이터를 불러오는 중...
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
@@ -293,12 +344,12 @@ const ProjectCreatePage: React.FC = () => {
                 <MenuItem value="">
                   <em>기본 회사 사용</em>
                 </MenuItem>
-                {companies.filter(company => company && company.id).map((company) => (
+                {(companies || []).filter(company => company && company.id).map((company) => (
                   <MenuItem key={`company-${company.id}`} value={company.id}>
                     {company.name}
                   </MenuItem>
                 ))}
-                {partners.filter(partner => partner && partner.id).map((partner) => (
+                {(partners || []).filter(partner => partner && partner.id).map((partner) => (
                   <MenuItem key={`partner-${partner.id}`} value={partner.id}>
                     [파트너] {partner.name}
                   </MenuItem>
@@ -341,7 +392,7 @@ const ProjectCreatePage: React.FC = () => {
                 <MenuItem value="">
                   <em>선택 안함</em>
                 </MenuItem>
-                {filteredUsers.filter(user => user && user.id).map((user) => (
+                {(filteredUsers || []).filter(user => user && user.id).map((user) => (
                   <MenuItem key={user.id} value={user.id}>
                     {user.name} ({user.email})
                   </MenuItem>
