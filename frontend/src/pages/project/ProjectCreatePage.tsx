@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { Save, Cancel } from '@mui/icons-material';
+import { Save, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { createProject, getCompanies, getPartnersForCompanySelection } from '../../api/project';
@@ -34,6 +34,8 @@ interface ProjectFormData {
 const ProjectCreatePage: React.FC = () => {
   console.log('ProjectCreatePage rendering...');
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -304,9 +306,9 @@ const ProjectCreatePage: React.FC = () => {
           }}>
             <Button
               variant="outlined"
-              startIcon={<Cancel />}
               onClick={() => navigate('/projects')}
-              disabled={loading}
+              startIcon={<ArrowBack />}
+              size={isMobile ? 'small' : 'medium'}
             >
               목록으로
             </Button>
