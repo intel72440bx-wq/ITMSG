@@ -1,18 +1,27 @@
 package com.itmsg.domain.dashboard.service;
 
+import com.itmsg.domain.approval.entity.Approval;
 import com.itmsg.domain.approval.repository.ApprovalRepository;
 import com.itmsg.domain.asset.repository.AssetRepository;
 import com.itmsg.domain.dashboard.dto.DashboardStatsResponse;
+import com.itmsg.domain.dashboard.dto.RecentActivityResponse;
 import com.itmsg.domain.incident.repository.IncidentRepository;
 import com.itmsg.domain.issue.repository.IssueRepository;
+import com.itmsg.domain.project.entity.Project;
 import com.itmsg.domain.project.repository.ProjectRepository;
+import com.itmsg.domain.sr.entity.ServiceRequest;
 import com.itmsg.domain.sr.repository.ServiceRequestRepository;
 import com.itmsg.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
