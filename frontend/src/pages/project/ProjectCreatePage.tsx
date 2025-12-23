@@ -61,29 +61,53 @@ const ProjectCreatePage: React.FC = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        console.log('Fetching companies and partners...');
+        console.log('Fetching companies, partners, and users for project creation...');
+
         const [companiesRes, partnersRes, usersRes] = await Promise.allSettled([
           getCompanies(),
           getPartnersForCompanySelection(),
           getUsers()
         ]);
 
+        // 회사 데이터 처리
         if (companiesRes.status === 'fulfilled') {
           const companiesData = companiesRes.value;
-          setCompanies(Array.isArray(companiesData) ? companiesData : []);
-        }
-        if (partnersRes.status === 'fulfilled') {
-          const partnersData = partnersRes.value;
-          setPartners(Array.isArray(partnersData) ? partnersData : []);
-        }
-        if (usersRes.status === 'fulfilled') {
-          const usersData = usersRes.value?.content;
-          setUsers(Array.isArray(usersData) ? usersData : []);
+          const companiesArray = Array.isArray(companiesData) ? companiesData : [];
+          setCompanies(companiesArray);
+          console.log('Companies loaded:', companiesArray.length);
+        } else {
+          console.error('Failed to load companies:', companiesRes.reason);
+          setCompanies([]);
         }
 
-        console.log('Initial data loaded successfully');
+        // 파트너 데이터 처리
+        if (partnersRes.status === 'fulfilled') {
+          const partnersData = partnersRes.value;
+          const partnersArray = Array.isArray(partnersData) ? partnersData : [];
+          setPartners(partnersArray);
+          console.log('Partners loaded:', partnersArray.length);
+          if (partnersArray.length > 0) {
+            console.log('Sample partner:', partnersArray[0]);
+          }
+        } else {
+          console.error('Failed to load partners:', partnersRes.reason);
+          setPartners([]);
+        }
+
+        // 사용자 데이터 처리
+        if (usersRes.status === 'fulfilled') {
+          const usersData = usersRes.value?.content;
+          const usersArray = Array.isArray(usersData) ? usersData : [];
+          setUsers(usersArray);
+          console.log('Users loaded:', usersArray.length);
+        } else {
+          console.error('Failed to load users:', usersRes.reason);
+          setUsers([]);
+        }
+
+        console.log('All initial data loading completed');
       } catch (err) {
-        console.error('Failed to fetch initial data:', err);
+        console.error('Unexpected error during data loading:', err);
       }
     };
 
