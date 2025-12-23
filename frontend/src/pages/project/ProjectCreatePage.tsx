@@ -262,7 +262,7 @@ const ProjectCreatePage: React.FC = () => {
             ))}
             {Array.isArray(partners) && partners.map((partner) => (
               <MenuItem key={`partner-${partner.id}`} value={partner.id}>
-                [파트너] {partner.name}
+                🔗 {partner.name}{partner.ceoName ? ` (${partner.ceoName})` : ''}
               </MenuItem>
             ))}
           </TextField>
@@ -308,7 +308,7 @@ const ProjectCreatePage: React.FC = () => {
               onClick={() => navigate('/projects')}
               disabled={loading}
             >
-              취소
+              목록으로
             </Button>
             <Button
               type="submit"
