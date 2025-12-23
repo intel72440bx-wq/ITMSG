@@ -247,26 +247,26 @@ const ProjectCreatePage: React.FC = () => {
 
           <TextField
             select
-            label="회사"
+            label="회사/파트너"
             fullWidth
             margin="normal"
             value={formData.companyId}
             onChange={(e) => handleInputChange('companyId', e.target.value)}
-            helperText="선택하지 않으면 현재 로그인한 사용자의 소속 회사로 등록됩니다."
+            helperText="프로젝트를 수행할 회사 또는 파트너를 선택하세요."
           >
             <MenuItem value="">
-              <em>기본 회사 사용</em>
+              <em>선택 안함</em>
             </MenuItem>
             {Array.isArray(companies) && companies.map((company) => (
               <MenuItem key={`company-${company.id}`} value={company.id}>
-                {company.name}
+                🏢 {company.name}
               </MenuItem>
             ))}
             {Array.isArray(partners) && partners.map((partner) => (
               <MenuItem key={`partner-${partner.id}`} value={partner.id}>
-                🔗 {partner.name}
+                🤝 {partner.name}
                 {partner.ceoName && ` (${partner.ceoName})`}
-                {partner.managerName && ` - ${partner.managerName}`}
+                {partner.managerName && ` - 담당: ${partner.managerName}`}
               </MenuItem>
             ))}
           </TextField>
