@@ -264,7 +264,9 @@ const ProjectCreatePage: React.FC = () => {
             ))}
             {Array.isArray(partners) && partners.map((partner) => (
               <MenuItem key={`partner-${partner.id}`} value={partner.id}>
-                🔗 {partner.name}{partner.ceoName ? ` (${partner.ceoName})` : ''}
+                🔗 {partner.name}
+                {partner.ceoName && ` (${partner.ceoName})`}
+                {partner.managerName && ` - ${partner.managerName}`}
               </MenuItem>
             ))}
           </TextField>
