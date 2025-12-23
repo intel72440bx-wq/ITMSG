@@ -127,7 +127,7 @@ public class DashboardService {
                     .id("approval-" + approval.getId())
                     .type("approval")
                     .title("승인-" + approval.getApprovalNumber())
-                    .description(approval.getTitle())
+                    .description(approval.getApprovalType().toString() + " 승인 요청")
                     .createdAt(approval.getRequestedAt())
                     .status(approval.getStatus().toString())
                     .userName(approval.getRequester() != null ? approval.getRequester().getName() : "Unknown")
