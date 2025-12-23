@@ -34,8 +34,6 @@ interface ProjectFormData {
 const ProjectCreatePage: React.FC = () => {
   console.log('ProjectCreatePage rendering...');
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -43,60 +41,44 @@ const ProjectCreatePage: React.FC = () => {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [dataLoading, setDataLoading] = useState(true);
 
-  // 안전한 날짜 생성 함수
-  const getDefaultStartDate = (): string => {
-    try {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    } catch (e) {
-      console.error('Failed to generate default start date:', e);
-      return '';
-    }
-  };
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<ProjectFormData>({
-    defaultValues: {
-      code: '',
-      name: '',
-      description: '',
-      projectType: 'SI' as ProjectType,
-      startDate: getDefaultStartDate(),
-      endDate: '',
-      companyId: undefined,
-      pmId: undefined,
-      budget: '',
-    },
-    mode: 'onChange', // 폼 유효성 검증 모드 설정
+  // 기본 폼 데이터
+  const [formData, setFormData] = useState({
+    code: '',
+    name: '',
+    projectType: 'SI' as ProjectType,
+    startDate: new Date().toISOString().split('T')[0],
+    endDate: '',
+    description: '',
+    budget: '',
+    companyId: '',
+    pmId: '',
   });
 
-  const selectedCompanyId = watch('companyId');
-
+  // 데이터 로딩
   useEffect(() => {
     const fetchInitialData = async () => {
-      setDataLoading(true);
       try {
-        console.log('Fetching initial data...');
-        await Promise.allSettled([
-          fetchCompanies(),
-          fetchPartners(),
-          fetchUsers()
+        console.log('Fetching companies and partners...');
+        const [companiesRes, partnersRes, usersRes] = await Promise.allSettled([
+          getCompanies(),
+          getPartnersForCompanySelection(),
+          getUsers()
         ]);
-        console.log('Initial data fetching completed');
-      } catch (err: any) {
+
+        if (companiesRes.status === 'fulfilled') {
+          setCompanies(companiesRes.value || []);
+        }
+        if (partnersRes.status === 'fulfilled') {
+          setPartners(partnersRes.value || []);
+        }
+        if (usersRes.status === 'fulfilled') {
+          setUsers(usersRes.value.content || []);
+        }
+
+        console.log('Initial data loaded successfully');
+      } catch (err) {
         console.error('Failed to fetch initial data:', err);
-        // 개별 API 실패는 각 함수에서 처리하므로 여기서는 추가 처리 불필요
-      } finally {
-        setDataLoading(false);
       }
     };
 
@@ -105,70 +87,60 @@ const ProjectCreatePage: React.FC = () => {
 
   // 회사 선택 시 PM 목록 필터링
   useEffect(() => {
-    if (selectedCompanyId) {
-      // 파트너 ID인지 회사 ID인지 확인 (파트너는 partners 배열에 있음)
-      const isPartnerSelected = (partners || []).some(partner => partner && partner.id === selectedCompanyId);
+    if (formData.companyId) {
+      const selectedCompanyId = parseInt(formData.companyId);
+      const isPartnerSelected = partners.some(partner => partner.id === selectedCompanyId);
 
       if (isPartnerSelected) {
-        // 파트너 선택 시 모든 사용자 표시 (또는 파트너 담당자 등으로 필터링 가능)
-        setFilteredUsers(users || []);
+        setFilteredUsers(users);
       } else {
-        // 회사 선택 시 해당 회사의 사용자만 필터링
-        const filtered = (users || []).filter(user => user && user.companyId === selectedCompanyId);
+        const filtered = users.filter(user => user.companyId === selectedCompanyId);
         setFilteredUsers(filtered);
       }
     } else {
-      // 회사 선택 안함 시 모든 사용자 표시
-      setFilteredUsers(users || []);
+      setFilteredUsers(users);
     }
-  }, [selectedCompanyId, users, partners]);
+  }, [formData.companyId, users, partners]);
 
-  const fetchCompanies = async () => {
-    try {
-      console.log('Fetching companies...');
-      const companies = await getCompanies();
-      setCompanies(companies || []);
-      console.log('Companies fetched:', companies?.length || 0);
-    } catch (err: any) {
-      console.error('Failed to fetch companies:', err);
-      setCompanies([]); // API 실패 시 빈 배열로 설정
-      // 에러를 throw하지 않고 처리하여 Promise.allSettled가 계속 진행되도록 함
-    }
+  const handleInputChange = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const fetchPartners = async () => {
-    try {
-      console.log('Fetching partners...');
-      const partners = await getPartnersForCompanySelection();
-      setPartners(partners || []);
-      console.log('Partners fetched:', partners?.length || 0);
-    } catch (err: any) {
-      console.error('Failed to fetch partners:', err);
-      setPartners([]); // API 실패 시 빈 배열로 설정
+  const validateForm = (): string | null => {
+    if (!formData.code.trim()) {
+      return '프로젝트 코드를 입력해주세요.';
     }
+    if (!formData.name.trim()) {
+      return '프로젝트명을 입력해주세요.';
+    }
+    if (!formData.startDate) {
+      return '시작일을 선택해주세요.';
+    }
+    return null;
   };
 
-  const fetchUsers = async () => {
-    try {
-      console.log('Fetching users...');
-      const response = await getUsers();
-      setUsers(response.content || []);
-      console.log('Users fetched:', response.content?.length || 0);
-    } catch (err: any) {
-      console.error('Failed to fetch users:', err);
-      setUsers([]); // API 실패 시 빈 배열로 설정
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
     }
-  };
 
-  const onSubmit = async (data: ProjectFormData) => {
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
     try {
-      setLoading(true);
-      setError('');
-      setSuccess('');
-
       const requestData: ProjectRequest = {
-        ...data,
-        budget: data.budget ? parseFloat(data.budget) : undefined,
+        ...formData,
+        budget: formData.budget ? parseFloat(formData.budget) : undefined,
+        companyId: formData.companyId ? parseInt(formData.companyId) : undefined,
+        pmId: formData.pmId ? parseInt(formData.pmId) : undefined,
       };
 
       await createProject(requestData);
@@ -186,29 +158,9 @@ const ProjectCreatePage: React.FC = () => {
     }
   };
 
-  // 데이터 로딩 중일 때는 로딩 화면 표시
-  if (dataLoading) {
-    return (
-      <Box sx={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '400px'
-      }}>
-        <CircularProgress size={60} sx={{ mb: 2 }} />
-        <Typography variant="h6" color="text.secondary">
-          데이터를 불러오는 중...
-        </Typography>
-      </Box>
-    );
-  }
-
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom>
+    <Box sx={{ width: '100%', height: '100%', p: 3 }}>
+      <Typography variant="h4" gutterBottom>
         프로젝트 등록
       </Typography>
 
@@ -224,210 +176,142 @@ const ProjectCreatePage: React.FC = () => {
         </Alert>
       )}
 
-      <Paper sx={{ p: { xs: 2, sm: 3 }, mt: 2, width: '100%' }}>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ width: '100%' }}>
-          <Controller
-            name="code"
-            control={control}
-            rules={{ required: '프로젝트 코드는 필수입니다.' }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="프로젝트 코드"
-                fullWidth
-                margin="normal"
-                error={!!errors.code}
-                helperText={errors.code?.message}
-                required
-              />
-            )}
+      <Paper sx={{ p: 3, mt: 2 }}>
+        <Box component="form" onSubmit={handleSubmit}>
+          <TextField
+            label="프로젝트 코드"
+            fullWidth
+            margin="normal"
+            value={formData.code}
+            onChange={(e) => handleInputChange('code', e.target.value)}
+            required
           />
 
-          <Controller
-            name="name"
-            control={control}
-            rules={{ required: '프로젝트명은 필수입니다.' }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="프로젝트명"
-                fullWidth
-                margin="normal"
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                required
-              />
-            )}
+          <TextField
+            label="프로젝트명"
+            fullWidth
+            margin="normal"
+            value={formData.name}
+            onChange={(e) => handleInputChange('name', e.target.value)}
+            required
           />
 
-          <Controller
-            name="projectType"
-            control={control}
-            rules={{ required: '프로젝트 유형은 필수입니다.' }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="프로젝트 유형"
-                fullWidth
-                margin="normal"
-                error={!!errors.projectType}
-                helperText={errors.projectType?.message}
-                required
-              >
-                <MenuItem value="SI">SI (시스템 통합)</MenuItem>
-                <MenuItem value="SM">SM (시스템 유지보수)</MenuItem>
-              </TextField>
-            )}
+          <TextField
+            select
+            label="프로젝트 유형"
+            fullWidth
+            margin="normal"
+            value={formData.projectType}
+            onChange={(e) => handleInputChange('projectType', e.target.value)}
+            required
+          >
+            <MenuItem value="SI">SI (시스템 통합)</MenuItem>
+            <MenuItem value="SM">SM (시스템 유지보수)</MenuItem>
+          </TextField>
+
+          <TextField
+            label="프로젝트 설명"
+            fullWidth
+            margin="normal"
+            multiline
+            rows={4}
+            value={formData.description}
+            onChange={(e) => handleInputChange('description', e.target.value)}
           />
 
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="프로젝트 설명"
-                fullWidth
-                margin="normal"
-                multiline
-                rows={4}
-              />
-            )}
+          <TextField
+            label="시작일"
+            type="date"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            value={formData.startDate}
+            onChange={(e) => handleInputChange('startDate', e.target.value)}
+            required
           />
 
-          <Controller
-            name="startDate"
-            control={control}
-            rules={{ required: '시작일은 필수입니다.' }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="시작일"
-                type="date"
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.startDate}
-                helperText={errors.startDate?.message}
-                required
-              />
-            )}
+          <TextField
+            label="종료일(예정)"
+            type="date"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            value={formData.endDate}
+            onChange={(e) => handleInputChange('endDate', e.target.value)}
           />
 
-          <Controller
-            name="endDate"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="종료일(예정)"
-                type="date"
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-              />
-            )}
-          />
+          <TextField
+            select
+            label="회사"
+            fullWidth
+            margin="normal"
+            value={formData.companyId}
+            onChange={(e) => handleInputChange('companyId', e.target.value)}
+            helperText="선택하지 않으면 현재 로그인한 사용자의 소속 회사로 등록됩니다."
+          >
+            <MenuItem value="">
+              <em>기본 회사 사용</em>
+            </MenuItem>
+            {companies.map((company) => (
+              <MenuItem key={`company-${company.id}`} value={company.id}>
+                {company.name}
+              </MenuItem>
+            ))}
+            {partners.map((partner) => (
+              <MenuItem key={`partner-${partner.id}`} value={partner.id}>
+                [파트너] {partner.name}
+              </MenuItem>
+            ))}
+          </TextField>
 
-          <Controller
-            name="companyId"
-            control={control}
-            render={({ field: { onChange, value, ...field } }) => (
-              <TextField
-                {...field}
-                select
-                label="회사"
-                fullWidth
-                margin="normal"
-                value={value || ''}
-                onChange={(e) => onChange(e.target.value ? Number(e.target.value) : undefined)}
-                helperText="선택하지 않으면 현재 로그인한 사용자의 소속 회사로 등록됩니다."
-              >
-                <MenuItem value="">
-                  <em>기본 회사 사용</em>
-                </MenuItem>
-                {(companies || []).filter(company => company && company.id).map((company) => (
-                  <MenuItem key={`company-${company.id}`} value={company.id}>
-                    {company.name}
-                  </MenuItem>
-                ))}
-                {(partners || []).filter(partner => partner && partner.id).map((partner) => (
-                  <MenuItem key={`partner-${partner.id}`} value={partner.id}>
-                    [파트너] {partner.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            )}
-          />
+          <TextField
+            select
+            label="프로젝트 매니저 (PM)"
+            fullWidth
+            margin="normal"
+            value={formData.pmId}
+            onChange={(e) => handleInputChange('pmId', e.target.value)}
+            helperText="프로젝트를 담당할 매니저를 선택하세요 (선택사항)"
+          >
+            <MenuItem value="">
+              <em>선택 안함</em>
+            </MenuItem>
+            {filteredUsers.map((user) => (
+              <MenuItem key={user.id} value={user.id}>
+                {user.name} ({user.email})
+              </MenuItem>
+            ))}
+          </TextField>
 
-          <Controller
-            name="budget"
-            control={control}
-            rules={{
-              min: { value: 0, message: '예산은 0 이상이어야 합니다.' }
-            }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="예산 (원)"
-                type="number"
-                fullWidth
-                margin="normal"
-                InputProps={{ inputProps: { min: 0 } }}
-                helperText="프로젝트 예산을 입력하세요 (선택사항)"
-              />
-            )}
-          />
-
-          <Controller
-            name="pmId"
-            control={control}
-            render={({ field: { onChange, value, ...field } }) => (
-              <TextField
-                {...field}
-                select
-                label="프로젝트 매니저 (PM)"
-                fullWidth
-                margin="normal"
-                value={value || ''}
-                onChange={(e) => onChange(e.target.value ? Number(e.target.value) : undefined)}
-                helperText="프로젝트를 담당할 매니저를 선택하세요 (선택사항)"
-              >
-                <MenuItem value="">
-                  <em>선택 안함</em>
-                </MenuItem>
-                {(filteredUsers || []).filter(user => user && user.id).map((user) => (
-                  <MenuItem key={user.id} value={user.id}>
-                    {user.name} ({user.email})
-                  </MenuItem>
-                ))}
-              </TextField>
-            )}
+          <TextField
+            label="예산 (원)"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={formData.budget}
+            onChange={(e) => handleInputChange('budget', e.target.value)}
+            helperText="프로젝트 예산을 입력하세요 (선택사항)"
           />
 
           <Box sx={{
-            display: 'flex', 
-            gap: 2, 
-            mt: 3, 
+            display: 'flex',
+            gap: 2,
+            mt: 3,
             justifyContent: 'flex-end',
-            flexDirection: { xs: 'column', sm: 'row' },
           }}>
             <Button
               variant="outlined"
-              startIcon={isMobile ? null : <Cancel />}
+              startIcon={<Cancel />}
               onClick={() => navigate('/projects')}
               disabled={loading}
-              fullWidth={isMobile}
             >
               취소
             </Button>
             <Button
               type="submit"
               variant="contained"
-              startIcon={loading ? <CircularProgress size={20} /> : (isMobile ? null : <Save />)}
+              startIcon={loading ? <CircularProgress size={20} /> : <Save />}
               disabled={loading}
-              fullWidth={isMobile}
             >
               {loading ? '저장 중...' : '저장'}
             </Button>
