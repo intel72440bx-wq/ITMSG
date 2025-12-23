@@ -42,6 +42,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { logout } from '../../api/auth';
+import { getDashboardStats } from '../../api/dashboard';
+import type { DashboardStats } from '../../api/dashboard';
 import apiClient from '../../utils/api';
 
 interface StatCard {
@@ -141,55 +143,48 @@ const DashboardPage: React.FC = () => {
       setLoading(true);
       setError('');
 
-      // 임시: 백엔드 API가 준비될 때까지 더미 데이터 사용
-      // 실제로는 아래 주석 처리된 코드를 사용할 것
-      /*
-      const [projectsRes, srsRes] = await Promise.all([
-        apiClient.get('/projects', { params: { page: 0, size: 1 } }),
-        apiClient.get('/srs', { params: { page: 0, size: 1 } }),
-      ]);
-      */
+      // 백엔드 API에서 대시보드 통계 데이터 가져오기
+      const dashboardStats = await getDashboardStats();
 
-      // 임시 더미 데이터
       setStats([
         {
           title: '활성 프로젝트',
-          value: 5, // projectsRes.data.totalElements || 0
+          value: dashboardStats.activeProjects,
           subtitle: '진행 중',
           icon: <FolderOpen sx={{ fontSize: 32 }} />,
           color: '#1976d2',
-          trend: 12,
+          trend: dashboardStats.activeProjectsTrend,
         },
         {
           title: 'SR 요청',
-          value: 23, // srsRes.data.totalElements || 0
+          value: dashboardStats.srRequestsThisMonth,
           subtitle: '이번 달',
           icon: <Description sx={{ fontSize: 32 }} />,
           color: '#2e7d32',
-          trend: 8,
+          trend: dashboardStats.srRequestsTrend,
         },
         {
           title: '승인 대기',
-          value: 3,
+          value: dashboardStats.pendingApprovals,
           subtitle: '처리 필요',
           icon: <CheckCircle sx={{ fontSize: 32 }} />,
           color: '#ed6c02',
-          trend: -3,
+          trend: dashboardStats.pendingApprovalsTrend,
         },
         {
           title: '완료율',
-          value: 87,
+          value: Math.round(dashboardStats.completionRate),
           subtitle: '이번 분기',
           icon: <TrendingUp sx={{ fontSize: 32 }} />,
           color: '#7b1fa2',
-          trend: 15,
+          trend: dashboardStats.completionRateTrend,
         },
       ]);
 
-      console.log('대시보드 더미 데이터 로드 완료');
+      console.log('대시보드 데이터 로드 완료');
     } catch (err: any) {
       console.error('Failed to fetch dashboard data:', err);
-      // API 호출 실패 시에도 더미 데이터로 표시
+      // API 호출 실패 시 더미 데이터로 표시
       setStats([
         {
           title: '활성 프로젝트',
@@ -224,7 +219,7 @@ const DashboardPage: React.FC = () => {
           trend: 0,
         },
       ]);
-      setError('대시보드 데이터를 불러오는데 실패했습니다. 더미 데이터를 표시합니다.');
+      setError('대시보드 데이터를 불러오는데 실패했습니다. 기본 데이터를 표시합니다.');
     } finally {
       setLoading(false);
     }
