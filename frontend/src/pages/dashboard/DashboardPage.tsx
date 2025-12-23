@@ -19,6 +19,18 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Collapse,
+  Pagination,
+  FormControl,
+  InputLabel,
+  Select,
+  SelectChangeEvent,
 } from '@mui/material';
 import {
   FolderOpen,
@@ -38,12 +50,14 @@ import {
   AccountCircle,
   Logout,
   Lock,
+  ExpandMore,
+  ExpandLess,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { logout } from '../../api/auth';
-import { getDashboardStats } from '../../api/dashboard';
-import type { DashboardStats } from '../../api/dashboard';
+import { getDashboardStats, getAllRecentActivities } from '../../api/dashboard';
+import type { DashboardStats, RecentActivity, RecentActivitiesPage } from '../../api/dashboard';
 import apiClient from '../../utils/api';
 
 interface StatCard {
@@ -55,7 +69,7 @@ interface StatCard {
   trend?: number;
 }
 
-interface RecentActivity {
+interface RecentActivityItem {
   id: string;
   type: 'project' | 'sr' | 'spec' | 'approval';
   title: string;
@@ -70,6 +84,11 @@ const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [activitiesPage, setActivitiesPage] = useState<RecentActivitiesPage | null>(null);
+  const [activitiesLoading, setActivitiesLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [size] = useState(10);
   const [stats, setStats] = useState<StatCard[]>([
     {
       title: '활성 프로젝트',
@@ -105,7 +124,7 @@ const DashboardPage: React.FC = () => {
     },
   ]);
 
-  const [recentActivities] = useState<RecentActivity[]>([
+  const [recentActivities] = useState<RecentActivityItem[]>([
     {
       id: '1',
       type: 'sr',
@@ -134,9 +153,13 @@ const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     fetchDashboardData();
-    // 페이지 로드 시 상단으로 스크롤
-    window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (expanded) {
+      fetchActivities();
+    }
+  }, [expanded, page]);
 
   const fetchDashboardData = async () => {
     try {
@@ -225,6 +248,18 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  const fetchActivities = async () => {
+    try {
+      setActivitiesLoading(true);
+      const data = await getAllRecentActivities(page, size);
+      setActivitiesPage(data);
+    } catch (err: any) {
+      console.error('Failed to fetch activities:', err);
+    } finally {
+      setActivitiesLoading(false);
+    }
+  };
+
   const getActivityIcon = (type: string) => {
     switch (type) {
       case 'sr': return <Description sx={{ fontSize: 20 }} />;
@@ -237,11 +272,31 @@ const DashboardPage: React.FC = () => {
 
   const getStatusColor = (status?: string): "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" => {
     switch (status) {
-      case '완료': return 'success';
-      case '진행 중': return 'primary';
-      case '승인 대기': return 'warning';
+      case '완료':
+      case 'APPROVED': return 'success';
+      case '진행 중':
+      case 'PENDING': return 'primary';
+      case '승인 대기':
+      case '요청됨': return 'warning';
+      case 'REJECTED': return 'error';
+      case 'CANCELLED': return 'default';
       default: return 'default';
     }
+  };
+
+  const formatDateTime = (dateTimeStr: string) => {
+    const date = new Date(dateTimeStr);
+    return date.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value - 1);
   };
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -263,6 +318,10 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
@@ -274,8 +333,8 @@ const DashboardPage: React.FC = () => {
   return (
     <Box sx={{
       width: '100%',
-      height: '100vh', // 한 화면에 맞춤
-      overflow: 'hidden', // 스크롤 방지
+      height: '100vh',
+      overflow: 'auto', // 스크롤 허용
       display: 'flex',
       flexDirection: 'column'
     }}>
@@ -288,6 +347,7 @@ const DashboardPage: React.FC = () => {
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
+        flexShrink: 0,
         '&::before': {
           content: '""',
           position: 'absolute',
@@ -387,13 +447,13 @@ const DashboardPage: React.FC = () => {
       </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
+        <Alert severity="error" sx={{ mb: 3, mx: 3, borderRadius: 2 }}>
           {error}
         </Alert>
       )}
 
       {/* 통계 카드 섹션 */}
-      <Box sx={{ mb: 3, flexShrink: 0 }}>
+      <Box sx={{ mb: 3, mx: 3, flexShrink: 0 }}>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
           주요 지표
         </Typography>
@@ -463,8 +523,9 @@ const DashboardPage: React.FC = () => {
         display: 'grid',
         gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' },
         gap: 3,
-        flex: 1, // 남은 공간 모두 차지
-        minHeight: 0, // 그리드 아이템이 축소될 수 있도록
+        mx: 3,
+        flex: 1,
+        minHeight: 0,
       }}>
         {/* 최근 활동 */}
         <Box sx={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
@@ -473,72 +534,176 @@ const DashboardPage: React.FC = () => {
             flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            maxHeight: '400px', // 최대 높이 제한
+            maxHeight: expanded ? 'none' : '400px',
+            overflow: expanded ? 'visible' : 'hidden',
           }}>
-            <CardContent sx={{ p: 2 }}>
+            <CardContent sx={{ p: 2, flex: 1, display: 'flex', flexDirection: 'column' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
                   최근 활동
                 </Typography>
                 <Button
                   size="small"
-                  endIcon={<PlayArrow />}
+                  endIcon={expanded ? <ExpandLess /> : <ExpandMore />}
                   sx={{ textTransform: 'none', fontSize: '0.8rem' }}
-                  onClick={() => navigate('/projects')}
+                  onClick={toggleExpanded}
                 >
-                  전체보기
+                  {expanded ? '접기' : '펼쳐보기'}
                 </Button>
               </Box>
 
-              <List sx={{ p: 0 }}>
-                {recentActivities.map((activity, index) => (
-                  <React.Fragment key={activity.id}>
-                    <ListItem sx={{ px: 0, py: 2 }}>
-                      <ListItemAvatar>
-                        <Avatar sx={{
-                          bgcolor: activity.type === 'sr' ? '#e3f2fd' :
-                                   activity.type === 'project' ? '#e8f5e8' :
-                                   activity.type === 'spec' ? '#fff3e0' : '#fce4ec',
-                          color: activity.type === 'sr' ? '#1976d2' :
-                                 activity.type === 'project' ? '#2e7d32' :
-                                 activity.type === 'spec' ? '#ed6c02' : '#c2185b',
-                        }}>
-                          {getActivityIcon(activity.type)}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                              {activity.title}
-                            </Typography>
-                            {activity.status && (
-                              <Chip
-                                size="small"
-                                label={activity.status}
-                                color={getStatusColor(activity.status)}
-                                variant="outlined"
-                                sx={{ fontSize: '0.7rem', height: '20px' }}
-                              />
-                            )}
-                          </Box>
-                        }
-                        secondary={
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
-                            <Typography variant="body2" color="text.secondary">
-                              {activity.description}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ ml: 'auto' }}>
-                              {activity.time}
-                            </Typography>
-                          </Box>
-                        }
-                      />
-                    </ListItem>
-                    {index < recentActivities.length - 1 && <Divider />}
-                  </React.Fragment>
-                ))}
-              </List>
+              {!expanded ? (
+                // 축소된 상태: 리스트 형태
+                <List sx={{ p: 0, flex: 1 }}>
+                  {recentActivities.map((activity, index) => (
+                    <React.Fragment key={activity.id}>
+                      <ListItem sx={{ px: 0, py: 2 }}>
+                        <ListItemAvatar>
+                          <Avatar sx={{
+                            bgcolor: activity.type === 'sr' ? '#e3f2fd' :
+                                     activity.type === 'project' ? '#e8f5e8' :
+                                     activity.type === 'spec' ? '#fff3e0' : '#fce4ec',
+                            color: activity.type === 'sr' ? '#1976d2' :
+                                   activity.type === 'project' ? '#2e7d32' :
+                                   activity.type === 'spec' ? '#ed6c02' : '#c2185b',
+                          }}>
+                            {getActivityIcon(activity.type)}
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                {activity.title}
+                              </Typography>
+                              {activity.status && (
+                                <Chip
+                                  size="small"
+                                  label={activity.status}
+                                  color={getStatusColor(activity.status)}
+                                  variant="outlined"
+                                  sx={{ fontSize: '0.7rem', height: '20px' }}
+                                />
+                              )}
+                            </Box>
+                          }
+                          secondary={
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                              <Typography variant="body2" color="text.secondary">
+                                {activity.description}
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary" sx={{ ml: 'auto' }}>
+                                {activity.time}
+                              </Typography>
+                            </Box>
+                          }
+                        />
+                      </ListItem>
+                      {index < recentActivities.length - 1 && <Divider />}
+                    </React.Fragment>
+                  ))}
+                </List>
+              ) : (
+                // 확장된 상태: 그리드 형태
+                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  {activitiesLoading ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+                      <CircularProgress />
+                    </Box>
+                  ) : activitiesPage && activitiesPage.content.length > 0 ? (
+                    <>
+                      <TableContainer sx={{ flex: 1 }}>
+                        <Table stickyHeader size="small">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', py: 1 }}>활동</TableCell>
+                              <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', py: 1 }}>제목</TableCell>
+                              <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', py: 1 }}>설명</TableCell>
+                              <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', py: 1 }}>상태</TableCell>
+                              <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', py: 1 }}>사용자</TableCell>
+                              <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', py: 1 }}>시간</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {activitiesPage.content.map((activity) => (
+                              <TableRow key={activity.id} hover>
+                                <TableCell sx={{ py: 1 }}>
+                                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                    <Avatar sx={{
+                                      bgcolor: activity.type === 'sr' ? '#e3f2fd' :
+                                               activity.type === 'project' ? '#e8f5e8' :
+                                               activity.type === 'approval' ? '#fff3e0' : '#fce4ec',
+                                      color: activity.type === 'sr' ? '#1976d2' :
+                                             activity.type === 'project' ? '#2e7d32' :
+                                             activity.type === 'approval' ? '#ed6c02' : '#c2185b',
+                                      width: 24,
+                                      height: 24
+                                    }}>
+                                      {getActivityIcon(activity.type)}
+                                    </Avatar>
+                                    <Typography variant="caption">
+                                      {activity.type === 'sr' ? 'SR' :
+                                       activity.type === 'project' ? '프로젝트' :
+                                       activity.type === 'approval' ? '승인' : activity.type}
+                                    </Typography>
+                                  </Box>
+                                </TableCell>
+                                <TableCell sx={{ py: 1, fontWeight: 500, fontSize: '0.875rem' }}>
+                                  {activity.title}
+                                </TableCell>
+                                <TableCell sx={{ py: 1, maxWidth: 200 }}>
+                                  <Typography variant="body2" sx={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    fontSize: '0.75rem'
+                                  }}>
+                                    {activity.description}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell sx={{ py: 1 }}>
+                                  <Chip
+                                    label={activity.status}
+                                    color={getStatusColor(activity.status)}
+                                    size="small"
+                                    variant="outlined"
+                                    sx={{ fontSize: '0.7rem', height: '20px' }}
+                                  />
+                                </TableCell>
+                                <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>
+                                  {activity.userName}
+                                </TableCell>
+                                <TableCell sx={{ py: 1, color: 'text.secondary', fontSize: '0.75rem' }}>
+                                  {formatDateTime(activity.createdAt)}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+
+                      {/* 페이징 */}
+                      {activitiesPage.totalPages > 1 && (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', p: 1, borderTop: 1, borderColor: 'divider' }}>
+                          <Pagination
+                            count={activitiesPage.totalPages}
+                            page={activitiesPage.number + 1}
+                            onChange={handlePageChange}
+                            color="primary"
+                            size="small"
+                          />
+                        </Box>
+                      )}
+                    </>
+                  ) : (
+                    <Box sx={{ textAlign: 'center', p: 4 }}>
+                      <Typography variant="body2" color="text.secondary">
+                        최근 활동이 없습니다.
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
+              )}
             </CardContent>
           </Card>
         </Box>
@@ -549,8 +714,8 @@ const DashboardPage: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: 3,
-            maxHeight: '400px', // 최대 높이 제한
-            overflow: 'auto' // 필요시 스크롤
+            maxHeight: '400px',
+            overflow: 'auto'
           }}>
             {/* 빠른 액션 */}
             <Card sx={{ borderRadius: 3, flexShrink: 0 }}>
