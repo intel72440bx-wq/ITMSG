@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -76,6 +76,7 @@ const ProjectCreatePage: React.FC = () => {
       pmId: undefined,
       budget: '',
     },
+    mode: 'onChange', // 폼 유효성 검증 모드 설정
   });
 
   const selectedCompanyId = watch('companyId');
@@ -332,13 +333,15 @@ const ProjectCreatePage: React.FC = () => {
           <Controller
             name="companyId"
             control={control}
-            render={({ field }) => (
+            render={({ field: { onChange, value, ...field } }) => (
               <TextField
                 {...field}
                 select
                 label="회사"
                 fullWidth
                 margin="normal"
+                value={value || ''}
+                onChange={(e) => onChange(e.target.value ? Number(e.target.value) : undefined)}
                 helperText="선택하지 않으면 현재 로그인한 사용자의 소속 회사로 등록됩니다."
               >
                 <MenuItem value="">
@@ -380,13 +383,15 @@ const ProjectCreatePage: React.FC = () => {
           <Controller
             name="pmId"
             control={control}
-            render={({ field }) => (
+            render={({ field: { onChange, value, ...field } }) => (
               <TextField
                 {...field}
                 select
                 label="프로젝트 매니저 (PM)"
                 fullWidth
                 margin="normal"
+                value={value || ''}
+                onChange={(e) => onChange(e.target.value ? Number(e.target.value) : undefined)}
                 helperText="프로젝트를 담당할 매니저를 선택하세요 (선택사항)"
               >
                 <MenuItem value="">
