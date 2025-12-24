@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Paper,
+  Box,
   Typography,
   Card,
   CardContent,
-  Box,
-  CircularProgress,
-  Alert,
-  Button,
-  Chip,
-  Avatar,
-  LinearProgress,
   List,
   ListItem,
   ListItemAvatar,
@@ -27,10 +20,12 @@ import {
   TableRow,
   Collapse,
   Pagination,
-  FormControl,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
+  CircularProgress,
+  Alert,
+  Button,
+  Chip,
+  Avatar,
+  LinearProgress,
 } from '@mui/material';
 import {
   FolderOpen,
@@ -42,8 +37,6 @@ import {
   Schedule,
   Warning,
   Notifications,
-  PlayArrow,
-  AccessTime,
   Person,
   Business,
   Timeline,
@@ -58,7 +51,6 @@ import { useAuthStore } from '../../store/authStore';
 import { logout } from '../../api/auth';
 import { getDashboardStats, getAllRecentActivities } from '../../api/dashboard';
 import type { DashboardStats, RecentActivity, RecentActivitiesPage } from '../../api/dashboard';
-import apiClient from '../../utils/api';
 
 interface StatCard {
   title: string;
@@ -334,7 +326,7 @@ const DashboardPage: React.FC = () => {
     <Box sx={{
       width: '100%',
       height: '100vh',
-      overflow: 'auto', // 스크롤 허용
+      overflow: 'auto',
       display: 'flex',
       flexDirection: 'column'
     }}>
