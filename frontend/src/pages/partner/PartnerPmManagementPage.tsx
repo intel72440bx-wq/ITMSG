@@ -107,7 +107,7 @@ const PartnerPmManagementPage: React.FC = () => {
               pmId: selectedPmId === '' ? undefined : selectedPmId,
               pmName: selectedPmId === ''
                 ? undefined
-                : users.find(u => u.id === (selectedPmId as number))?.name
+                : users.find(u => selectedPmId !== '' && u.id === Number(selectedPmId))?.name
             }
           : p
       ));
