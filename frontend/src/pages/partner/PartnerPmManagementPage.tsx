@@ -85,7 +85,7 @@ const PartnerPmManagementPage: React.FC = () => {
 
   const handleAssignPm = (partner: Partner) => {
     setSelectedPartner(partner);
-    setSelectedPmId(partner.pmId || '');
+    setSelectedPmId(partner.pmId ?? '');
     setDialogOpen(true);
   };
 
@@ -107,7 +107,7 @@ const PartnerPmManagementPage: React.FC = () => {
               pmId: selectedPmId === '' ? undefined : selectedPmId,
               pmName: selectedPmId === ''
                 ? undefined
-                : users.find(u => selectedPmId !== '' && u.id === Number(selectedPmId))?.name
+                : users.find(u => selectedPmId !== '' && u.id === (typeof selectedPmId === 'number' ? selectedPmId : Number(selectedPmId)))?.name
             }
           : p
       ));
