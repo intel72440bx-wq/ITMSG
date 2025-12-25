@@ -30,7 +30,7 @@ import { getPartners } from '../../api/partner';
 import { getUsers } from '../../api/user';
 import { updatePartner } from '../../api/partner';
 import type { Partner, PartnerListParams } from '../../types/partner.types';
-import type { User } from '../../types/user.types';
+import type { User } from '../../types/auth.types';
 import type { PageResponse } from '../../types/common.types';
 
 const PartnerPmManagementPage: React.FC = () => {
@@ -107,7 +107,7 @@ const PartnerPmManagementPage: React.FC = () => {
               pmId: selectedPmId === '' ? undefined : selectedPmId,
               pmName: selectedPmId === ''
                 ? undefined
-                : users.find(u => u.id === selectedPmId)?.name
+                : users.find(u => u.id === (selectedPmId as number))?.name
             }
           : p
       ));
