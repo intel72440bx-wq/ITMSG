@@ -27,6 +27,7 @@ import PartnerListPage from './pages/partner/PartnerListPage';
 import PartnerCreatePage from './pages/partner/PartnerCreatePage';
 import PartnerDetailPage from './pages/partner/PartnerDetailPage';
 import PartnerEditPage from './pages/partner/PartnerEditPage';
+import PartnerPmManagementPage from './pages/partner/PartnerPmManagementPage';
 import AssetListPage from './pages/asset/AssetListPage';
 import AssetCreatePage from './pages/asset/AssetCreatePage';
 import AssetDetailPage from './pages/asset/AssetDetailPage';
@@ -120,6 +121,7 @@ function App() {
             {/* 파트너 */}
             <Route path="partners" element={<PartnerListPage />} />
             <Route path="partners/new" element={<PartnerCreatePage />} />
+            <Route path="partners/pm" element={<PartnerPmManagementPage />} />
             <Route path="partners/:id/edit" element={<PartnerEditPage />} />
             <Route path="partners/:id" element={<PartnerDetailPage />} />
             

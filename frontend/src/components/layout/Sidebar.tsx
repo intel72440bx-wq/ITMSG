@@ -23,6 +23,7 @@ import {
   Business,
   Computer,
   People,
+  Engineering,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
@@ -45,6 +46,7 @@ const menuItems = [
   { text: '릴리즈', icon: <Rocket />, path: '/releases' },
   { text: '장애 관리', icon: <Warning />, path: '/incidents' },
   { text: '파트너', icon: <Business />, path: '/partners' },
+  { text: '파트너 PM 관리', icon: <Engineering />, path: '/partners/pm' },
   { text: '자산 관리', icon: <Computer />, path: '/assets' },
   { text: '사용자 관리', icon: <People />, path: '/users' },
 ];
