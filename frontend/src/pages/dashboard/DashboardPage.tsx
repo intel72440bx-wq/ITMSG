@@ -49,7 +49,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { logout } from '../../api/auth';
-import { getDashboardStats, getAllRecentActivities } from '../../api/dashboard';
+import { getDashboardStats, getAllRecentActivities, getRecentActivities } from '../../api/dashboard';
 import type { DashboardStats, RecentActivity, RecentActivitiesPage } from '../../api/dashboard';
 
 interface StatCard {
@@ -81,6 +81,8 @@ const DashboardPage: React.FC = () => {
   const [activitiesLoading, setActivitiesLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [size] = useState(10);
+  const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([]);
+  const [recentActivitiesLoading, setRecentActivitiesLoading] = useState(false);
   const [stats, setStats] = useState<StatCard[]>([
     {
       title: '활성 프로젝트',
@@ -116,33 +118,6 @@ const DashboardPage: React.FC = () => {
     },
   ]);
 
-  const [recentActivities] = useState<RecentActivityItem[]>([
-    {
-      id: '1',
-      type: 'sr',
-      title: 'SR-2024-001',
-      description: '사용자 인증 시스템 개선 요청',
-      time: '2시간 전',
-      status: '승인 대기',
-    },
-    {
-      id: '2',
-      type: 'project',
-      title: '모바일 앱 개발',
-      description: '프로젝트 시작됨',
-      time: '4시간 전',
-      status: '진행 중',
-    },
-    {
-      id: '3',
-      type: 'spec',
-      title: 'API 명세서 v2.1',
-      description: '검토 완료',
-      time: '1일 전',
-      status: '완료',
-    },
-  ]);
-
   useEffect(() => {
     fetchDashboardData();
   }, []);
@@ -157,6 +132,7 @@ const DashboardPage: React.FC = () => {
     try {
       setLoading(true);
       setError('');
+      setRecentActivitiesLoading(true);
 
       // 백엔드 API에서 대시보드 통계 데이터 가져오기
       const dashboardStats = await getDashboardStats();
@@ -196,6 +172,14 @@ const DashboardPage: React.FC = () => {
         },
       ]);
 
+      // 최근 활동 데이터 가져오기 (축소된 상태용)
+      const recentActivitiesData = await getRecentActivities(5); // 5개 항목 가져오기
+      const formattedActivities = recentActivitiesData.map(activity => ({
+        ...activity,
+        time: formatDateTime(activity.createdAt), // 표시용 시간 포맷팅
+      }));
+      setRecentActivities(formattedActivities);
+
       console.log('대시보드 데이터 로드 완료');
     } catch (err: any) {
       console.error('Failed to fetch dashboard data:', err);
@@ -234,9 +218,11 @@ const DashboardPage: React.FC = () => {
           trend: 0,
         },
       ]);
+      setRecentActivities([]); // 최근 활동도 빈 배열로 초기화
       setError('대시보드 데이터를 불러오는데 실패했습니다. 기본 데이터를 표시합니다.');
     } finally {
       setLoading(false);
+      setRecentActivitiesLoading(false);
     }
   };
 
@@ -546,55 +532,67 @@ const DashboardPage: React.FC = () => {
 
               {!expanded ? (
                 // 축소된 상태: 리스트 형태
-                <List sx={{ p: 0, flex: 1 }}>
-                  {recentActivities.map((activity, index) => (
-                    <React.Fragment key={activity.id}>
-                      <ListItem sx={{ px: 0, py: 2 }}>
-                        <ListItemAvatar>
-                          <Avatar sx={{
-                            bgcolor: activity.type === 'sr' ? '#e3f2fd' :
-                                     activity.type === 'project' ? '#e8f5e8' :
-                                     activity.type === 'spec' ? '#fff3e0' : '#fce4ec',
-                            color: activity.type === 'sr' ? '#1976d2' :
-                                   activity.type === 'project' ? '#2e7d32' :
-                                   activity.type === 'spec' ? '#ed6c02' : '#c2185b',
-                          }}>
-                            {getActivityIcon(activity.type)}
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                                {activity.title}
-                              </Typography>
-                              {activity.status && (
-                                <Chip
-                                  size="small"
-                                  label={activity.status}
-                                  color={getStatusColor(activity.status)}
-                                  variant="outlined"
-                                  sx={{ fontSize: '0.7rem', height: '20px' }}
-                                />
-                              )}
-                            </Box>
-                          }
-                          secondary={
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
-                              <Typography variant="body2" color="text.secondary">
-                                {activity.description}
-                              </Typography>
-                              <Typography variant="caption" color="text.secondary" sx={{ ml: 'auto' }}>
-                                {activity.time}
-                              </Typography>
-                            </Box>
-                          }
-                        />
-                      </ListItem>
-                      {index < recentActivities.length - 1 && <Divider />}
-                    </React.Fragment>
-                  ))}
-                </List>
+                recentActivitiesLoading ? (
+                  <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+                    <CircularProgress size={24} />
+                  </Box>
+                ) : recentActivities.length > 0 ? (
+                  <List sx={{ p: 0, flex: 1 }}>
+                    {recentActivities.map((activity, index) => (
+                      <React.Fragment key={activity.id}>
+                        <ListItem sx={{ px: 0, py: 2 }}>
+                          <ListItemAvatar>
+                            <Avatar sx={{
+                              bgcolor: activity.type === 'sr' ? '#e3f2fd' :
+                                       activity.type === 'project' ? '#e8f5e8' :
+                                       activity.type === 'spec' ? '#fff3e0' : '#fce4ec',
+                              color: activity.type === 'sr' ? '#1976d2' :
+                                     activity.type === 'project' ? '#2e7d32' :
+                                     activity.type === 'spec' ? '#ed6c02' : '#c2185b',
+                            }}>
+                              {getActivityIcon(activity.type)}
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                  {activity.title}
+                                </Typography>
+                                {activity.status && (
+                                  <Chip
+                                    size="small"
+                                    label={activity.status}
+                                    color={getStatusColor(activity.status)}
+                                    variant="outlined"
+                                    sx={{ fontSize: '0.7rem', height: '20px' }}
+                                  />
+                                )}
+                              </Box>
+                            }
+                            secondary={
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                                <Typography variant="body2" color="text.secondary">
+                                  {activity.description}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary" sx={{ ml: 'auto' }}>
+                                  {activity.time}
+                                </Typography>
+                              </Box>
+                            }
+                          />
+                        </ListItem>
+                        {index < recentActivities.length - 1 && <Divider />}
+                      </React.Fragment>
+                    ))}
+                  </List>
+                ) : (
+                  <Box sx={{ textAlign: 'center', p: 4 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      최근 활동이 없습니다.
+                    </Typography>
+                  </Box>
+                )
               ) : (
                 // 확장된 상태: 그리드 형태
                 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
