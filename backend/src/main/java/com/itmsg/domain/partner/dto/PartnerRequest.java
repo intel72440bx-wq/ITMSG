@@ -20,5 +20,7 @@ public record PartnerRequest(
 
         Long managerId,
 
+        Long pmId,
+
         Boolean isClosed
 ) {}

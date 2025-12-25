@@ -42,11 +42,17 @@ public class PartnerService {
                 .name(request.name())
                 .businessNumber(request.businessNumber())
                 .ceoName(request.ceoName());
-        
+
         if (request.managerId() != null) {
             var manager = userRepository.findById(request.managerId())
                     .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
             partnerBuilder.manager(manager);
+        }
+
+        if (request.pmId() != null) {
+            var pm = userRepository.findById(request.pmId())
+                    .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+            partnerBuilder.pm(pm);
         }
         
         Partner partner = partnerBuilder.build();
@@ -90,7 +96,12 @@ public class PartnerService {
                         .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
                 : null;
 
-        partner.updatePartner(request.name(), request.ceoName(), manager, request.isClosed());
+        var pm = request.pmId() != null
+                ? userRepository.findById(request.pmId())
+                        .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
+                : null;
+
+        partner.updatePartner(request.name(), request.ceoName(), manager, pm, request.isClosed());
 
         log.info("파트너 수정 완료: {}", partner.getCode());
         return PartnerResponse.from(partner);

@@ -10,6 +10,8 @@ export interface Partner {
   closedAt?: string;
   managerId?: number;
   managerName?: string;
+  pmId?: number;
+  pmName?: string;
   createdAt: string;
   createdBy?: string;
   updatedAt: string;
@@ -25,6 +27,7 @@ export interface PartnerCreateRequest {
   phoneNumber?: string;
   email?: string;
   managerId?: number;
+  pmId?: number;
 }
 
 export interface PartnerUpdateRequest {
@@ -32,6 +35,7 @@ export interface PartnerUpdateRequest {
   businessNumber?: string;
   ceoName?: string;
   managerId?: number;
+  pmId?: number;
   isActive?: boolean;
 }
 

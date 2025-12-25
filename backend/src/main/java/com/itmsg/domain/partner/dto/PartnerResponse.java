@@ -17,6 +17,8 @@ public record PartnerResponse(
         LocalDate closedAt,
         Long managerId,
         String managerName,
+        Long pmId,
+        String pmName,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime updatedAt,
@@ -33,6 +35,8 @@ public record PartnerResponse(
                 .closedAt(partner.getClosedAt())
                 .managerId(partner.getManager() != null ? partner.getManager().getId() : null)
                 .managerName(partner.getManager() != null ? partner.getManager().getName() : null)
+                .pmId(partner.getPm() != null ? partner.getPm().getId() : null)
+                .pmName(partner.getPm() != null ? partner.getPm().getName() : null)
                 .createdAt(partner.getCreatedAt())
                 .createdBy(partner.getCreatedBy())
                 .updatedAt(partner.getUpdatedAt())
@@ -40,12 +44,3 @@ public record PartnerResponse(
                 .build();
     }
 }
-
-
-
-
-
-
-
-
-
