@@ -174,11 +174,7 @@ const DashboardPage: React.FC = () => {
 
       // 최근 활동 데이터 가져오기 (축소된 상태용)
       const recentActivitiesData = await getRecentActivities(5); // 5개 항목 가져오기
-      const formattedActivities = recentActivitiesData.map(activity => ({
-        ...activity,
-        time: formatDateTime(activity.createdAt), // 표시용 시간 포맷팅
-      }));
-      setRecentActivities(formattedActivities);
+      setRecentActivities(recentActivitiesData);
 
       console.log('대시보드 데이터 로드 완료');
     } catch (err: any) {
@@ -576,7 +572,7 @@ const DashboardPage: React.FC = () => {
                                   {activity.description}
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary" sx={{ ml: 'auto' }}>
-                                  {activity.time}
+                                  {formatDateTime(activity.createdAt)}
                                 </Typography>
                               </Box>
                             }
