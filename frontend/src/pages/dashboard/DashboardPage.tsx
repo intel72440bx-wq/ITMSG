@@ -176,6 +176,10 @@ const DashboardPage: React.FC = () => {
       const recentActivitiesData = await getRecentActivities(5); // 5개 항목 가져오기
       setRecentActivities(recentActivitiesData);
 
+      // 확장된 상태용 데이터도 미리 가져오기 (첫 페이지)
+      const activitiesPageData = await getAllRecentActivities(0, size);
+      setActivitiesPage(activitiesPageData);
+
       console.log('대시보드 데이터 로드 완료');
     } catch (err: any) {
       console.error('Failed to fetch dashboard data:', err);
