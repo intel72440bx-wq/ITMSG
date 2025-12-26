@@ -189,7 +189,7 @@ const PartnerDetailPage: React.FC = () => {
               프로젝트 매니저
             </Typography>
             <Typography variant="body1" gutterBottom>
-              {partner.pmName || '-'}
+              {partner.pmNames && partner.pmNames.length > 0 ? partner.pmNames.join(', ') : '-'}
             </Typography>
           </Box>
 
