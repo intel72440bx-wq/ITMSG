@@ -39,7 +39,7 @@ const PartnerPmManagementPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
-  const [selectedPmId, setSelectedPmId] = useState<string>('');
+  const [selectedPmId, setSelectedPmId] = useState<string[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -85,7 +85,7 @@ const PartnerPmManagementPage: React.FC = () => {
 
   const handleAssignPm = (partner: Partner) => {
     setSelectedPartner(partner);
-    setSelectedPmId(partner.pmId ? partner.pmId.toString() : '');
+    setSelectedPmId(partner.pmIds ? partner.pmIds.map(id => id.toString()) : []);
     setDialogOpen(true);
   };
 
