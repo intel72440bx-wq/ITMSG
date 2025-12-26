@@ -39,7 +39,7 @@ const PartnerPmManagementPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
-  const [selectedPmId, setSelectedPmId] = useState<number | ''>('');
+  const [selectedPmId, setSelectedPmId] = useState<string>('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -85,7 +85,7 @@ const PartnerPmManagementPage: React.FC = () => {
 
   const handleAssignPm = (partner: Partner) => {
     setSelectedPartner(partner);
-    setSelectedPmId(partner.pmId ?? '');
+    setSelectedPmId(partner.pmId ? partner.pmId.toString() : '');
     setDialogOpen(true);
   };
 
@@ -96,7 +96,7 @@ const PartnerPmManagementPage: React.FC = () => {
       setUpdating(true);
 
       await updatePartner(selectedPartner.id, {
-        pmId: selectedPmId === '' ? undefined : selectedPmId,
+        pmId: selectedPmId === '' ? undefined : Number(selectedPmId),
       });
 
       // 로컬 상태 업데이트
@@ -104,10 +104,10 @@ const PartnerPmManagementPage: React.FC = () => {
         p.id === selectedPartner.id
           ? {
               ...p,
-              pmId: selectedPmId === '' ? undefined : selectedPmId,
+              pmId: selectedPmId === '' ? undefined : Number(selectedPmId),
               pmName: selectedPmId === ''
                 ? undefined
-                : users.find(u => selectedPmId !== '' && u.id === selectedPmId)?.name
+                : users.find(u => selectedPmId !== '' && u.id === Number(selectedPmId))?.name
             }
           : p
       ));
@@ -269,13 +269,13 @@ const PartnerPmManagementPage: React.FC = () => {
               <Select
                 value={selectedPmId}
                 label="프로젝트 매니저"
-                onChange={(e) => setSelectedPmId(e.target.value === '' ? '' : Number(e.target.value))}
+                onChange={(e) => setSelectedPmId(e.target.value)}
               >
                 <MenuItem value="">
                   <em>미지정</em>
                 </MenuItem>
                 {users.map((user) => (
-                  <MenuItem key={user.id} value={user.id}>
+                  <MenuItem key={user.id} value={user.id.toString()}>
                     {user.name} ({user.email})
                   </MenuItem>
                 ))}
