@@ -96,18 +96,20 @@ const PartnerPmManagementPage: React.FC = () => {
       setUpdating(true);
 
       await updatePartner(selectedPartner.id, {
-        pmId: selectedPmId === '' ? undefined : Number(selectedPmId),
+        pmIds: selectedPmId.length === 0 ? undefined : selectedPmId.map(id => Number(id)),
       });
 
       // 로컬 상태 업데이트
+      const selectedPmUsers = selectedPmId.length > 0
+        ? users.filter(u => selectedPmId.includes(u.id.toString()))
+        : [];
+
       setPartners(prev => prev.map(p =>
         p.id === selectedPartner.id
           ? {
               ...p,
-              pmId: selectedPmId === '' ? undefined : Number(selectedPmId),
-              pmName: selectedPmId === ''
-                ? undefined
-                : users.find(u => selectedPmId !== '' && u.id === Number(selectedPmId))?.name
+              pmIds: selectedPmId.length === 0 ? undefined : selectedPmId.map(id => Number(id)),
+              pmNames: selectedPmUsers.map(u => u.name)
             }
           : p
       ));
@@ -120,7 +122,7 @@ const PartnerPmManagementPage: React.FC = () => {
 
       setDialogOpen(false);
       setSelectedPartner(null);
-      setSelectedPmId('');
+      setSelectedPmId([]);
 
     } catch (error) {
       console.error('Failed to update PM:', error);
@@ -137,7 +139,7 @@ const PartnerPmManagementPage: React.FC = () => {
   const handleCloseDialog = () => {
     setDialogOpen(false);
     setSelectedPartner(null);
-    setSelectedPmId('');
+    setSelectedPmId([]);
   };
 
   const handleCloseSnackbar = () => {
@@ -209,12 +211,16 @@ const PartnerPmManagementPage: React.FC = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      {partner.pmName ? (
+                      {partner.pmNames && partner.pmNames.length > 0 ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <Engineering sx={{ fontSize: 16, color: 'primary.main' }} />
-                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                            {partner.pmName}
-                          </Typography>
+                          <Box>
+                            {partner.pmNames.map((name, index) => (
+                              <Typography key={index} variant="body2" sx={{ fontWeight: 500 }}>
+                                {name}{index < partner.pmNames!.length - 1 ? ', ' : ''}
+                              </Typography>
+                            ))}
+                          </Box>
                         </Box>
                       ) : (
                         <Typography variant="body2" color="text.secondary">
@@ -267,13 +273,19 @@ const PartnerPmManagementPage: React.FC = () => {
             <FormControl fullWidth>
               <InputLabel>프로젝트 매니저</InputLabel>
               <Select
+                multiple
                 value={selectedPmId}
                 label="프로젝트 매니저"
-                onChange={(e) => setSelectedPmId(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSelectedPmId(typeof value === 'string' ? value.split(',') : value);
+                }}
+                renderValue={(selected) => {
+                  if (selected.length === 0) return '미지정';
+                  const selectedUsers = users.filter(user => selected.includes(user.id.toString()));
+                  return selectedUsers.map(user => user.name).join(', ');
+                }}
               >
-                <MenuItem value="">
-                  <em>미지정</em>
-                </MenuItem>
                 {users.map((user) => (
                   <MenuItem key={user.id} value={user.id.toString()}>
                     {user.name} ({user.email})
