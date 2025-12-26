@@ -1,9 +1,12 @@
--- 파트너 테이블에 PM(Project Manager) 컬럼 추가
-ALTER TABLE partners ADD COLUMN pm_id BIGINT;
-
--- 외래 키 제약조건 추가
-ALTER TABLE partners ADD CONSTRAINT fk_partners_pm_id
-    FOREIGN KEY (pm_id) REFERENCES users(id);
+-- 파트너와 PM 간의 다대다 관계를 위한 중간 테이블 생성
+CREATE TABLE partner_pms (
+    partner_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    PRIMARY KEY (partner_id, user_id),
+    FOREIGN KEY (partner_id) REFERENCES partners(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
 -- 인덱스 추가
-CREATE INDEX idx_partners_pm_id ON partners(pm_id);
+CREATE INDEX idx_partner_pms_partner_id ON partner_pms(partner_id);
+CREATE INDEX idx_partner_pms_user_id ON partner_pms(user_id);

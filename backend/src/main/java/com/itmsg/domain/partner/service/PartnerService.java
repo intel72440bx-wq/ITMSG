@@ -49,10 +49,12 @@ public class PartnerService {
             partnerBuilder.manager(manager);
         }
 
-        if (request.pmId() != null) {
-            var pm = userRepository.findById(request.pmId())
-                    .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-            partnerBuilder.pm(pm);
+        if (request.pmIds() != null && !request.pmIds().isEmpty()) {
+            var pms = userRepository.findAllById(request.pmIds());
+            if (pms.size() != request.pmIds().size()) {
+                throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+            }
+            partnerBuilder.pms(new java.util.HashSet<>(pms));
         }
         
         Partner partner = partnerBuilder.build();
@@ -96,12 +98,16 @@ public class PartnerService {
                         .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
                 : null;
 
-        var pm = request.pmId() != null
-                ? userRepository.findById(request.pmId())
-                        .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
-                : null;
+        java.util.Set<com.itmsg.domain.user.entity.User> pms = null;
+        if (request.pmIds() != null && !request.pmIds().isEmpty()) {
+            var pmList = userRepository.findAllById(request.pmIds());
+            if (pmList.size() != request.pmIds().size()) {
+                throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+            }
+            pms = new java.util.HashSet<>(pmList);
+        }
 
-        partner.updatePartner(request.name(), request.ceoName(), manager, pm, request.isClosed());
+        partner.updatePartner(request.name(), request.ceoName(), manager, pms, request.isClosed());
 
         log.info("파트너 수정 완료: {}", partner.getCode());
         return PartnerResponse.from(partner);

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 파트너 Entity
@@ -45,18 +47,26 @@ public class Partner extends BaseEntity {
     @JoinColumn(name = "manager_id")
     private User manager;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pm_id")
-    private User pm;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "partner_pms",
+        joinColumns = @JoinColumn(name = "partner_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @Builder.Default
+    private Set<User> pms = new HashSet<>();
 
     /**
      * 파트너 수정
      */
-    public void updatePartner(String name, String ceoName, User manager, User pm, Boolean isClosed) {
+    public void updatePartner(String name, String ceoName, User manager, Set<User> pms, Boolean isClosed) {
         this.name = name;
         this.ceoName = ceoName;
         this.manager = manager;
-        this.pm = pm;
+        if (pms != null) {
+            this.pms.clear();
+            this.pms.addAll(pms);
+        }
 
         // isClosed 상태가 변경되는 경우 처리
         if (isClosed != null && !isClosed.equals(this.isClosed)) {
@@ -65,6 +75,30 @@ public class Partner extends BaseEntity {
             } else {
                 reopen();
             }
+        }
+    }
+
+    /**
+     * PM 추가
+     */
+    public void addPm(User pm) {
+        this.pms.add(pm);
+    }
+
+    /**
+     * PM 제거
+     */
+    public void removePm(User pm) {
+        this.pms.remove(pm);
+    }
+
+    /**
+     * PM 설정
+     */
+    public void setPms(Set<User> pms) {
+        this.pms.clear();
+        if (pms != null) {
+            this.pms.addAll(pms);
         }
     }
 

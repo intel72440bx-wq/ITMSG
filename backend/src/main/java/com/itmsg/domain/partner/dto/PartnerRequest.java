@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record PartnerRequest(
         @NotBlank(message = "파트너명은 필수입니다.")
@@ -20,7 +22,7 @@ public record PartnerRequest(
 
         Long managerId,
 
-        Long pmId,
+        List<Long> pmIds,
 
         Boolean isClosed
 ) {}
