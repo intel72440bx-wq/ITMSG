@@ -114,30 +114,28 @@ const ProjectCreatePage: React.FC = () => {
     fetchInitialData();
   }, []);
 
-  // 회사/파트너 선택 시 PM 목록 필터링 및 자동 설정
+  // 파트너 선택 시 PM 목록 필터링 및 자동 설정
   useEffect(() => {
     if (formData.companyId && Array.isArray(users) && Array.isArray(partners)) {
-      const selectedCompanyId = parseInt(formData.companyId);
-      const selectedPartner = partners.find(partner => partner && partner.id === selectedCompanyId);
+      const selectedPartnerId = parseInt(formData.companyId);
+      const selectedPartner = partners.find(partner => partner && partner.id === selectedPartnerId);
 
-      if (selectedPartner) {
-        // 파트너 선택 시 해당 파트너의 PM들을 자동으로 설정
-        if (selectedPartner.pmIds && selectedPartner.pmIds.length > 0) {
-          // 첫 번째 PM을 자동 선택
-          setFormData(prev => ({
-            ...prev,
-            pmId: selectedPartner.pmIds![0].toString()
-          }));
-        }
+      if (selectedPartner && selectedPartner.pmIds && selectedPartner.pmIds.length > 0) {
+        // 파트너 선택 시 해당 파트너의 PM들만 필터링하여 표시
+        const partnerPms = users.filter(user => selectedPartner.pmIds!.includes(user.id));
+        setFilteredUsers(partnerPms);
 
-        // PM 목록은 모든 사용자로 설정 (파트너의 PM들도 포함)
-        setFilteredUsers(users);
+        // 첫 번째 PM을 자동 선택 (선택사항)
+        setFormData(prev => ({
+          ...prev,
+          pmId: selectedPartner.pmIds![0].toString()
+        }));
       } else {
-        // 회사 선택 시 해당 회사의 사용자들만 필터링
-        const filtered = users.filter(user => user && user.companyId === selectedCompanyId);
-        setFilteredUsers(filtered);
+        // PM이 없는 파트너 선택 시 전체 사용자 표시
+        setFilteredUsers(Array.isArray(users) ? users : []);
       }
     } else {
+      // 파트너 미선택 시 전체 사용자 표시
       setFilteredUsers(Array.isArray(users) ? users : []);
     }
   }, [formData.companyId, users, partners]);
@@ -282,26 +280,19 @@ const ProjectCreatePage: React.FC = () => {
 
           <TextField
             select
-            label="회사/파트너"
+            label="파트너"
             fullWidth
             margin="normal"
             value={formData.companyId}
             onChange={(e) => handleInputChange('companyId', e.target.value)}
-            helperText="프로젝트를 수행할 회사 또는 파트너를 선택하세요."
+            helperText="프로젝트를 수행할 파트너를 선택하세요."
           >
             <MenuItem value="">
               <em>선택 안함</em>
             </MenuItem>
-            {Array.isArray(companies) && companies.map((company) => (
-              <MenuItem key={`company-${company.id}`} value={company.id}>
-                🏢 {company.name}
-              </MenuItem>
-            ))}
-            {Array.isArray(partners) && partners.map((partner) => (
+            {Array.isArray(partners) && [...partners].sort((a, b) => a.name.localeCompare(b.name)).map((partner) => (
               <MenuItem key={`partner-${partner.id}`} value={partner.id}>
-                🤝 {partner.name}
-                {partner.ceoName && ` (${partner.ceoName})`}
-                {partner.managerName && ` - 담당: ${partner.managerName}`}
+                {partner.name}
               </MenuItem>
             ))}
           </TextField>
