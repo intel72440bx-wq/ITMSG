@@ -216,7 +216,6 @@ const PartnerListPage: React.FC = () => {
                 <TableCell>사업자번호</TableCell>
                 <TableCell>대표</TableCell>
                 <TableCell>담당자</TableCell>
-                <TableCell>프로젝트 매니저</TableCell>
                 <TableCell>상태</TableCell>
                 <TableCell>등록일</TableCell>
                 <TableCell>작업</TableCell>
@@ -225,14 +224,14 @@ const PartnerListPage: React.FC = () => {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={9} align="center">
+                  <TableCell colSpan={8} align="center">
                     <CircularProgress size={24} />
                     <Typography sx={{ mt: 1 }}>로딩 중...</Typography>
                   </TableCell>
                 </TableRow>
               ) : partners.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={9} align="center">
+                  <TableCell colSpan={8} align="center">
                     <Typography>데이터가 없습니다.</Typography>
                   </TableCell>
                 </TableRow>
@@ -262,24 +261,7 @@ const PartnerListPage: React.FC = () => {
                         </Typography>
                       )}
                     </TableCell>
-                    <TableCell>
-                      {partner.pmNames && partner.pmNames.length > 0 ? (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Engineering sx={{ fontSize: 16, color: 'primary.main' }} />
-                          <Box>
-                            {partner.pmNames.map((name, index) => (
-                              <Typography key={index} variant="body2" sx={{ fontWeight: 500 }}>
-                                {name}{index < partner.pmNames!.length - 1 ? ', ' : ''}
-                              </Typography>
-                            ))}
-                          </Box>
-                        </Box>
-                      ) : (
-                        <Typography variant="body2" color="text.secondary">
-                          미지정
-                        </Typography>
-                      )}
-                    </TableCell>
+
                     <TableCell>
                       <Chip
                         label={partner.isClosed ? '폐업' : '활성'}
