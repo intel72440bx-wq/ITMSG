@@ -63,6 +63,8 @@ const PartnerListPage: React.FC = () => {
       setUpdating(true);
 
       await updatePartner(selectedPartner.id, {
+        name: selectedPartner.name,
+        businessNumber: selectedPartner.businessNumber,
         pmIds: selectedPmId.length === 0 ? undefined : selectedPmId.map(id => Number(id)),
       });
 
