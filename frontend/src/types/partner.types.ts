@@ -27,7 +27,7 @@ export interface PartnerCreateRequest {
   phoneNumber?: string;
   email?: string;
   managerId?: number;
-  pmId?: number;
+  pmIds?: number[];
 }
 
 export interface PartnerUpdateRequest {

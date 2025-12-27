@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, TextField, Button, Alert, CircularProgress,
-  useMediaQuery, useTheme, MenuItem,
+  useMediaQuery, useTheme, MenuItem, FormControl, InputLabel, Select, Chip,
 } from '@mui/material';
 import { ArrowBack, Save } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ const PartnerCreatePage: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedPmIds, setSelectedPmIds] = useState<number[]>([]);
 
   useEffect(() => {
     fetchUsers();
@@ -40,7 +41,11 @@ const PartnerCreatePage: React.FC = () => {
     setSuccess('');
 
     try {
-      await createPartner(data);
+      const partnerData = {
+        ...data,
+        pmIds: selectedPmIds.length > 0 ? selectedPmIds : undefined,
+      };
+      await createPartner(partnerData);
       setSuccess('파트너가 등록되었습니다!');
       setTimeout(() => navigate('/partners'), 2000);
     } catch (err: any) {
@@ -146,6 +151,37 @@ const PartnerCreatePage: React.FC = () => {
                 </TextField>
               )}
             />
+
+            <FormControl fullWidth>
+              <InputLabel>프로젝트 매니저</InputLabel>
+              <Select
+                multiple
+                value={selectedPmIds}
+                label="프로젝트 매니저"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const ids = typeof value === 'string' ? value.split(',').map(Number) : value as number[];
+                  setSelectedPmIds(ids);
+                }}
+                renderValue={(selected) => {
+                  if (selected.length === 0) return '선택 안함';
+                  const selectedUsers = users.filter(user => selected.includes(user.id));
+                  return (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selectedUsers.map((user) => (
+                        <Chip key={user.id} label={user.name} size="small" />
+                      ))}
+                    </Box>
+                  );
+                }}
+              >
+                {users.map((user) => (
+                  <MenuItem key={user.id} value={user.id}>
+                    {user.name} ({user.email})
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
 
           <Box sx={{

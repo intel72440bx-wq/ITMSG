@@ -18,10 +18,8 @@ import java.util.Optional;
 public interface PartnerRepository extends JpaRepository<Partner, Long> {
     
     Optional<Partner> findByCode(String code);
-    
+
     boolean existsByCode(String code);
-    
-    boolean existsByBusinessNumber(String businessNumber);
     
     @Query("SELECT p FROM Partner p " +
            "WHERE (:name IS NULL OR p.name LIKE %:name%) " +

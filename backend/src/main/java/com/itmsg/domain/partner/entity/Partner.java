@@ -30,7 +30,7 @@ public class Partner extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(nullable = false, length = 20)
     private String businessNumber;
 
     @Column(length = 50)

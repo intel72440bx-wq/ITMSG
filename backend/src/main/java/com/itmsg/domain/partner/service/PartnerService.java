@@ -30,13 +30,8 @@ public class PartnerService {
     
     @Transactional
     public PartnerResponse createPartner(PartnerRequest request) {
-        // 사업자번호 중복 검증
-        if (partnerRepository.existsByBusinessNumber(request.businessNumber())) {
-            throw new BusinessException(ErrorCode.DUPLICATE_PARTNER_BUSINESS_NUMBER);
-        }
-        
         String partnerCode = numberingService.generatePartnerCode();
-        
+
         var partnerBuilder = Partner.builder()
                 .code(partnerCode)
                 .name(request.name())
@@ -56,10 +51,10 @@ public class PartnerService {
             }
             partnerBuilder.pms(new java.util.HashSet<>(pms));
         }
-        
+
         Partner partner = partnerBuilder.build();
         Partner savedPartner = partnerRepository.save(partner);
-        
+
         log.info("파트너 생성 완료: {}", savedPartner.getCode());
         return PartnerResponse.from(savedPartner);
     }
