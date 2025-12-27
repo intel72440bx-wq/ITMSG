@@ -22,10 +22,14 @@ const PartnerListPage: React.FC = () => {
   const [selectedPmId, setSelectedPmId] = useState<string[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [error, setError] = useState('');
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: 'success' | 'error' | 'warning';
+  }>({
     open: false,
     message: '',
-    severity: 'success' as 'success' | 'error',
+    severity: 'success',
   });
 
   useEffect(() => { fetchData(); }, [page, rowsPerPage]);
