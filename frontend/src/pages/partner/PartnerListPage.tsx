@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Chip, CircularProgress, Alert, Card, CardContent, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem, Snackbar, useMediaQuery, useTheme, IconButton } from '@mui/material';
+import { Box, Typography, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Chip, CircularProgress, Alert, Card, CardContent, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem, Snackbar, useMediaQuery, useTheme, IconButton, Autocomplete, TextField } from '@mui/material';
 import { Add, Engineering, Person, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { getPartners, updatePartner } from '../../api/partner';
@@ -336,28 +336,38 @@ const PartnerListPage: React.FC = () => {
               이 파트너의 프로젝트를 담당할 프로젝트 매니저를 선택하세요.
             </Typography>
 
-            {/* PM 선택 드롭다운 */}
-            <FormControl fullWidth sx={{ mb: 3 }}>
-              <InputLabel>프로젝트 매니저 추가</InputLabel>
-              <Select
-                value=""
-                label="프로젝트 매니저 추가"
-                onChange={(e) => {
-                  const userId = e.target.value;
-                  if (userId && !selectedPmId.includes(userId)) {
-                    setSelectedPmId(prev => [...prev, userId]);
-                  }
-                }}
-              >
-                {users
-                  .filter(user => !selectedPmId.includes(user.id.toString()))
-                  .map((user) => (
-                    <MenuItem key={user.id} value={user.id.toString()}>
-                      {user.name} ({user.email})
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+            {/* PM 입력 필드 */}
+            <Autocomplete
+              fullWidth
+              options={users.filter(user => !selectedPmId.includes(user.id.toString()))}
+              getOptionLabel={(user) => `${user.name} (${user.email})`}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="프로젝트 매니저 추가"
+                  placeholder="이름이나 이메일을 입력하세요"
+                  helperText="프로젝트 매니저의 이름이나 이메일을 입력하여 선택하세요"
+                />
+              )}
+              onChange={(_, selectedUser) => {
+                if (selectedUser && !selectedPmId.includes(selectedUser.id.toString())) {
+                  setSelectedPmId(prev => [...prev, selectedUser.id.toString()]);
+                }
+              }}
+              renderOption={(props, user) => (
+                <Box component="li" {...props} key={user.id}>
+                  <Box>
+                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                      {user.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {user.email}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
+              sx={{ mb: 3 }}
+            />
 
             {/* 등록된 PM 그리드 */}
             {selectedPmId.length > 0 && (
