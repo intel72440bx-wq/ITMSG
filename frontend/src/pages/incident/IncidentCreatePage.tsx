@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Paper, TextField, Button, MenuItem, Alert,
+  Box, Typography, Paper, TextField, Button, MenuItem, Alert, CircularProgress,
   useMediaQuery, useTheme,
 } from '@mui/material';
 import { ArrowBack, Save } from '@mui/icons-material';
@@ -114,12 +114,28 @@ const IncidentCreatePage: React.FC = () => {
             )}
           />
 
-          <Box sx={{ display: 'flex', gap: 2, mt: 3, flexDirection: isMobile ? 'column' : 'row' }}>
-            <Button type="button" variant="outlined" onClick={() => navigate('/incidents')}
-              fullWidth={isMobile} startIcon={!isMobile && <ArrowBack />}>취소</Button>
-            <Button type="submit" variant="contained" disabled={loading}
-              fullWidth={isMobile} startIcon={!isMobile && <Save />}>
-              {loading ? '등록 중...' : '등록'}
+          <Box sx={{
+            display: 'flex',
+            gap: 2,
+            mt: 3,
+            justifyContent: 'flex-end',
+          }}>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() => navigate('/incidents')}
+              startIcon={<ArrowBack />}
+              size={isMobile ? 'small' : 'medium'}
+            >
+              목록으로
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={loading}
+              startIcon={loading ? <CircularProgress size={20} /> : <Save />}
+            >
+              {loading ? '저장 중...' : '저장'}
             </Button>
           </Box>
         </Box>
@@ -129,6 +145,3 @@ const IncidentCreatePage: React.FC = () => {
 };
 
 export default IncidentCreatePage;
-
-
-

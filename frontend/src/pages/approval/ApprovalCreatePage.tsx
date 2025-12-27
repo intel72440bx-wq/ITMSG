@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Typography, Paper, TextField, Button, MenuItem, Alert,
+  Box, Typography, Paper, TextField, Button, MenuItem, Alert, CircularProgress,
   useMediaQuery, useTheme,
 } from '@mui/material';
 import { ArrowBack, Save } from '@mui/icons-material';
@@ -146,12 +146,28 @@ const ApprovalCreatePage: React.FC = () => {
             승인자 선택 기능은 향후 구현 예정입니다.
           </Alert>
 
-          <Box sx={{ display: 'flex', gap: 2, mt: 3, flexDirection: isMobile ? 'column' : 'row' }}>
-            <Button type="button" variant="outlined" onClick={() => navigate('/approvals')}
-              fullWidth={isMobile} startIcon={!isMobile && <ArrowBack />}>취소</Button>
-            <Button type="submit" variant="contained" disabled={loading}
-              fullWidth={isMobile} startIcon={!isMobile && <Save />}>
-              {loading ? '요청 중...' : '승인 요청'}
+          <Box sx={{
+            display: 'flex',
+            gap: 2,
+            mt: 3,
+            justifyContent: 'flex-end',
+          }}>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() => navigate('/approvals')}
+              startIcon={<ArrowBack />}
+              size={isMobile ? 'small' : 'medium'}
+            >
+              목록으로
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={loading}
+              startIcon={loading ? <CircularProgress size={20} /> : <Save />}
+            >
+              {loading ? '저장 중...' : '저장'}
             </Button>
           </Box>
         </Box>
@@ -161,6 +177,3 @@ const ApprovalCreatePage: React.FC = () => {
 };
 
 export default ApprovalCreatePage;
-
-
-

@@ -253,7 +253,7 @@ const PartnerListPage: React.FC = () => {
                 <TableCell>담당자</TableCell>
                 <TableCell>상태</TableCell>
                 <TableCell>등록일</TableCell>
-                <TableCell>작업</TableCell>
+                <TableCell>PM</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Paper, TextField, Button, MenuItem, Alert,
+  Box, Typography, Paper, TextField, Button, MenuItem, Alert, CircularProgress,
   useMediaQuery, useTheme,
 } from '@mui/material';
 import { ArrowBack, Save } from '@mui/icons-material';
@@ -133,11 +133,27 @@ const AssetCreatePage: React.FC = () => {
             )}
           />
 
-          <Box sx={{ display: 'flex', gap: 2, mt: 3, flexDirection: isMobile ? 'column' : 'row' }}>
-            <Button type="button" variant="outlined" onClick={() => navigate('/assets')}
-              fullWidth={isMobile} startIcon={!isMobile && <ArrowBack />}>취소</Button>
-            <Button type="submit" variant="contained" disabled={loading}
-              fullWidth={isMobile} startIcon={!isMobile && <Save />}>
+          <Box sx={{
+            display: 'flex',
+            gap: 2,
+            mt: 3,
+            justifyContent: 'flex-end',
+          }}>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() => navigate('/assets')}
+              startIcon={<ArrowBack />}
+              size={isMobile ? 'small' : 'medium'}
+            >
+              목록으로
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={loading}
+              startIcon={loading ? <CircularProgress size={20} /> : <Save />}
+            >
               {loading ? '등록 중...' : '등록'}
             </Button>
           </Box>

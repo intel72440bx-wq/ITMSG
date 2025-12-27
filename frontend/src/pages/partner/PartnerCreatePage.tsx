@@ -185,27 +185,27 @@ const PartnerCreatePage: React.FC = () => {
           </Box>
 
           <Box sx={{
-            mt: 3,
             display: 'flex',
-            justifyContent: 'flex-end',
             gap: 2,
-            flexDirection: { xs: 'column', sm: 'row' },
+            mt: 3,
+            justifyContent: 'flex-end',
           }}>
             <Button
+              type="button"
               variant="outlined"
               onClick={() => navigate('/partners')}
-              disabled={loading}
-              fullWidth={isMobile}
+              startIcon={<ArrowBack />}
+              size={isMobile ? 'small' : 'medium'}
             >
-              취소
+              목록으로
             </Button>
             <Button
               type="submit"
               variant="contained"
               disabled={loading}
-              fullWidth={isMobile}
+              startIcon={loading ? <CircularProgress size={20} /> : <Save />}
             >
-              {loading ? <CircularProgress size={24} /> : '등록'}
+              {loading ? '저장 중...' : '저장'}
             </Button>
           </Box>
         </Box>

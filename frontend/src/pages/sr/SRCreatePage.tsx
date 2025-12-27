@@ -11,6 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { ArrowBack, Save } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { createSr } from '../../api/sr';
 import { getProjects } from '../../api/project';
@@ -217,28 +218,27 @@ const SRCreatePage: React.FC = () => {
             </Box>
           </Box>
 
-          <Box sx={{ 
-            mt: 3, 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
+          <Box sx={{
+            display: 'flex',
             gap: 2,
-            flexDirection: { xs: 'column', sm: 'row' },
+            mt: 3,
+            justifyContent: 'flex-end',
           }}>
             <Button
               variant="outlined"
               onClick={() => navigate('/srs')}
-              disabled={loading}
-              fullWidth={isMobile}
+              startIcon={<ArrowBack />}
+              size={isMobile ? 'small' : 'medium'}
             >
-              취소
+              목록으로
             </Button>
-            <Button 
-              type="submit" 
-              variant="contained" 
+            <Button
+              type="submit"
+              variant="contained"
+              startIcon={loading ? <CircularProgress size={20} /> : <Save />}
               disabled={loading}
-              fullWidth={isMobile}
             >
-              {loading ? <CircularProgress size={24} /> : '등록'}
+              {loading ? '저장 중...' : '저장'}
             </Button>
           </Box>
         </Box>
@@ -248,4 +248,3 @@ const SRCreatePage: React.FC = () => {
 };
 
 export default SRCreatePage;
-
