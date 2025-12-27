@@ -50,3 +50,36 @@ INSERT INTO menu_permissions (menu_id, role_id, can_read, can_create, can_update
 SELECT m.id, r.id, true, true, true, true, 'system'
 FROM menus m, roles r
 WHERE r.name = 'ROLE_ADMIN';
+
+-- 샘플 파트너 데이터
+INSERT INTO partners (code, name, business_number, ceo_name, created_by, updated_by) VALUES
+('PART001', '(주)테크노솔루션', '111-22-33333', '김철수', 'system', 'system'),
+('PART002', '(주)디지털인사이트', '444-55-66666', '박영희', 'system', 'system'),
+('PART003', '(주)스마트시스템', '777-88-99999', '이민수', 'system', 'system');
+
+-- 샘플 PM 사용자 데이터
+INSERT INTO users (email, password, name, company_id, is_active, is_approved, created_by, updated_by) VALUES
+('pm1@techno.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '테크노 김PM', (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system'),
+('pm2@techno.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '테크노 박PM', (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system'),
+('pm1@digital.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '디지털 최PM', (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system'),
+('pm1@smart.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '스마트 정PM', (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system'),
+('pm2@smart.com', '$2a$10$RSih82WGdPGHLKwNmBKFAeIEc69TebIajf97uZh8Ziq0X05V1SRqa', '스마트 한PM', (SELECT id FROM companies WHERE code = 'COMP001'), true, true, 'system', 'system');
+
+-- 파트너별 PM 관계 설정
+INSERT INTO partner_pms (partner_id, user_id) VALUES
+-- 테크노솔루션의 PM들
+((SELECT id FROM partners WHERE code = 'PART001'), (SELECT id FROM users WHERE email = 'pm1@techno.com')),
+((SELECT id FROM partners WHERE code = 'PART001'), (SELECT id FROM users WHERE email = 'pm2@techno.com')),
+-- 디지털인사이트의 PM들
+((SELECT id FROM partners WHERE code = 'PART002'), (SELECT id FROM users WHERE email = 'pm1@digital.com')),
+-- 스마트시스템의 PM들
+((SELECT id FROM partners WHERE code = 'PART003'), (SELECT id FROM users WHERE email = 'pm1@smart.com')),
+((SELECT id FROM partners WHERE code = 'PART003'), (SELECT id FROM users WHERE email = 'pm2@smart.com'));
+
+-- PM 사용자들에게 PM 역할 부여
+INSERT INTO user_roles (user_id, role_id, granted_by) VALUES
+((SELECT id FROM users WHERE email = 'pm1@techno.com'), (SELECT id FROM roles WHERE name = 'ROLE_PM'), 'system'),
+((SELECT id FROM users WHERE email = 'pm2@techno.com'), (SELECT id FROM roles WHERE name = 'ROLE_PM'), 'system'),
+((SELECT id FROM users WHERE email = 'pm1@digital.com'), (SELECT id FROM roles WHERE name = 'ROLE_PM'), 'system'),
+((SELECT id FROM users WHERE email = 'pm1@smart.com'), (SELECT id FROM roles WHERE name = 'ROLE_PM'), 'system'),
+((SELECT id FROM users WHERE email = 'pm2@smart.com'), (SELECT id FROM roles WHERE name = 'ROLE_PM'), 'system');
