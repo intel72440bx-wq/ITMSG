@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Chip, CircularProgress, Alert, Card, CardContent, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem, Snackbar, useMediaQuery, useTheme } from '@mui/material';
-import { Add, Engineering, Person } from '@mui/icons-material';
+import { Box, Typography, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Chip, CircularProgress, Alert, Card, CardContent, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem, Snackbar, useMediaQuery, useTheme, IconButton } from '@mui/material';
+import { Add, Engineering, Person, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { getPartners, updatePartner } from '../../api/partner';
 import { getUsers } from '../../api/user';
@@ -111,6 +111,10 @@ const PartnerListPage: React.FC = () => {
 
   const handleCloseSnackbar = () => {
     setSnackbar(prev => ({ ...prev, open: false }));
+  };
+
+  const handleRemovePm = (userId: string) => {
+    setSelectedPmId(prev => prev.filter(id => id !== userId));
   };
 
   return (
@@ -317,7 +321,7 @@ const PartnerListPage: React.FC = () => {
       )}
 
       {/* PM 설정 다이얼로그 */}
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md" fullWidth>
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Engineering />
@@ -330,29 +334,77 @@ const PartnerListPage: React.FC = () => {
               이 파트너의 프로젝트를 담당할 프로젝트 매니저를 선택하세요.
             </Typography>
 
-            <FormControl fullWidth>
-              <InputLabel>프로젝트 매니저</InputLabel>
+            {/* PM 선택 드롭다운 */}
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <InputLabel>프로젝트 매니저 추가</InputLabel>
               <Select
-                multiple
-                value={selectedPmId}
-                label="프로젝트 매니저"
+                value=""
+                label="프로젝트 매니저 추가"
                 onChange={(e) => {
-                  const value = e.target.value;
-                  setSelectedPmId(typeof value === 'string' ? value.split(',') : value);
-                }}
-                renderValue={(selected) => {
-                  if (selected.length === 0) return '미지정';
-                  const selectedUsers = users.filter(user => selected.includes(user.id.toString()));
-                  return selectedUsers.map(user => user.name).join(', ');
+                  const userId = e.target.value;
+                  if (userId && !selectedPmId.includes(userId)) {
+                    setSelectedPmId(prev => [...prev, userId]);
+                  }
                 }}
               >
-                {users.map((user) => (
-                  <MenuItem key={user.id} value={user.id.toString()}>
-                    {user.name} ({user.email})
-                  </MenuItem>
-                ))}
+                {users
+                  .filter(user => !selectedPmId.includes(user.id.toString()))
+                  .map((user) => (
+                    <MenuItem key={user.id} value={user.id.toString()}>
+                      {user.name} ({user.email})
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
+
+            {/* 등록된 PM 그리드 */}
+            {selectedPmId.length > 0 && (
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  등록된 프로젝트 매니저
+                </Typography>
+                <TableContainer component={Paper} variant="outlined">
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>이름</TableCell>
+                        <TableCell>이메일</TableCell>
+                        <TableCell align="center" width={80}>작업</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {selectedPmId.map((userId) => {
+                        const user = users.find(u => u.id.toString() === userId);
+                        return user ? (
+                          <TableRow key={userId}>
+                            <TableCell>{user.name}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell align="center">
+                              <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => handleRemovePm(userId)}
+                                sx={{ '&:hover': { backgroundColor: 'error.light', color: 'white' } }}
+                              >
+                                <Delete fontSize="small" />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        ) : null;
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )}
+
+            {selectedPmId.length === 0 && (
+              <Box sx={{ textAlign: 'center', py: 4, color: 'text.secondary' }}>
+                <Engineering sx={{ fontSize: 48, mb: 2, opacity: 0.5 }} />
+                <Typography>등록된 프로젝트 매니저가 없습니다.</Typography>
+                <Typography variant="body2">위에서 프로젝트 매니저를 선택하여 추가하세요.</Typography>
+              </Box>
+            )}
           </Box>
         </DialogContent>
         <DialogActions>
