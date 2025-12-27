@@ -114,15 +114,26 @@ const ProjectCreatePage: React.FC = () => {
     fetchInitialData();
   }, []);
 
-  // 회사 선택 시 PM 목록 필터링
+  // 회사/파트너 선택 시 PM 목록 필터링 및 자동 설정
   useEffect(() => {
     if (formData.companyId && Array.isArray(users) && Array.isArray(partners)) {
       const selectedCompanyId = parseInt(formData.companyId);
-      const isPartnerSelected = partners.some(partner => partner && partner.id === selectedCompanyId);
+      const selectedPartner = partners.find(partner => partner && partner.id === selectedCompanyId);
 
-      if (isPartnerSelected) {
+      if (selectedPartner) {
+        // 파트너 선택 시 해당 파트너의 PM들을 자동으로 설정
+        if (selectedPartner.pmIds && selectedPartner.pmIds.length > 0) {
+          // 첫 번째 PM을 자동 선택
+          setFormData(prev => ({
+            ...prev,
+            pmId: selectedPartner.pmIds![0].toString()
+          }));
+        }
+
+        // PM 목록은 모든 사용자로 설정 (파트너의 PM들도 포함)
         setFilteredUsers(users);
       } else {
+        // 회사 선택 시 해당 회사의 사용자들만 필터링
         const filtered = users.filter(user => user && user.companyId === selectedCompanyId);
         setFilteredUsers(filtered);
       }
