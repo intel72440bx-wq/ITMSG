@@ -119,6 +119,37 @@ const PartnerListPage: React.FC = () => {
     setSelectedPmId(prev => prev.filter(id => id !== userId));
   };
 
+  const addPmByText = (inputValue: string) => {
+    // 입력값을 소문자로 변환하여 검색
+    const searchValue = inputValue.toLowerCase().trim();
+
+    // 이름으로만 사용자 찾기
+    const foundUser = users.find(user =>
+      user.name.toLowerCase().includes(searchValue)
+    );
+
+    if (foundUser && !selectedPmId.includes(foundUser.id.toString())) {
+      setSelectedPmId(prev => [...prev, foundUser.id.toString()]);
+      setSnackbar({
+        open: true,
+        message: `${foundUser.name}님이 추가되었습니다.`,
+        severity: 'success',
+      });
+    } else if (foundUser && selectedPmId.includes(foundUser.id.toString())) {
+      setSnackbar({
+        open: true,
+        message: `${foundUser.name}님은 이미 추가되어 있습니다.`,
+        severity: 'warning',
+      });
+    } else {
+      setSnackbar({
+        open: true,
+        message: `'${inputValue}' 이름의 사용자를 찾을 수 없습니다.`,
+        severity: 'error',
+      });
+    }
+  };
+
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <Box sx={{
@@ -315,41 +346,46 @@ const PartnerListPage: React.FC = () => {
         <DialogContent>
           <Box sx={{ pt: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              이 파트너의 프로젝트를 담당할 프로젝트 매니저를 선택하세요.
+              이 파트너의 프로젝트를 담당할 프로젝트 매니저를 입력하세요.
             </Typography>
 
-            {/* PM 입력 필드 */}
-            <Autocomplete
-              fullWidth
-              options={users.filter(user => !selectedPmId.includes(user.id.toString()))}
-              getOptionLabel={(user) => `${user.name} (${user.email})`}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="프로젝트 매니저 추가"
-                  placeholder="이름이나 이메일을 입력하세요"
-                  helperText="프로젝트 매니저의 이름이나 이메일을 입력하여 선택하세요"
-                />
-              )}
-              onChange={(_, selectedUser) => {
-                if (selectedUser && !selectedPmId.includes(selectedUser.id.toString())) {
-                  setSelectedPmId(prev => [...prev, selectedUser.id.toString()]);
-                }
-              }}
-              renderOption={(props, user) => (
-                <Box component="li" {...props} key={user.id}>
-                  <Box>
-                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                      {user.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {user.email}
-                    </Typography>
-                  </Box>
-                </Box>
-              )}
-              sx={{ mb: 3 }}
-            />
+            {/* PM 텍스트 입력 필드 */}
+            <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
+              <TextField
+                fullWidth
+                label="프로젝트 매니저 추가"
+                placeholder="프로젝트 매니저의 이름을 입력하세요"
+                helperText="이름을 입력한 후 추가 버튼을 클릭하거나 엔터키를 누르세요"
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    const inputValue = (e.target as HTMLInputElement).value.trim();
+                    if (inputValue) {
+                      addPmByText(inputValue);
+                      (e.target as HTMLInputElement).value = '';
+                    }
+                  }
+                }}
+                inputRef={(ref) => {
+                  if (ref) {
+                    // PM 추가 후 포커스 유지
+                    setTimeout(() => ref.focus(), 100);
+                  }
+                }}
+              />
+              <Button
+                variant="contained"
+                onClick={() => {
+                  const input = document.querySelector('input[placeholder*="프로젝트 매니저"]') as HTMLInputElement;
+                  if (input && input.value.trim()) {
+                    addPmByText(input.value.trim());
+                    input.value = '';
+                  }
+                }}
+                sx={{ minWidth: '80px' }}
+              >
+                추가
+              </Button>
+            </Box>
 
             {/* 등록된 PM 그리드 */}
             {selectedPmId.length > 0 && (
